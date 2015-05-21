@@ -146,10 +146,10 @@ CREATE TABLE IF NOT EXISTS `flights` (
 --
 
 INSERT INTO `flights` (`id_flight`, `id_eticket`, `duration`, `aircraft`, `airline`, `departure_loc`, `departure_time`, `arrival_loc`, `arrival_time`, `id_company`, `flight_date`) VALUES
-(1, 1, '02:25:00', 'Airbus Industrie A319', 'TAP Portugal TP421', 'Paris, France - Orly, terminal W', '13:15:00', 'Lisbon, Portugal - Airport, terminal 1', '14:40:00', 1, '2015-02-25'),
-(2, 1, '07:45:00', 'Airbus Industrie A330-200', 'TAP Portugal TP015', 'Lisbon, Portugal - Airport, terminal 1', '16:35:00', 'Recife, Brazil - Guararapes International', '21:20:00', 1, '2015-02-25'),
-(3, 2, '07:45:00', 'Airbus Industrie A330-200', 'TAP Portugal TP015', 'Lisbon, Portugal - Airport, terminal 1', '16:35:00', 'Recife, Brazil - Guararapes International', '21:20:00', 1, '2015-02-19'),
-(4, 2, '02:25:00', 'Airbus Industrie A319', 'TAP Portugal TP421', 'Paris, France - Orly, terminal W', '13:15:00', 'Lisbon, Portugal - Airport, terminal 1', '14:40:00', 1, '2015-02-19');
+(1, 1, '02:25:00', 'Airbus Industrie A319', 'TP421', 'Paris, France - Orly, terminal W', '13:15:00', 'Lisbon, Portugal - Airport, terminal 1', '14:40:00', 1, '2015-02-25'),
+(2, 1, '07:45:00', 'Airbus Industrie A330-200', 'TP015', 'Lisbon, Portugal - Airport, terminal 1', '16:35:00', 'Recife, Brazil - Guararapes International', '21:20:00', 1, '2015-02-25'),
+(3, 2, '07:45:00', 'Airbus Industrie A330-200', 'TP015', 'Lisbon, Portugal - Airport, terminal 1', '16:35:00', 'Recife, Brazil - Guararapes International', '21:20:00', 1, '2015-02-19'),
+(4, 2, '02:25:00', 'Airbus Industrie A319', 'TP421', 'Paris, France - Orly, terminal W', '13:15:00', 'Lisbon, Portugal - Airport, terminal 1', '14:40:00', 1, '2015-02-19');
 
 -- --------------------------------------------------------
 
@@ -200,7 +200,7 @@ INSERT INTO `logs` (`id_log`, `horodator`, `id_employee`, `id_luggage`, `id_flig
 DROP TABLE IF EXISTS `luggages`;
 CREATE TABLE IF NOT EXISTS `luggages` (
   `id_luggage` int(11) NOT NULL AUTO_INCREMENT,
-  `material_number` bigint(20) NOT NULL,
+  `material_number` varchar(64) NOT NULL,
   `id_passenger` int(11) NOT NULL,
   PRIMARY KEY (`id_luggage`),
   UNIQUE KEY `material_number` (`material_number`),
@@ -218,10 +218,10 @@ CREATE TABLE IF NOT EXISTS `luggages` (
 --
 
 INSERT INTO `luggages` (`id_luggage`, `material_number`, `id_passenger`) VALUES
-(1, 1637492938, 1),
-(2, 2147483647, 1),
-(5, 5683478203, 2),
-(6, 9374829103, 2);
+(1, 'A1E637F492D938', 1),
+(2, '21474FA83EC647', 1),
+(5, 'EB56834CA78203', 2),
+(6, '93AE748291FB03', 2);
 
 -- --------------------------------------------------------
 
