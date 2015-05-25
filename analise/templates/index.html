@@ -1,0 +1,13 @@
+{% extends "pagina_pessoal.html" %}
+{% block conteudo %}
+
+
+<a style="color:#80BFFF"><p><b><h2>Bem-vindo,{{ user.username }}</h2> </b></p></a>
+<ul class="nav">
+<li><a href="/check-in/">Realizar Check-in</a></li>
+<li><a href="/fligths/">Fligths</a></li>
+<li><a href="/bagtrekkin/logout/">Logout</a></li>
+</ul>
+
+
+{% endblock %}

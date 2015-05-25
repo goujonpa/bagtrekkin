@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+
+
+<form action="." method="post">
+	{% csrf_token %}
+	
+	{% for field in form %}
+	{% ifequal field.auto_id "id_material_number" %}
+		Material Number: 
+	
+	<input id= {{ field.id_for_label }} type="text" value="{{ tag }}">
+	<br>
+	
+	{% else %}
+		Passageiro: {{ field }}
+	{% endifequal %}
+	{% endfor %}
+	
+	<br>
+	<button type="submit">Cadastrar</button>
+
+
+<button class="btn" name="LER">LER</button> 
+
+
+</form>
+
+<?php
+if (isset($_REQUEST['LER']))
+{
+exec("python rfid_reader.py");
+}
+
+?>
+
+<a href="/index">Voltar pagina inicial</a>
+
+
+{% endblock %}

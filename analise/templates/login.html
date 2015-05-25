@@ -1,0 +1,55 @@
+<style type="text/css">
+body {
+background:#ddd;
+margin:50px;
+}
+ul.nav {
+margin:0;
+padding:0;
+}
+ul.nav li {
+list-style:none;   
+display:inline;
+}
+ul.nav li a {
+float:left;
+border-top:0.1em solid #fff;
+border-right:0.1em solid #909090;
+border-bottom:0.1em solid #909090;
+border-left:0.1em solid #fff;
+width:25.0em;
+font:0.68em  Verdana, Arial, Helvetica,
+sans-serif;
+background:#f1f1f1;
+color:#333;
+text-align:center;
+padding:0  0.2em 0.2em  0;
+text-decoration:none;
+}
+ul.nav a:hover{
+background:#999;
+color:#fff;
+border-color:#000 #fafafa #fafafa #000;
+}
+</style>
+
+{% if form.erros %}
+	{{ form.non_field_errors }}
+
+
+{% endif %}
+
+<form action="." method="post">
+{% csrf_token %}
+<table>
+	<tr><td>{{ form.username.label_tag}} </td><td>{{ form.username}}</td></tr>
+	<tr><td>{{ form.password.label_tag}} </td><td>{{ form.password}}</td></tr>
+	<tr><td colspan="2"><button type="submit">Login</button></td></tr>
+	<tr><td colspan="2"><a href="/">Voltar pagina principal</a></td></tr>
+
+</form>
+
+
+
+
+
