@@ -18,23 +18,3 @@ import sys
 sys.path=['/var/www/bagtrekking']+sys.path
 os.environ["DJANGO_SETTINGS_MODULE"]="Bagtrekking.settings"
 
-# This application object is used by any WSGI server configured to use this
-# file. This includes Django's development server, if the WSGI_APPLICATION
-# setting points here.
-from django.core.wsgi import get_wsgi_application
-import django.core.handlers.wsgi
-application=django.core.handlers.wsgi.WSGIHandler()
-application = get_wsgi_application()
-
-# Apply WSGI middleware here.
-# from helloworld.wsgi import HelloWorldApplication
-# application = HelloWorldApplication(application)
-
-#import sys, os, bottle
-
-#sys.path = ['/var/www/sequenciamento/'] + sys.path
-#os.chdir(os.path.dirname(__file__))
-#print sys.path
-#import Sequenciamento #This loads your application
-
-#application = bottle.default_app()
