@@ -9,8 +9,7 @@ import subprocess
 from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
 from django.contrib.auth.models import User
 from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
-import bagtrekking.settings
-PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+from django.conf import settings
 
 
 def inicio(request):
@@ -29,7 +28,7 @@ def cadastro(request):
             us.save()
             return render_to_response("cadastro_sucesso.html",{})
         else:
-            process=subprocess.Popen("python "+str(os.path.join(PROJECT_ROOT_PATH,"rfid_reader.py")),shell=1)
+            process=subprocess.Popen("python "+str(os.path.join(settings.BASE_DIR,"rfid_reader.py")),shell=1)
             process.wait()
             form=FormCadastro()
             tag=""
@@ -63,7 +62,7 @@ def checkin(request,airline):
             l.save()
             form.save()
         else:
-            process=subprocess.Popen("python "+str(os.path.join(PROJECT_ROOT_PATH,"rfid_reader.py")),shell=1)
+            process=subprocess.Popen("python "+str(os.path.join(settings.BASE_DIR,"rfid_reader.py")),shell=1)
             process.wait()
             form=FormCheckIn()
             tag=""
