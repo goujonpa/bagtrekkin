@@ -6,15 +6,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
 import os
 import subprocess
-from analise.forms import FormCadastro, FormCheckIn, FormFligths
+from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
 from django.contrib.auth.models import User
-from analise.models import UserProfile, Passengers, Luggages, Flights
+from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
 import Bagtrekking.settings
 PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-    
+
 def inicio(request):
-    return render_to_response("analise/templates/inicio.html",{})
+    return render_to_response("templates/inicio.html",{})
 
 def cadastro(request):
     if request.method=="POST":
@@ -46,7 +46,7 @@ def cadastro(request):
         context={"form":form}
         context.update(csrf(request))
         return render_to_response("cadastro.html",context)
-    
+
 @login_required
 def index(request):
     return render_to_response("index.html")
@@ -74,14 +74,14 @@ def checkin(request,airline):
                 pass
             context={"form":form,"tag":tag}
             context.update(csrf(request))
-            return render_to_response("checkin.html",context)          
+            return render_to_response("checkin.html",context)
     else:
         form=FormCheckIn()
         print form
         context={"form":form}
         context.update(csrf(request))
         return render_to_response("checkin.html",context)
-    
+
 @login_required
 def fligths(request):
     all_fligths=Flights.objects.filter().values("airline").distinct()
@@ -89,5 +89,4 @@ def fligths(request):
     context={"fligths":all_fligths}
     context.update(csrf(request))
     return render_to_response("fligths.html",context)
-    
-    
+
