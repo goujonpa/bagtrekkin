@@ -61,3 +61,4 @@ target/
 .project
 .settings/
 venv/
+rake-1.0.tar.gz
