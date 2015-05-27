@@ -15,6 +15,7 @@ framework.
 """
 import os
 import sys
-sys.path=['/var/www/bagtrekking']+sys.path
-os.environ["DJANGO_SETTINGS_MODULE"]="Bagtrekking.settings"
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Bagtrekking.settings")
+#sys.path=['/var/www/bagtrekking']+sys.path
+#os.environ["DJANGO_SETTINGS_MODULE"]="Bagtrekking.settings"
 
