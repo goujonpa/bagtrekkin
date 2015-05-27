@@ -9,7 +9,7 @@ import subprocess
 from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
 from django.contrib.auth.models import User
 from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
-import Bagtrekking.settings
+import bagtrekking.settings
 PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
