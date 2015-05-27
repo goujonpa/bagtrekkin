@@ -13,7 +13,7 @@ from django.conf import settings
 
 
 def inicio(request):
-    return render_to_response("templates/inicio.html",{})
+    return render_to_response("bagtrekkin/templates/inicio.html",{})
 
 def cadastro(request):
     if request.method=="POST":
