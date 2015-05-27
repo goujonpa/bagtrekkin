@@ -1,1 +1,1 @@
-web: gunicorn bagtrekking.wsgi --log-file -
+web: gunicorn Bagtrekking.wsgi --log-file -

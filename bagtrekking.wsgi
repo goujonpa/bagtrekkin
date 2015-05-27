@@ -15,8 +15,9 @@ framework.
 """
 import os
 import sys
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Bagtrekking.settings")
-#sys.path=['/var/www/bagtrekking']+sys.path
-#os.environ["DJANGO_SETTINGS_MODULE"]="Bagtrekking.settings"
 import django.core.handlers.wsgi
+
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(1, PROJECT_ROOT)
+os.environ["DJANGO_SETTINGS_MODULE"] = "Bagtrekking.settings"
 application = django.core.handlers.wsgi.WSGIHandler()
