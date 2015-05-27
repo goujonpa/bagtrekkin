@@ -28,7 +28,7 @@ def cadastro(request):
             us.save()
             return render_to_response("cadastro_sucesso.html",{})
         else:
-            process=subprocess.Popen("python "+str(os.path.join(settings.PROJECT_DIR,"rfid_reader.py")),shell=1)
+            process=subprocess.Popen("python "+str(os.path.join(settings.BASE_DIR,"rfid_reader.py")),shell=1)
             process.wait()
             form=FormCadastro()
             tag=""
@@ -62,7 +62,7 @@ def checkin(request,airline):
             l.save()
             form.save()
         else:
-            process=subprocess.Popen("python "+str(os.path.join(settings.PROJECT_DIR,"rfid_reader.py")),shell=1)
+            process=subprocess.Popen("python "+str(os.path.join(settings.BASE_DIR,"rfid_reader.py")),shell=1)
             process.wait()
             form=FormCheckIn()
             tag=""
