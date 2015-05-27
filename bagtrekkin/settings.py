@@ -18,6 +18,7 @@ LOGIN_REDIRECT_URL = "/index/"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_DIR = os.path.join(BASE_DIR, 'bagtrekkin')
 
 ADMINS = (
     ('admin', 'rmf4@cin.ufpe.br'),
@@ -62,7 +63,9 @@ ROOT_URLCONF = 'bagtrekkin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(PROJECT_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

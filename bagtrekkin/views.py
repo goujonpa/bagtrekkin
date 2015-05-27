@@ -6,15 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
 import os
 import subprocess
-from analise.forms import FormCadastro, FormCheckIn, FormFligths
+from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
 from django.contrib.auth.models import User
-from analise.models import UserProfile, Passengers, Luggages, Flights
-import Bagtrekking.settings
-PROJECT_ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
+from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
+from django.conf import settings
 
-    
+
 def inicio(request):
-    return render_to_response("analise/templates/inicio.html",{})
+    return render_to_response("inicio.html",{})
 
 def cadastro(request):
     if request.method=="POST":
@@ -29,7 +28,7 @@ def cadastro(request):
             us.save()
             return render_to_response("cadastro_sucesso.html",{})
         else:
-            process=subprocess.Popen("python "+str(os.path.join(PROJECT_ROOT_PATH,"rfid_reader.py")),shell=1)
+            process=subprocess.Popen("python "+str(os.path.join(settings.PROJECT_DIR,"rfid_reader.py")),shell=1)
             process.wait()
             form=FormCadastro()
             tag=""
@@ -46,7 +45,7 @@ def cadastro(request):
         context={"form":form}
         context.update(csrf(request))
         return render_to_response("cadastro.html",context)
-    
+
 @login_required
 def index(request):
     return render_to_response("index.html")
@@ -63,7 +62,7 @@ def checkin(request,airline):
             l.save()
             form.save()
         else:
-            process=subprocess.Popen("python "+str(os.path.join(PROJECT_ROOT_PATH,"rfid_reader.py")),shell=1)
+            process=subprocess.Popen("python "+str(os.path.join(settings.PROJECT_DIR,"rfid_reader.py")),shell=1)
             process.wait()
             form=FormCheckIn()
             tag=""
@@ -74,14 +73,14 @@ def checkin(request,airline):
                 pass
             context={"form":form,"tag":tag}
             context.update(csrf(request))
-            return render_to_response("checkin.html",context)          
+            return render_to_response("checkin.html",context)
     else:
         form=FormCheckIn()
         print form
         context={"form":form}
         context.update(csrf(request))
         return render_to_response("checkin.html",context)
-    
+
 @login_required
 def fligths(request):
     all_fligths=Flights.objects.filter().values("airline").distinct()
@@ -89,5 +88,4 @@ def fligths(request):
     context={"fligths":all_fligths}
     context.update(csrf(request))
     return render_to_response("fligths.html",context)
-    
-    
+
