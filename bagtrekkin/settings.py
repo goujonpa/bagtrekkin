@@ -75,6 +75,10 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATES_DIRS = (
+    "bagtrekkin/templates", ""
+)
+
 WSGI_APPLICATION = 'bagtrekkin.wsgi.application'
 
 
