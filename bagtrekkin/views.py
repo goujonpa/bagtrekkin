@@ -10,7 +10,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 
 from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
 from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
-from bagtrekkin.rfid_reader import readtag
+# from bagtrekkin.rfid_reader import readtag
 
 
 def inicio(request):
@@ -31,8 +31,8 @@ def cadastro(request):
             return render_to_response("cadastro_sucesso.html", {})
         else:
             form = FormCadastro()
-            status, tag = readtag()
-            context = {"form": form, "tag": tag}
+            # status, tag = readtag()
+            context = {"form": form, "tag": "tag"}
             context.update(csrf(request))
             return render_to_response("cadastro.html", context)
     else:
@@ -60,8 +60,8 @@ def checkin(request, airline):
             form.save()
         else:
             form = FormCheckIn()
-            status, tag = readtag()
-            context = {"form": form, "tag": tag}
+            # status, tag = readtag()
+            context = {"form": form, "tag": "tag"}
             context.update(csrf(request))
             return render_to_response("checkin.html", context)
     else:
