@@ -12,7 +12,7 @@ class FormCadastro(UserCreationForm):
     status = forms.ChoiceField(choices=settings.STATUS_CHOICES, label="Function")
     cpf = forms.CharField(max_length=11)
     token = forms.CharField(max_length=255)
-    unity = forms.CharField(max_length=255)
+    district = forms.CharField(max_length=255)
     id_company = forms.ChoiceField(choices=settings.COMPANY_CHOICES, label="Company")
     username = forms.RegexField(
         label='Usuario',
@@ -24,7 +24,7 @@ class FormCadastro(UserCreationForm):
 
     class Meta:
         model = User
-        # fields=("username","name","cpf","password","function","status","token","unity","id_company")
+        # fields=("username","name","cpf","password","function","status","token","district","id_company")
         fields = ("username", "email")
         exclude = ("name", "password")
         widgets = {

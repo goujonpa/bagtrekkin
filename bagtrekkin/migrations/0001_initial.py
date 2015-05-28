@@ -7,7 +7,7 @@ from django.db import models, migrations
 def load_stores_from_sql():
     from bagtrekkin.settings import BASE_DIR
     import os
-    sql_statements = open(os.path.join(BASE_DIR, 'bdds/psql.sql'), 'r').read()
+    sql_statements = open(os.path.join(BASE_DIR, 'migrations/0001_initial.sql'), 'r').read()
     return sql_statements
 
 
