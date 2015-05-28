@@ -1,70 +1,43 @@
 # -*- encoding: utf-8 -*-
+import json
+import platform
+import time
 import serial
 
-baud_rate = 9600
-# tag_file=open("analise/tag.txt","w")
-###################### FUNCAO PARA VERIFICAR PORTAS ATIVAS ###############
-def verifica_portas():
+BAUD_RATE = 9600
 
-    portas_ativas = []
-    for numero in range(100):
+PLATFORM_DARWIN = 'Darwin'
+PLATFORM_LINUX = 'Linux'
 
-        try:
-            objeto_verifica = serial.Serial(numero)
-            portas_ativas.append((numero, objeto_verifica.portstr))
-            objeto_verifica.close()
+PORT_DARWIN = "/dev/tty.usbmodem1411"
+PORT_LINUX = "/dev/ttyUSB0"
 
-        except serial.SerialException:
-            pass
 
-    return portas_ativas
-
-########################## FUNCAO PARA ABRIR A PORTA #######################
-def abrirPorta(bufferPorta):
-
-    for numero,portas_ativas in bufferPorta:
-       try:
-           Obj_porta = serial.Serial(portas_ativas, baud_rate)
-           print "Porta %s aberta: " % portas_ativas
-
-       except serial.SerialException:
-           print"ERRO: Verifique se ha algum dispositivo conectado na porta!"
-
-    return Obj_porta
-
-######################### FUNCAO PARA LER A TAG DA PORTA SERIAL ############
-def lerTAG(porta):
-    tag = porta.readline();
-    return tag
-
-################################ MAIN ####################################
-if __name__=='__main__':
-
-    bufferTag = ''
-    #bufferPorta = verifica_portas()
-    #print bufferPorta
-    #conexaoSerial = abrirPorta(bufferPorta)
-    conexaoSerial=serial.Serial("/dev/ttyUSB0",baud_rate)
-    opcao = 1
-    #while(opcao == 1):
-    #    print"==========================================="
-    #    print"======== 1 - Ler TAG RFID ================="
-    #    print"======== 2 - Sair         ================="
-    #    print"==========================================="
-    #    opcao = int (raw_input("Digite a Opcao: "))
-
-    #    if opcao == 1:
-    tag = lerTAG(conexaoSerial)
-
-    if tag not in bufferTag:
-        bufferTag = bufferTag + tag
-        tag_file=open("tag.txt","w")
-        tag_file.write(tag)
-        tag_file.flush()
-        tag_file.close()
-        print "Cadastrada a TAG %s" % tag
+def getport():
+    if platform.system() == PLATFORM_DARWIN:
+        return PORT_DARWIN
     else:
-        print "TAG ja cadastrada"
+        return PORT_LINUX
 
 
-    conexaoSerial.close()
+def readline(com):
+    while('\r\n' not in com.readline()):
+        pass
+    return com.readline().rstrip()
+
+
+def readtag():
+    port = getport()
+
+    result = ''
+    try:
+        com = serial.Serial(port, baudrate=BAUD_RATE, timeout=1)
+    except serial.SerialException as e:
+        result = ('error', 'could not open serial port {}: {}'.format(port, e))
+
+    result = ('success', readline(com))
+    com.close()
+    return result
+
+if __name__ == '__main__':
+    readtag()

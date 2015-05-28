@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
-from bagtrekkin.models import Employees, Luggages, Flights, Passengers, Etickets
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import formsets
+
+from bagtrekkin.models import Employees, Luggages, Flights, Passengers, Etickets
 
 
 class FormCadastro(UserCreationForm):

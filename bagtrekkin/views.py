@@ -1,15 +1,16 @@
 # -*- encoding: utf-8 -*-
 import os
-import subprocess
 
-from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
-from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import logout_then_login
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, get_object_or_404
+
+from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
+from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
+from bagtrekkin.rfid_reader import readtag
 
 
 def inicio(request):
@@ -29,15 +30,8 @@ def cadastro(request):
             us.save()
             return render_to_response("cadastro_sucesso.html", {})
         else:
-            process = subprocess.Popen("python "+str(os.path.join(settings.BASE_DIR, "rfid_reader.py")), shell=1)
-            process.wait()
             form = FormCadastro()
-            tag = ""
-            try:
-                tag_file = open("tag.txt")
-                tag = tag_file.read()
-            except IOError:
-                pass
+            status, tag = readtag()
             context = {"form": form, "tag": tag}
             context.update(csrf(request))
             return render_to_response("cadastro.html", context)
@@ -65,15 +59,8 @@ def checkin(request, airline):
             l.save()
             form.save()
         else:
-            process = subprocess.Popen("python "+str(os.path.join(settings.BASE_DIR, "rfid_reader.py")), shell=1)
-            process.wait()
             form = FormCheckIn()
-            tag = ""
-            try:
-                tag_file = open("tag.txt")
-                tag = tag_file.read()
-            except IOError:
-                pass
+            status, tag = readtag()
             context = {"form": form, "tag": tag}
             context.update(csrf(request))
             return render_to_response("checkin.html", context)
