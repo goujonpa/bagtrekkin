@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 """
 Django settings for bagtrekkin project on Heroku. Fore more info, see:
 https://github.com/heroku/heroku-django-template
@@ -8,15 +9,27 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
-
 import os
 import dj_database_url
 
 from getenv import env
 
+# Application variables
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
 LOGIN_REDIRECT_URL = "/index/"
+
+FUNCTION_CHOICES = (
+    ('Mulher do check-in', 'Mulher do check-in'),
+)
+COMPANY_CHOICES = (
+    ('TAM', 'TAM'),
+)
+STATUS_CHOICES = (
+    ('Pendente', 'Pendente'),
+    ('Ativo', 'Ativo'),
+    ('Dispensado', 'Dispensado'),
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))

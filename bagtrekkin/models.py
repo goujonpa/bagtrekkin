@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
@@ -9,36 +10,34 @@
 # into your database.
 from __future__ import unicode_literals
 
-from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
 
-class UserProfile(models.Model): 
-    user = models.ForeignKey(User)  
-    
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User)
+
+
 class Compagnies(models.Model):
-    id_company = models.AutoField(primary_key=True,default=1)
+    id_company = models.AutoField(primary_key=True, default=1)
     name = models.CharField(max_length=255)
+
     class Meta:
         managed = False
         db_table = 'compagnies'
-        
-    def __unicode__(self):  
+
+    def __unicode__(self):
         return unicode("%s" % self.name)
 
 
 class Employees(models.Model):
-    id_employee = models.AutoField(primary_key=True,default=1)
+    id_employee = models.AutoField(primary_key=True, default=1)
     cpf = models.CharField(unique=True, max_length=255)
-    FUNCTION_CHOICES = (
-        ('Mulher do check-in', 'Mulher do check-in'),
-    )
-    function = models.CharField(max_length=255,choices=FUNCTION_CHOICES)
+    function = models.CharField(max_length=255, choices=settings.FUNCTION_CHOICES)
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    STATUS_CHOICES = (
-        ('Pendente', 'Pendente'),('Ativo','Ativo'),('Dispensado','Dispensado'),
-    )
-    status = models.CharField(max_length=255,choices=STATUS_CHOICES)
+    status = models.CharField(max_length=255, choices=settings.STATUS_CHOICES)
     token = models.CharField(max_length=255)
     unity = models.CharField(max_length=255)
     id_company = models.ForeignKey(Compagnies, db_column='id_company')
@@ -46,7 +45,8 @@ class Employees(models.Model):
     class Meta:
         managed = False
         db_table = 'employees'
-    def __unicode__(self):  
+
+    def __unicode__(self):
         return unicode("%s" % self.cpf)
 
 
@@ -60,8 +60,9 @@ class Etickets(models.Model):
         managed = False
         db_table = 'etickets'
 
-    def __unicode__(self):  
-        return unicode("%s -%s" % (self.id_eticket,self.id_passenger))
+    def __unicode__(self):
+        return unicode("%s -%s" % (self.id_eticket, self.id_passenger))
+
 
 class Flights(models.Model):
     id_flight = models.AutoField(primary_key=True)
@@ -78,9 +79,9 @@ class Flights(models.Model):
     class Meta:
         managed = False
         db_table = 'flights'
-    
-    def __unicode__(self):  
-        return unicode("%s -%s" % (self.id_flight,self.id_eticket))
+
+    def __unicode__(self):
+        return unicode("%s -%s" % (self.id_flight, self.id_eticket))
 
 
 class Logs(models.Model):
@@ -98,7 +99,7 @@ class Logs(models.Model):
 
 class Luggages(models.Model):
     id_luggage = models.AutoField(primary_key=True)
-    material_number = models.CharField(max_length=255,unique=True)
+    material_number = models.CharField(max_length=255, unique=True)
     id_passenger = models.ForeignKey('Passengers', db_column='id_passenger')
 
     class Meta:
@@ -113,20 +114,22 @@ class Passengers(models.Model):
     last_name = models.CharField(max_length=255)
     full_name = models.CharField(max_length=255)
     pnr = models.CharField(unique=True, max_length=255)
-    #password = models.CharField(max_length=255)
+    # password = models.CharField(max_length=255)
 
     class Meta:
         managed = False
         db_table = 'passengers'
-    def __unicode__(self):  
+
+    def __unicode__(self):
         return unicode("%s" % self.full_name)
-        
-'''
-Funcao para criar um usuario
-'''
+
+
 def create_user_profile(sender, instance, created, **kwargs):
+    '''
+    Funcao para criar um usuario
+    '''
     profile = UserProfile()
     profile.user = instance
     profile.save()
 
-models.signals.post_save.connect(create_user_profile, sender=User) 
+models.signals.post_save.connect(create_user_profile, sender=User)
