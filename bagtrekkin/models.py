@@ -97,9 +97,18 @@ class Flights(models.Model):
         return unicode("%s -%s" % (self.id_flight, self.id_eticket))
 
 
+class Materials(models.Model):
+    id_material = models.AutoField(primary_key=True)
+    material_number = models.CharField(max_length=255)
+
+    class Meta:
+        managed = True
+        db_table = 'materials'
+
+
 class Luggages(models.Model):
     id_luggage = models.AutoField(primary_key=True)
-    material_number = models.CharField(max_length=255, unique=True)
+    material_number = models.ForeignKey(Materials, db_column='id_material')
     id_passenger = models.ForeignKey(Passengers, db_column='id_passenger')
 
     class Meta:

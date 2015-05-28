@@ -40,4 +40,5 @@ def readtag():
     return result
 
 if __name__ == '__main__':
-    readtag()
+    status, message = readtag()
+
