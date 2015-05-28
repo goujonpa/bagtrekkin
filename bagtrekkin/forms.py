@@ -8,7 +8,7 @@ from django.forms import formsets
 from bagtrekkin.models import Employees, Luggages, Flights, Passengers, Etickets
 
 
-class FormCadastro(UserCreationForm):
+class FormSignup(UserCreationForm):
     function = forms.ChoiceField(choices=settings.FUNCTION_CHOICES, label="Function")
     status = forms.ChoiceField(choices=settings.STATUS_CHOICES, label="Function")
     cpf = forms.CharField(max_length=11)

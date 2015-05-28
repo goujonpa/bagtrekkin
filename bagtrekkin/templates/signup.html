@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block conteudo %}
+{% block container %}
 
 
-<form action="." method="post">
+<form action="{% url 'bg-signup' %}" method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
 	<button type="submit">Cadastrar</button>
@@ -10,7 +10,7 @@
 </form>
 
 
-<a href="/">Voltar pagina inicial</a>
+<a href="{% url 'bg-index' %}">Voltar pagina inicial</a>
 
 
 {% endblock %}
