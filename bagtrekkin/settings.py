@@ -15,9 +15,9 @@ import dj_database_url
 from getenv import env
 
 # Application variables
-LOGIN_URL = "/login/"
-LOGOUT_URL = "/logout/"
-LOGIN_REDIRECT_URL = "/index/"
+LOGIN_URL = "bt_login"
+LOGOUT_URL = "bt_logout"
+LOGIN_REDIRECT_URL = "bt_loggedin"
 
 FUNCTION_CHOICES = (
     ('Mulher do check-in', 'Mulher do check-in'),
@@ -44,11 +44,12 @@ MANAGERS = ADMINS
 ALLOWED_HOSTS = [env('ALLOWED_HOSTS', '*')]
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
+TASTYPIE_FULL_DEBUG = DEBUG
 
 # Application definition
 INSTALLED_APPS = (
@@ -59,6 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'tastypie',
     'bagtrekkin',
 )
 

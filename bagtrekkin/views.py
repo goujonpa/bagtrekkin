@@ -8,43 +8,42 @@ from django.contrib.auth.views import logout_then_login
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, get_object_or_404
 
-from bagtrekkin.forms import FormCadastro, FormCheckIn, FormFligths
+from bagtrekkin.forms import FormSignup, FormCheckIn, FormFligths
 from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
 # from bagtrekkin.rfid_reader import readtag
 
 
-def inicio(request):
-    return render_to_response("inicio.html", {})
+def index(request):
+    return render_to_response("index.html", {})
 
 
-def cadastro(request):
+def signup(request):
     if request.method == "POST":
-        form = FormCadastro(request.POST, request.FILES)
+        form = FormSignup(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
-            dados = form.cleaned_data
+            data = form.cleaned_data
             form.save()
             u = User.objects.get(username=item.username)
             us = UserProfile.objects.get_or_create(user=u)
             us = UserProfile.objects.get(user=u)
             us.save()
-            return render_to_response("cadastro_sucesso.html", {})
+            return render_to_response("signup_successful.html", {})
         else:
-            form = FormCadastro()
-            # status, tag = readtag()
-            context = {"form": form, "tag": "tag"}
+            form = FormSignup()
+            context = {"form": form}
             context.update(csrf(request))
-            return render_to_response("cadastro.html", context)
+            return render_to_response("signup.html", context)
     else:
-        form = FormCadastro()
+        form = FormSignup()
         context = {"form": form}
         context.update(csrf(request))
-        return render_to_response("cadastro.html", context)
+        return render_to_response("signup.html", context)
 
 
 @login_required
-def index(request):
-    return render_to_response("index.html")
+def loggedin(request):
+    return render_to_response("loggedin.html")
 
 
 @login_required
@@ -52,22 +51,17 @@ def checkin(request, airline):
     if request.method == "POST":
         form = FormCheckIn(request.POST, request.FILES)
         if form.is_valid():
-            item = form.save(commit=False)
-            dados = form.cleaned_data
-            l = Luggages.objects.filter(id_passenger=item.id_passenger)[0]
-            l.id_passenger = dados["id_passenger"]
+            item = form.save(commit=False).cleaned_data
+            Luggages(id_passenger=item.id_passenger, id_material=item.id_material).save()
             l.save()
             form.save()
         else:
             form = FormCheckIn()
-            # status, tag = readtag()
-            context = {"form": form, "tag": "tag"}
             context.update(csrf(request))
             return render_to_response("checkin.html", context)
     else:
         form = FormCheckIn()
-        print form
-        context = {"form": form}
+        context = {"form": form, 'airline': airline}
         context.update(csrf(request))
         return render_to_response("checkin.html", context)
 
@@ -75,7 +69,6 @@ def checkin(request, airline):
 @login_required
 def fligths(request):
     all_fligths = Flights.objects.filter().values("airline").distinct()
-    print all_fligths
     context = {"fligths": all_fligths}
     context.update(csrf(request))
     return render_to_response("fligths.html", context)

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block conteudo %}
+{% block container %}
 <html>
 <head>
 	<title>FLIGTHS</title>
@@ -17,7 +17,7 @@
 
 
   <tr>
-    <td><a href="/fligths/{{ fligth.airline }}/">{{ fligth.airline }} </td>
+    <td><a href="{% url 'bt_airline' fligth.airline %}">{{ fligth.airline }} </td>
 
   </tr>
 
@@ -29,5 +29,5 @@
 {% else %}
     <p>Nenhuma voo disponivel.</p>
 {% endif %}
-<a href="/index/">Voltar pagina pessoal</a>
+<a href="{% url 'bt_index' %}">Voltar pagina pessoal</a>
 {% endblock %}

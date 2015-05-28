@@ -1,33 +1,25 @@
 {% extends "base.html" %}
-{% block conteudo %}
+{% block container %}
 
 
 
-<form action="." method="post">
+<form action="{% url 'bt_airline' airline %}" method="post">
 	{% csrf_token %}
 
 	{% for field in form %}
-	{% ifequal field.auto_id "id_material_number" %}
-		Material Number:
 
-	<input id= {{ field.id_for_label }} type="text" value="{{ tag }}">
-	<br>
+		{{ field.auto_id }}: {{ field }}
+		<br>
 
-	{% else %}
-		Passageiro: {{ field }}
-	{% endifequal %}
 	{% endfor %}
 
 	<br>
 	<button type="submit">Cadastrar</button>
 
 
-<button class="btn" name="LER">LER</button>
-
-
 </form>
 
-<a href="/index">Voltar pagina inicial</a>
+<a href="{% url 'bt_index' %}">Voltar pagina inicial</a>
 
 
 {% endblock %}

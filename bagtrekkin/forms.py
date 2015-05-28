@@ -5,10 +5,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import formsets
 
-from bagtrekkin.models import Employees, Luggages, Flights, Passengers, Etickets
+from bagtrekkin.models import Employees, Luggages, Flights, Passengers, Etickets, Materials
 
 
-class FormCadastro(UserCreationForm):
+class FormSignup(UserCreationForm):
     function = forms.ChoiceField(choices=settings.FUNCTION_CHOICES, label="Function")
     status = forms.ChoiceField(choices=settings.STATUS_CHOICES, label="Function")
     cpf = forms.CharField(max_length=11)
@@ -35,12 +35,7 @@ class FormCadastro(UserCreationForm):
 
 
 class FormCheckIn(forms.ModelForm):
-    '''
-    def __init__(self,*args,**kwargs):
-        super (FormCheckIn,self ).__init__(*args,**kwargs)
-        self.fields['id_passenger'].queryset = Passenger.objects.all()
-        print self.fields['id_passenger'].queryset
-    '''
+
     class Meta:
         model = Luggages
         exclude = ("id_luggage",)
