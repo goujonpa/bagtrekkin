@@ -15,9 +15,9 @@ import dj_database_url
 from getenv import env
 
 # Application variables
-LOGIN_URL = "/login/"
-LOGOUT_URL = "/logout/"
-LOGIN_REDIRECT_URL = "/index/"
+LOGIN_URL = "bt_login"
+LOGOUT_URL = "bt_logout"
+LOGIN_REDIRECT_URL = "bt_loggedin"
 
 FUNCTION_CHOICES = (
     ('Mulher do check-in', 'Mulher do check-in'),

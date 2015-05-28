@@ -3,7 +3,7 @@
 
 
 
-<form action="{% url 'bg-checkin' %}" method="post">
+<form action="{% url 'bt_checkin' %}" method="post">
 	{% csrf_token %}
 
 	{% for field in form %}
@@ -27,7 +27,7 @@
 
 </form>
 
-<a href="{% url 'bg-index' %}">Voltar pagina inicial</a>
+<a href="{% url 'bt_index' %}">Voltar pagina inicial</a>
 
 
 {% endblock %}

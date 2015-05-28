@@ -17,7 +17,7 @@
 
 
   <tr>
-    <td><a href="{% url 'bg-airline' fligth.airline %}/">{{ fligth.airline }} </td>
+    <td><a href="{% url 'bt_airline' fligth.airline %}/">{{ fligth.airline }} </td>
 
   </tr>
 
@@ -29,5 +29,5 @@
 {% else %}
     <p>Nenhuma voo disponivel.</p>
 {% endif %}
-<a href="{% url 'bg-index' %}">Voltar pagina pessoal</a>
+<a href="{% url 'bt_index' %}">Voltar pagina pessoal</a>
 {% endblock %}

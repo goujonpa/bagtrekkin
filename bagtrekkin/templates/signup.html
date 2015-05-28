@@ -2,7 +2,7 @@
 {% block container %}
 
 
-<form action="{% url 'bg-signup' %}" method="post">
+<form action="{% url 'bt_signup' %}" method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
 	<button type="submit">Cadastrar</button>
@@ -10,7 +10,7 @@
 </form>
 
 
-<a href="{% url 'bg-index' %}">Voltar pagina inicial</a>
+<a href="{% url 'bt_index' %}">Voltar pagina inicial</a>
 
 
 {% endblock %}
