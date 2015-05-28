@@ -1,9 +1,12 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import timedelta, datetime
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 from tastypie.models import create_api_key
 
 
@@ -102,10 +105,19 @@ class Materials(models.Model):
     id_material = models.AutoField(primary_key=True)
     material_number = models.CharField(max_length=255)
     datetime = models.DateTimeField(auto_now_add=True, blank=True)
+    is_already_read = models.BooleanField(default=False)
 
     class Meta:
         managed = True
         db_table = 'materials'
+
+    def save(self):
+        materials = Materials.objects.filter(
+            datetime__gte=datetime.now()-timedelta(hours=1),
+            material_number=self.material_number
+        )
+        if not materials:
+            super(Materials, self).save()
 
 
 class Luggages(models.Model):
@@ -124,6 +136,7 @@ class Logs(models.Model):
     id_employee = models.ForeignKey(Employees, db_column='id_employee')
     id_luggage = models.ForeignKey(Luggages, db_column='id_luggage')
     id_flight = models.ForeignKey(Flights, db_column='id_flight')
+    localisation = models.CharField(max_length=255, blank=True)
 
     class Meta:
         managed = True

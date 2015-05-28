@@ -5,7 +5,10 @@ import requests
 import time
 import serial
 
+from dotenv import read_dotenv
 from getenv import env
+
+read_dotenv()
 
 BAUD_RATE = 9600
 
@@ -59,6 +62,8 @@ if __name__ == '__main__':
 
             data = {'material_number': message}
             params = {'username': API_USER, 'api_key': API_KEY}
+            print url
+            print params
 
             response = requests.post(url, params=params, data=json.dumps(data), headers=headers)
             time.sleep(1)
