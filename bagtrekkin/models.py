@@ -100,6 +100,7 @@ class Flights(models.Model):
 class Materials(models.Model):
     id_material = models.AutoField(primary_key=True)
     material_number = models.CharField(max_length=255)
+    datetime = models.DateTimeField(auto_now_add=True, blank=True)
 
     class Meta:
         managed = True
@@ -118,11 +119,10 @@ class Luggages(models.Model):
 
 class Logs(models.Model):
     id_log = models.IntegerField(primary_key=True)
-    horodator = models.DateTimeField()
+    horodator = models.DateTimeField(auto_now_add=True, blank=True)
     id_employee = models.ForeignKey(Employees, db_column='id_employee')
     id_luggage = models.ForeignKey(Luggages, db_column='id_luggage')
     id_flight = models.ForeignKey(Flights, db_column='id_flight')
-    localisation = models.CharField(max_length=255, default=None, null=True)
 
     class Meta:
         managed = True

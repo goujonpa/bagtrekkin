@@ -22,9 +22,8 @@ class Migration(migrations.Migration):
                 'managed': True,
             },
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
             model_name='luggages',
             name='material_number',
-            field=models.ForeignKey(to='bagtrekkin.Materials', db_column='id_material'),
         ),
     ]
