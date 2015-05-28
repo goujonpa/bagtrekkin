@@ -56,11 +56,11 @@ docs/_build/
 # PyBuilder
 target/
 
-.RData
 .pydevproject
 .project
 .settings/
+
 venv/
-rake-1.0.tar.gz
+
 .env
 
