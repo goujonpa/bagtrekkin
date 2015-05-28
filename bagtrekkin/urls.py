@@ -11,11 +11,14 @@ urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(materials_resource.urls)),
-    url(r'^$', "bagtrekkin.views.inicio"),
-    url(r'^bagtrekkin/cadastro/$', "bagtrekkin.views.cadastro"),
-    url(r'^bagtrekkin/login/', "django.contrib.auth.views.login", {"template_name": "login.html"}),
-    url(r'^index/$', "bagtrekkin.views.index"),
-    url(r'^bagtrekkin/logout/', "django.contrib.auth.views.logout_then_login", {"login_url": "/bagtrekkin/login/"}),
+
+    url(r'^$', "bagtrekkin.views.index"),
+
+    url(r'^login/', "django.contrib.auth.views.login", {"template_name": "login.html"}),
+    url(r'^logout/', "django.contrib.auth.views.logout_then_login", {"login_url": "/login/"}),
+
+    url(r'^signup/$', "bagtrekkin.views.signup"),
+
     url(r'^checkin/$', "bagtrekkin.views.checkin"),
     url(r'^fligths/$', "bagtrekkin.views.fligths"),
     url(r'^fligths/(?P<airline>.*\w+)/$', "bagtrekkin.views.checkin"),

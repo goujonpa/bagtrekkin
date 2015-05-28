@@ -13,8 +13,8 @@ from bagtrekkin.models import UserProfile, Passengers, Luggages, Flights
 from bagtrekkin.rfid_reader import readtag
 
 
-def inicio(request):
-    return render_to_response("inicio.html", {})
+def index(request):
+    return render_to_response("index.html", {})
 
 
 def cadastro(request):
