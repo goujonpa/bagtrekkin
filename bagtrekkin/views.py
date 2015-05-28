@@ -31,9 +31,7 @@ def signup(request):
             return render_to_response("signup_successful.html", {})
         else:
             form = FormSignup()
-            # status, tag = readtag()
-            tag = ""
-            context = {"form": form, "tag": tag}
+            context = {"form": form}
             context.update(csrf(request))
             return render_to_response("signup.html", context)
     else:
@@ -53,23 +51,18 @@ def checkin(request, airline):
     if request.method == "POST":
         form = FormCheckIn(request.POST, request.FILES)
         if form.is_valid():
-            item = form.save(commit=False)
-            data = form.cleaned_data
-            l = Luggages.objects.filter(id_passenger=item.id_passenger)[0]
-            l.id_passenger = data["id_passenger"]
+            item = form.save(commit=False).cleaned_data
+            Luggages(id_passenger=item.id_passenger, id_material=item.id_material).save()
             l.save()
             form.save()
         else:
             form = FormCheckIn()
-            # status, tag = readtag()
-            tag = ""
-            context = {"form": form, "tag": tag}
+            context = {"form": form, 'airline': airline}
             context.update(csrf(request))
             return render_to_response("checkin.html", context)
     else:
         form = FormCheckIn()
-        print form
-        context = {"form": form}
+        context = {"form": form, 'airline': airline}
         context.update(csrf(request))
         return render_to_response("checkin.html", context)
 
@@ -77,7 +70,6 @@ def checkin(request, airline):
 @login_required
 def fligths(request):
     all_fligths = Flights.objects.filter().values("airline").distinct()
-    print all_fligths
     context = {"fligths": all_fligths}
     context.update(csrf(request))
     return render_to_response("fligths.html", context)

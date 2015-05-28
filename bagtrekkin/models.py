@@ -98,7 +98,7 @@ class Flights(models.Model):
         db_table = 'flights'
 
     def __unicode__(self):
-        return unicode("%s -%s" % (self.id_flight, self.id_eticket))
+        return unicode("%s - %s" % (self.id_flight, self.id_eticket))
 
 
 class Materials(models.Model):
@@ -111,6 +111,9 @@ class Materials(models.Model):
         managed = True
         db_table = 'materials'
 
+    def __unicode__(self):
+        return unicode("%s - %s" % (self.datetime.strftime("%d, %b %Y @ %H:%m"), self.material_number))
+
     def save(self):
         materials = Materials.objects.filter(
             datetime__gte=datetime.now()-timedelta(hours=1),
@@ -119,10 +122,15 @@ class Materials(models.Model):
         if not materials:
             super(Materials, self).save()
 
+    def get_unreads():
+        return Materials.objects.filter(
+            is_already_read=False
+        ).order_by('-datetime')
+
 
 class Luggages(models.Model):
     id_luggage = models.AutoField(primary_key=True)
-    material_number = models.ForeignKey(Materials, db_column='id_material')
+    id_material = models.ForeignKey(Materials, db_column='id_material')
     id_passenger = models.ForeignKey(Passengers, db_column='id_passenger')
 
     class Meta:

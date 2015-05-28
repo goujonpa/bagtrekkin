@@ -22,7 +22,6 @@ urlpatterns = patterns(
     url(r'^loggedin/', bt_views.loggedin, name='bt_loggedin'),
     url(r'^signup/$', bt_views.signup, name='bt_signup'),
 
-    url(r'^checkin/$', bt_views.checkin, name='bt_checkin'),
     url(r'^fligths/$', bt_views.fligths, name='bt_flights'),
     url(r'^fligths/(?P<airline>.*\w+)/$', bt_views.checkin, name='bt_airline'),
 )

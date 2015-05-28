@@ -10,7 +10,7 @@ class CompagniesAdmin(admin.ModelAdmin):
 
 
 class LuggagesAdmin(admin.ModelAdmin):
-    list_display = ("id_passenger", "material_number")
+    list_display = ("id_passenger", "id_material")
 
 admin.site.register(Compagnies, CompagniesAdmin)
 admin.site.register(Luggages, LuggagesAdmin)
