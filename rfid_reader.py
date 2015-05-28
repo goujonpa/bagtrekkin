@@ -2,6 +2,8 @@
 import json
 import platform
 import time
+
+import requests
 import serial
 
 BAUD_RATE = 9600
@@ -41,4 +43,3 @@ def readtag():
 
 if __name__ == '__main__':
     status, message = readtag()
-
