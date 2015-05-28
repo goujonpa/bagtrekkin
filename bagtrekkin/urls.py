@@ -12,7 +12,7 @@ materials_resource = MaterialsResource()
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(materials_resource.urls, 'api', 'bt_api')),
+    url(r'^api/', include(materials_resource.urls)),
 
     url(r'^$', bt_views.index, name='bt_index'),
 

@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
 import json
 import platform
-import time
-
 import requests
+import time
 import serial
+
+from getenv import env
 
 BAUD_RATE = 9600
 
@@ -13,6 +14,10 @@ PLATFORM_LINUX = 'Linux'
 
 PORT_DARWIN = "/dev/tty.usbmodem1411"
 PORT_LINUX = "/dev/ttyUSB0"
+
+API_USER = env('API_USER')
+API_KEY = env('API_KEY')
+API_URL = env('API_URL')
 
 
 def getport():
@@ -42,4 +47,20 @@ def readtag():
     return result
 
 if __name__ == '__main__':
-    status, message = readtag()
+
+    try:
+        while True:
+            status, message = readtag()
+            while status != 'success':
+                status, message = readtag()
+
+            headers = {'content-type': 'application/json'}
+            url = 'http://{}/api/materials/'.format(API_URL)
+
+            data = {'material_number': message}
+            params = {'username': API_USER, 'api_key': API_KEY}
+
+            response = requests.post(url, params=params, data=json.dumps(data), headers=headers)
+            time.sleep(1)
+    except KeyboardInterrupt:
+        pass
