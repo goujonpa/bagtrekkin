@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import dj_database_url
 
+from getenv import env
+
 LOGIN_URL = "/login/"
 LOGOUT_URL = "/logout/"
 LOGIN_REDIRECT_URL = "/index/"
@@ -25,20 +27,17 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['bagtrekkin.herokuapp.com']
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
+# Allow local and heroku host headers
+ALLOWED_HOSTS = [env('ALLOWED_HOSTS', '*')]
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "n^z5bh+caca4pt@xow1cd)!=50+%8o6wg*^5o+z^$82flruxnc"
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = env('DEBUG', False)
+TEMPLATE_DEBUG = DEBUG
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -86,38 +85,19 @@ WSGI_APPLICATION = 'bagtrekkin.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Brazil/Recife'
+TIME_ZONE = 'America/Recife'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bagtrekkin',
-        'USER': 'bagtrekkin',
-        'PASSWORD': 'Fm7XJYKsGAQHrHkUaT7Q',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-
 # Parse database configuration from $DATABASE_URL
-DATABASES['default'] = dj_database_url.config()
-
-# Enable Connection Pooling (if desired)
-DATABASES['default']['ENGINE'] = 'django_postgrespool'
+DATABASES = {'default': dj_database_url.config()}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
