@@ -1,10 +1,16 @@
 # -*- encoding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from tastypie.api import Api
+
+from bagtrekkin.api import MaterialsResource
+
+materials_resource = MaterialsResource()
 
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(materials_resource.urls)),
     url(r'^$', "bagtrekkin.views.inicio"),
     url(r'^bagtrekkin/cadastro/$', "bagtrekkin.views.cadastro"),
     url(r'^bagtrekkin/login/', "django.contrib.auth.views.login", {"template_name": "login.html"}),

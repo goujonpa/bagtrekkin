@@ -49,6 +49,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
+TASTYPIE_FULL_DEBUG = DEBUG
 
 # Application definition
 INSTALLED_APPS = (
@@ -59,6 +60,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'tastypie',
     'bagtrekkin',
 )
 

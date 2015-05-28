@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from tastypie.models import create_api_key
 
 
 class UserProfile(models.Model):
@@ -138,3 +139,4 @@ def create_user_profile(sender, instance, created, **kwargs):
     profile.save()
 
 models.signals.post_save.connect(create_user_profile, sender=User)
+models.signals.post_save.connect(create_api_key, sender=User)
