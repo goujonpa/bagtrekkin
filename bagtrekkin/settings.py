@@ -97,10 +97,12 @@ TEMPLATES = [
 
 TEMPLATE_LOADERS = (
     ('pyjade.ext.django.Loader', (
-        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.filesystem.loaders',
         'django.template.loaders.app_directories.Loader',
     )),
 )
+
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 WSGI_APPLICATION = 'bagtrekkin.wsgi.application'
 

@@ -16,7 +16,7 @@ urlpatterns = patterns(
 
     url(r'^$', bt_views.index, name='bt_index'),
 
-    url(r'^login/', auth_views.login, {'template_name': 'login.html'}, name='bt_login'),
+    url(r'^login/', auth_views.login, {'template_name': 'login.jade'}, name='bt_login'),
     url(r'^logout/', auth_views.logout_then_login, name='bt_logout'),
 
     url(r'^loggedin/', bt_views.loggedin, name='bt_loggedin'),
