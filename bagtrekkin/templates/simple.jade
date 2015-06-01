@@ -1,0 +1,20 @@
+- var title = 'Home';
+block vars
+
+{% load static from staticfiles %}
+doctype html
+html.uk-height-1-1
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title #{title} - BagTrekkin
+    link(rel="shortcut icon", href="")
+    link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Arvo|Open+Sans')
+    link(rel="stylesheet", type='text/css', href="{% static 'css/uikit.almost-flat.min.css' %}")
+  body.uk-height-1-1
+
+    block content
+
+    script(type="text/javascript", src="http://code.jquery.com/jquery-2.1.4.min.js")
+    script(type="text/javascript", src="{% static 'js/uikit.min.js' %}")

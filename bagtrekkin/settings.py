@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-"""
+'''
 Django settings for bagtrekkin project on Heroku. Fore more info, see:
 https://github.com/heroku/heroku-django-template
 
@@ -8,7 +7,7 @@ https://docs.djangoproject.com/en/1.8/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
-"""
+'''
 import os
 import dj_database_url
 
@@ -17,25 +16,15 @@ from getenv import env
 # Application variables
 LOGIN_URL = "bt_login"
 LOGOUT_URL = "bt_logout"
-LOGIN_REDIRECT_URL = "bt_loggedin"
-
-FUNCTION_CHOICES = (
-    ('Mulher do check-in', 'Mulher do check-in'),
-)
-COMPANY_CHOICES = (
-    ('TAM', 'TAM'),
-)
-STATUS_CHOICES = (
-    ('Pendente', 'Pendente'),
-    ('Ativo', 'Ativo'),
-    ('Dispensado', 'Dispensado'),
-)
+LOGIN_REDIRECT_URL = "bt_actions"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = (
-    ('admin', 'rmf4@cin.ufpe.br'),
+    ('rmf4', 'rmf4@cin.ufpe.br'),
+    ('hr2', 'hr2@cin.ufpe.br'),
+    ('pjmg', 'pjmg@cin.ufpe.br'),
 )
 
 MANAGERS = ADMINS
@@ -61,6 +50,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'tastypie',
+    'pyjade',
+    'widget_tweaks',
     'bagtrekkin',
 )
 
@@ -80,29 +71,24 @@ ROOT_URLCONF = 'bagtrekkin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
-        ],
-        'APP_DIRS': True,
+        'DIRS': [],
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request'
             ],
+            'loaders': [
+                ('pyjade.ext.django.Loader', (
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ))
+            ]
         },
     },
 ]
-
-TEMPLATE_LOADERS = (
-    ('pyjade.ext.django.Loader', (
-        'django.template.loaders.filesystem.loaders',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
-
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 WSGI_APPLICATION = 'bagtrekkin.wsgi.application'
 

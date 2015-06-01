@@ -1,0 +1,13 @@
+{% extends "base_loggedin.jade" %}
+{% block container %}
+
+
+<a style="color:#80BFFF"><p><b><h2>Bem-vindo,{{ user.username }}</h2> </b></p></a>
+<ul class="nav">
+<li><a href="{% url 'bt_checkin' %}">Realizar Check-in</a></li>
+<li><a href="{% url 'bt_flights' %}">Fligths</a></li>
+<li><a href="{% url 'bt_logout' %}">Logout</a></li>
+</ul>
+
+
+{% endblock %}

@@ -1,6 +1,8 @@
 - var title = 'Home';
+- var body = '';
 block vars
 
+{% load static from staticfiles %}
 doctype html
 html
   head
@@ -8,12 +10,45 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title #{title} - BagTrekkin
-    link(rel="shortcut icon" href="")
-    link(rel="stylesheet", href="")
-    block imports
+    link(rel="shortcut icon", href="")
+    link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Arvo|Open+Sans')
+    link(rel="stylesheet", type='text/css', href="{% static 'css/uikit.almost-flat.min.css' %}")
   body
+    block navbar
+      nav.uk-navbar.uk-margin-large-bottom
+        a.uk-navbar-brand.uk-hidden-small(href="{% url 'bt_index' %}") BagTrekkin
+        ul.uk-navbar-nav.uk-hidden-small
+          li.uk-active
+            a(href="{% url 'bt_index' %}") Home
+        div.uk-navbar-flip
+          ul.uk-navbar-nav.uk-hidden-small
+            if user.is_authenticated
+              li
+                a(href="{% url 'bt_logout' %}") Logout
+            else
+              li
+                a(href="{% url 'bt_login' %}") Login
+              li
+                a(href="{% url 'bt_signup' %}") Sign up
+        a.uk-navbar-toggle.uk-visible-small(href="#offcanvas", data-uk-offcanvas)
+        div.uk-navbar-brand.uk-navbar-center.uk-visible-small Brand
+
     block content
 
+    div#offcanvass.uk-offcanvas(aria-hidden="true")
+      div.uk-offcanvas-bar
+        ul.uk-nav.uk-nav-offcanvas
+          li.uk-active
+            a(href="{% url 'bt_index' %}") Home
+            if user.is_authenticated
+              li
+                a(href="{% url 'bt_logout' %}") Logout
+            else
+              li
+                a(href="{% url 'bt_login' %}") Login
+              li
+                a(href="{% url 'bt_signup' %}") Sign up
 
-    script(type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js")
+    script(type="text/javascript", src="http://code.jquery.com/jquery-2.1.4.min.js")
+    script(type="text/javascript", src="{% static 'js/uikit.min.js' %}")
     block scripts

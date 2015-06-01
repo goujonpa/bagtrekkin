@@ -1,163 +1,135 @@
-# -*- encoding: utf-8 -*-
-from __future__ import unicode_literals
+# from datetime import timedelta, datetime
 
-from datetime import timedelta, datetime
-
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.db import models
-from django.db.models import Q
-from tastypie.models import create_api_key
+# from django.contrib.auth.models import User
+# from django.db import models
+# from tastypie.models import create_api_key
 
 
-class UserProfile(models.Model):
-    user = models.ForeignKey(User)
+# class Compagny(models.Model):
+#     name = models.CharField(max_length=64)
 
-    class Meta:
-        managed = True
-        db_table = 'user_profile'
-
-
-class Compagnies(models.Model):
-    id_company = models.AutoField(primary_key=True, default=1)
-    name = models.CharField(max_length=255)
-
-    class Meta:
-        managed = True
-        db_table = 'compagnies'
-
-    def __unicode__(self):
-        return unicode("%s" % self.name)
+#     def __unicode__(self):
+#         return unicode('%s' % self.name)
 
 
-class Employees(models.Model):
-    id_employee = models.AutoField(primary_key=True, default=1)
-    cpf = models.CharField(unique=True, max_length=255)
-    function = models.CharField(max_length=255, choices=settings.FUNCTION_CHOICES)
-    name = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    status = models.CharField(max_length=255, choices=settings.STATUS_CHOICES)
-    token = models.CharField(max_length=255, default=None, null=True)
-    district = models.CharField(max_length=255)
-    id_company = models.ForeignKey(Compagnies, db_column='id_company')
+# class Employee(models.Model):
+#     FUNCTION_CHOICES = (
+#         ('checkin', 'Check-In'),
+#     )
 
-    class Meta:
-        managed = True
-        db_table = 'employees'
+#     STATUS_CHOICES = (
+#         ('pending', 'Pending'),
+#         ('active', 'Active'),
+#         ('blocked', 'Blocked'),
+#     )
+#     fullname = models.CharField(max_length=64)
+#     district = models.CharField(max_length=64)
+#     token = models.CharField(max_length=255)
+#     status = models.CharField(max_length=32, choices=STATUS_CHOICES)
+#     function = models.CharField(max_length=32, choices=FUNCTION_CHOICES)
+#     company = models.ForeignKey(Compagny)
+#     user = models.ForeignKey(User)
 
-    def __unicode__(self):
-        return unicode("%s" % self.cpf)
-
-
-class Passengers(models.Model):
-    id_user = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    full_name = models.CharField(max_length=255)
-    pnr = models.CharField(unique=True, max_length=255)
-    tel = models.CharField(max_length=255)
-
-    class Meta:
-        managed = True
-        db_table = 'passengers'
-
-    def __unicode__(self):
-        return unicode("%s" % self.full_name)
+#     def __unicode__(self):
+#         return unicode('%s <%s>' % (self.fullname, self.company))
 
 
-class Etickets(models.Model):
-    id_eticket = models.AutoField(primary_key=True)
-    ticket_number = models.CharField(unique=True, max_length=255)
-    id_passenger = models.ForeignKey(Passengers, db_column='id_passenger')
-    summary = models.CharField(max_length=255)
+# class Passenger(models.Model):
+#     GENDER_CHOICES = (
+#         ('m', 'M'),
+#         ('f', 'F')
+#     )
+#     email = models.CharField(max_length=255, unique=True)
+#     firstname = models.CharField(max_length=64)
+#     lastname = models.CharField(max_length=64)
+#     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+#     pnr = models.CharField(max_length=6, unique=True)
+#     tel = models.CharField(max_length=20)
 
-    class Meta:
-        managed = True
-        db_table = 'etickets'
+#     def __unicode__(self):
+#         return unicode('%s <%s>' % (self.fullname, self.email))
 
-    def __unicode__(self):
-        return unicode("%s -%s" % (self.id_eticket, self.id_passenger))
-
-
-class Flights(models.Model):
-    id_flight = models.AutoField(primary_key=True)
-    id_eticket = models.ForeignKey(Etickets, db_column='id_eticket')
-    aircraft = models.CharField(max_length=255)
-    airline = models.CharField(max_length=255)
-    departure_loc = models.CharField(max_length=255)
-    departure_time = models.TimeField()
-    arrival_loc = models.CharField(max_length=255)
-    arrival_time = models.TimeField()
-    id_company = models.ForeignKey(Compagnies, db_column='id_company')
-    flight_date = models.DateField()
-    duration = models.TimeField()
-
-    class Meta:
-        managed = True
-        db_table = 'flights'
-
-    def __unicode__(self):
-        return unicode("%s - %s" % (self.id_flight, self.id_eticket))
+#     @property
+#     def fullname(self):
+#         return '%s %s %s' % (self.gender, self.firstname, self.lastname)
 
 
-class Materials(models.Model):
-    id_material = models.AutoField(primary_key=True)
-    material_number = models.CharField(max_length=255)
-    datetime = models.DateTimeField(auto_now_add=True, blank=True)
-    is_already_read = models.BooleanField(default=False)
+# class Eticket(models.Model):
+#     ticket_number = models.CharField(max_length=14, unique=True)
+#     summary = models.CharField(max_length=64)
+#     passenger = models.ForeignKey(Passenger)
 
-    class Meta:
-        managed = True
-        db_table = 'materials'
-
-    def __unicode__(self):
-        return unicode("%s - %s" % (self.datetime.strftime("%d, %b %Y @ %H:%m"), self.material_number))
-
-    def save(self):
-        materials = Materials.objects.filter(
-            datetime__gte=datetime.now()-timedelta(hours=1),
-            material_number=self.material_number
-        )
-        if not materials:
-            super(Materials, self).save()
-
-    def get_unreads():
-        return Materials.objects.filter(
-            is_already_read=False
-        ).order_by('-datetime')
+#     def __unicode__(self):
+#         return unicode('%s <%s>' % (self.passenger, self.eticket))
 
 
-class Luggages(models.Model):
-    id_luggage = models.AutoField(primary_key=True)
-    id_material = models.ForeignKey(Materials, db_column='id_material')
-    id_passenger = models.ForeignKey(Passengers, db_column='id_passenger')
+# class Flight(models.Model):
+#     airline = models.CharField(max_length=6)
+#     aircraft = models.CharField(max_length=64)
+#     departure_loc = models.CharField(max_length=255)
+#     departure_time = models.TimeField()
+#     arrival_loc = models.CharField(max_length=255)
+#     arrival_time = models.TimeField()
+#     flight_date = models.DateField()
+#     duration = models.TimeField()
+#     eticket = models.ForeignKey(Eticket)
+#     company = models.ForeignKey(Compagny)
 
-    class Meta:
-        managed = True
-        db_table = 'luggages'
-
-
-class Logs(models.Model):
-    id_log = models.IntegerField(primary_key=True)
-    horodator = models.DateTimeField(auto_now_add=True, blank=True)
-    id_employee = models.ForeignKey(Employees, db_column='id_employee')
-    id_luggage = models.ForeignKey(Luggages, db_column='id_luggage')
-    id_flight = models.ForeignKey(Flights, db_column='id_flight')
-    localisation = models.CharField(max_length=255, blank=True)
-
-    class Meta:
-        managed = True
-        db_table = 'logs'
+#     def __unicode__(self):
+#         return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
 
 
-def create_user_profile(sender, instance, created, **kwargs):
-    '''
-    Funcao para criar um usuario
-    '''
-    profile = UserProfile()
-    profile.user = instance
-    profile.save()
+# class Material(models.Model):
+#     material_number = models.CharField(max_length=16)
+#     datetime = models.DateTimeField(auto_now_add=True)
+#     is_already_read = models.BooleanField(default=False)
 
-models.signals.post_save.connect(create_user_profile, sender=User)
-models.signals.post_save.connect(create_api_key, sender=User)
+#     def __unicode__(self):
+#         return unicode('%s <%s>' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
+
+#     def save(self):
+#         '''Fetch materials since one hour with the given material number'''
+#         materials = Materials.objects.filter(
+#             datetime__gte=datetime.now()-timedelta(hours=1),
+#             material_number=self.material_number
+#         )
+#         if not materials:
+#             super(Material, self).save()
+
+#     def get_unreads():
+#         '''Fetch all unread materials ordered by dateime DESC'''
+#         return Materials.objects.filter(
+#             is_already_read=False
+#         ).order_by('-datetime')
+
+
+# class Luggage(models.Model):
+#     material = models.ForeignKey(Material)
+#     passenger = models.ForeignKey(Passenger)
+
+#     def __unicode__(self):
+#         return unicode('%s <%s>' % (self.passenger, self.material))
+
+
+# class Log(models.Model):
+#     horodator = models.DateTimeField(auto_now_add=True)
+#     localisation = models.CharField(max_length=255)
+#     employee = models.ForeignKey(Employee)
+#     luggage = models.ForeignKey(Luggage)
+#     flight = models.ForeignKey(Flight)
+
+#     def save(self):
+#         '''Add employee district as default localisation'''
+#         if not self.localisation:
+#             self.localisation = self.employee.district
+#             super(Log, self).save()
+
+
+# def create_employee(sender, instance, created, **kwargs):
+#     profile = Employee()
+#     profile.user = instance
+#     profile.save()
+
+
+# models.signals.post_save.connect(create_employee, sender=User)
+# models.signals.post_save.connect(create_api_key, sender=User)

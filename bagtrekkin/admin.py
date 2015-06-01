@@ -1,16 +1,17 @@
-# -*- encoding: utf-8 -*-
-from django.contrib import admin
+# from django.contrib import admin
 
-from bagtrekkin.models import Compagnies, Luggages
-
-
-class CompagniesAdmin(admin.ModelAdmin):
-    list_display = ("id_company", "name")
-    exclude = ("id_company",)
+# from bagtrekkin.models import Compagny, Luggage
 
 
-class LuggagesAdmin(admin.ModelAdmin):
-    list_display = ("id_passenger", "id_material")
+# class CompagnyAdmin(admin.ModelAdmin):
+#     list_display = ("id_company", "name")
+#     exclude = ("id_company",)
 
-admin.site.register(Compagnies, CompagniesAdmin)
-admin.site.register(Luggages, LuggagesAdmin)
+
+# class LuggageAdmin(admin.ModelAdmin):
+#     list_display = ("id_passenger", "id_material")
+#     exclude = ("id_luggage",)
+
+
+# admin.site.register(Compagny, CompagnyAdmin)
+# admin.site.register(Luggage, LuggageAdmin)
