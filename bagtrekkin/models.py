@@ -28,7 +28,7 @@ class Employee(models.Model):
     status = models.CharField(max_length=32, choices=STATUS_CHOICES)
     function = models.CharField(max_length=32, choices=FUNCTION_CHOICES)
     company = models.ForeignKey(Compagny)
-    user = models.models.OneToOneField(User)
+    user = models.OneToOneField(User)
 
     def __unicode__(self):
         return unicode('%s <%s>' % (self.fullname, self.company))
