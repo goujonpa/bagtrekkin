@@ -1,17 +1,6 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# from bagtrekkin.models import Compagny, Luggage
-
-
-# class CompagnyAdmin(admin.ModelAdmin):
-#     list_display = ("id_company", "name")
-#     exclude = ("id_company",)
+from bagtrekkin.models import Compagny
 
 
-# class LuggageAdmin(admin.ModelAdmin):
-#     list_display = ("id_passenger", "id_material")
-#     exclude = ("id_luggage",)
-
-
-# admin.site.register(Compagny, CompagnyAdmin)
-# admin.site.register(Luggage, LuggageAdmin)
+admin.site.register(Compagny)

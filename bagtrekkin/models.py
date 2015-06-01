@@ -126,10 +126,11 @@ class Log(models.Model):
             super(Log, self).save()
 
 
-# def create_employee(sender, instance, created, **kwargs):
-#     profile = Employee()
-#     profile.user = instance
-#     profile.save()
+def create_employee(sender, instance, created, **kwargs):
+
+    profile = Employee()
+    profile.user = instance
+    profile.save()
 
 
 models.signals.post_save.connect(create_api_key, sender=User)
