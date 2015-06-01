@@ -49,6 +49,8 @@ class Employee(models.Model):
             orig = Employee.objects.get(pk=self.pk)
             if orig.user.email != self.user.email:
                 self.token = generate_token(self.user.email)
+        else:
+            self.token = generate_token(self.user.email)
         super(Employee, self).save(*args, **kwargs)
 
 
