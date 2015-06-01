@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django import forms
-from django.forms.util import ErrorList
+from django.forms.utils import ErrorList
 
 from bagtrekkin.models import GENDER_CHOICES, STATUS_CHOICES, FUNCTION_CHOICES
 from bagtrekkin.models import Employee, Compagny
