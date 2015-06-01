@@ -1,0 +1,30 @@
+extends layout
+
+block vars
+  - var title = 'Actions';
+
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+
+block navbar-center
+  div.uk-navbar-content.uk-navbar-center: {{ request.user.get_full_name }}
+
+block content
+  div.uk-container.uk-container-center
+    div.uk-grid(data-uk-grid-margin)
+      div.uk-width-medium-1-4
+        ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
+          li.uk-active: a(href="#") Flights
+          li: a(href="#") Passengers
+      div.uk-width-medium-3-4
+          ul#tab-1.uk-switcher
+            li.uk-active
+              div.uk-block.uk-block-muted
+                div.uk-container
+                  h3 Flights
+                  p Hello from fligths
+            li
+              div.uk-block.uk-block-muted
+                div.uk-container
+                  h3 Passengers
+                  p Hello from passengers

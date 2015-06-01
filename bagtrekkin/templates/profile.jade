@@ -1,0 +1,68 @@
+extends layout
+
+block vars
+  - var title = 'Profile';
+
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+
+block navbar-center
+  div.uk-navbar-content.uk-navbar-center: {{ request.user.get_full_name }}
+
+block content
+  div.uk-container.uk-container-center
+    div.uk-container
+      h3 Profile Edition
+      form.uk-panel.uk-panel-box.uk-form(action="{% url 'bt_profile' %}", method="post")
+        {% csrf_token %}
+        {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
+        div.uk-grid(data-uk-grid-margin)
+          div.uk-width-medium-1-2
+            div.uk-panel
+              div.uk-form-row
+                div.uk-grid
+                  div.uk-width-1-5
+                    {{ form.gender.errors|safe }}
+                    {% render_field form.gender class="uk-width-1-1 uk-form-medium" placeholder=form.gender.label %}
+                  div.uk-width-2-5
+                    {{ form.first_name.errors|safe }}
+                    {% render_field form.first_name class="uk-width-1-1 uk-form-medium" placeholder=form.first_name.label %}
+                  div.uk-width-2-5
+                    {{ form.last_name.errors|safe }}
+                    {% render_field form.last_name class="uk-width-1-1 uk-form-medium" placeholder=form.last_name.label %}
+              div.uk-form-row
+                {{ form.username.errors|safe }}
+                {% render_field form.username class="uk-width-1-1 uk-form-medium" placeholder=form.username.label %}
+              div.uk-form-row
+                {{ form.email.errors|safe }}
+                {% render_field form.email class="uk-width-1-1 uk-form-medium" placeholder=form.email.label %}
+              div.uk-form-row
+                a.uk-button(type="" data-uk-toggle="{target:'#passwords', animation:'uk-animation-slide-top, uk-animation-slide-bottom'}") Change Password
+              div.uk-form-row
+                div#passwords.uk-hidden
+                  div.uk-form-row
+                    {{ form.old_password.errors|safe }}
+                    {% render_field form.old_password class="uk-width-1-1 uk-form-medium" placeholder=form.old_password.label %}
+                  div.uk-form-row
+                    {{ form.new_password1.errors|safe }}
+                    {% render_field form.new_password1 class="uk-width-1-1 uk-form-medium" placeholder=form.new_password1.label %}
+                  div.uk-form-row
+                    {{ form.new_password2.errors|safe }}
+                    {% render_field form.new_password2 class="uk-width-1-1 uk-form-medium" placeholder=form.new_password2.label %}
+
+          div.uk-width-medium-1-2
+            div.uk-panel
+              div.uk-form-row
+                {{ form.function.errors|safe }}
+                {% render_field form.function class="uk-width-1-1 uk-form-medium" placeholder=form.function.label %}
+              div.uk-form-row
+                {{ form.district.errors|safe }}
+                {% render_field form.district class="uk-width-1-1 uk-form-medium" placeholder=form.district.label %}
+              div.uk-form-row
+                {{ form.company.errors|safe }}
+                {% render_field form.company class="uk-width-1-1 uk-form-medium" placeholder=form.company.label %}
+        div.uk-grid(data-uk-grid-margin)
+          div.uk-width-medium-1-4.uk-container-center
+            div.uk-form-row
+            button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Save
+        {% endwith %}

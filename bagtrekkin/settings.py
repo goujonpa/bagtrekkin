@@ -40,6 +40,13 @@ DEBUG = env('DEBUG', False)
 TEMPLATE_DEBUG = DEBUG
 TASTYPIE_FULL_DEBUG = DEBUG
 
+if DEBUG:
+    DEV_INSTALLED_APPS = (
+        'debug_toolbar',
+    )
+else:
+    DEV_INSTALLED_APPS = ()
+
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -53,7 +60,7 @@ INSTALLED_APPS = (
     'pyjade',
     'widget_tweaks',
     'bagtrekkin',
-)
+) + DEV_INSTALLED_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -1,8 +1,8 @@
 - var title = 'Home';
-- var body = '';
 block vars
 
 {% load static from staticfiles %}
+
 doctype html
 html
   head
@@ -19,17 +19,29 @@ html
         a.uk-navbar-brand.uk-hidden-small(href="{% url 'bt_index' %}") BagTrekkin
         ul.uk-navbar-nav.uk-hidden-small
           li.uk-active
-            a(href="{% url 'bt_index' %}") Home
+            if user.is_authenticated
+                a(href="{% url 'bt_actions' %}"): i.uk-icon-home.uk-icon-medium
+            else
+                a(href="{% url 'bt_index' %}"): i.uk-icon-home.uk-icon-medium
         div.uk-navbar-flip
           ul.uk-navbar-nav.uk-hidden-small
             if user.is_authenticated
-              li
-                a(href="{% url 'bt_logout' %}") Logout
+              li.uk-parent(data-uk-dropdown aria-haspopup="true" aria-expanded="false")
+                a(href="#")
+                  i.uk-icon-cog.uk-icon-medium
+                div.uk-dropdown.uk-dropdown-navbar
+                  ul.uk-nav.uk-nav-navbar
+                    li: a(href="{% url 'bt_actions' %}") Actions
+                    li: a(href="{% url 'bt_profile' %}") Profile
+                    li.uk-nav-divider
+                    li: a(href="{% url 'bt_logout' %}") Logout
             else
               li
                 a(href="{% url 'bt_login' %}") Login
               li
                 a(href="{% url 'bt_signup' %}") Sign up
+        block navbar-center
+
         a.uk-navbar-toggle.uk-visible-small(href="#offcanvas", data-uk-offcanvas)
         div.uk-navbar-brand.uk-navbar-center.uk-visible-small Brand
 
