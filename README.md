@@ -131,6 +131,12 @@ Simply install globally Ruby foreman `gem`:
 $ gem install -g foreman
 ```
 
+And run server:
+
+```bash
+$ foreman start
+```
+
 ## Getting Started
 
 ### Create Employee (i.e. User)
