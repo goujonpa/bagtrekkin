@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
+from bagtrekkin.forms import FormSignup
+
 
 def index(request):
     return render(request, 'index.jade')
@@ -15,12 +17,15 @@ def signup(request):
     if request.method == 'POST':
         return HttpResponseRedirect(reverse('bt_actions'))
     else:
-        return render(request, 'signup.jade')
+        form = FormSignup()
+        context = {"form": form}
+        context.update(csrf(request))
+        return render(request, 'signup.jade', context)
 
 
 @login_required
-def actions(request):
-    return render(request, 'actions.jade')
+def employee(request):
+    return render(request, 'employee.jade')
 
 
 # @login_required

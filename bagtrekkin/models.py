@@ -17,7 +17,6 @@ class Employee(models.Model):
     FUNCTION_CHOICES = (
         ('checkin', 'Check-In'),
     )
-
     STATUS_CHOICES = (
         ('pending', 'Pending'),
         ('active', 'Active'),
@@ -29,7 +28,7 @@ class Employee(models.Model):
     status = models.CharField(max_length=32, choices=STATUS_CHOICES)
     function = models.CharField(max_length=32, choices=FUNCTION_CHOICES)
     company = models.ForeignKey(Compagny)
-    user = models.ForeignKey(User)
+    user = models.models.OneToOneField(User)
 
     def __unicode__(self):
         return unicode('%s <%s>' % (self.fullname, self.company))
@@ -127,11 +126,10 @@ class Log(models.Model):
 
 
 def create_employee(sender, instance, created, **kwargs):
-
-    profile = Employee()
-    profile.user = instance
-    profile.save()
+    employee = Employee()
+    employee.user = instance
+    employee.save()
 
 
 models.signals.post_save.connect(create_api_key, sender=User)
-# models.signals.post_save.connect(create_employee, sender=User)
+models.signals.post_save.connect(create_employee, sender=User)
