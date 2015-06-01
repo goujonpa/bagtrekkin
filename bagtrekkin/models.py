@@ -126,9 +126,8 @@ class Log(models.Model):
 
 
 def create_employee(sender, instance, created, **kwargs):
-    employee = Employee()
-    employee.user = instance
-    employee.save()
+    if created:
+        employee, created = Employee.objects.get_or_create(user=instance)
 
 
 models.signals.post_save.connect(create_api_key, sender=User)
