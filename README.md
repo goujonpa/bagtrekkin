@@ -141,7 +141,53 @@ $ foreman start
 
 ### Create your Employee Account (i.e. User)
 
-The first thing you need to do is create a new user using `Sign Up` form. It is also an `Employee`.
+The first thing you need to do is create a new user using `Sign Up` form. It is also an `Employee`. Once your account is created, you basically want to be a superuser in order to access django admin interface.
+
+```bash
+(venv) $ python manage.py shell
+````
+
+Import the corresponding module
+
+```python
+from django.contrib.auth.models import User
+```
+
+Get your user instance from the models
+
+```python
+foo = User.objects.get(username = '<your_username>')
+```
+
+Set your `is_staff` property to `True`
+
+```python
+foo.is_staff = True
+```
+
+Set your `is_superuser` property to `True`
+
+```python
+foo.is_superuser = True
+````
+
+Save your changes
+
+```python
+foo.save()
+```
+
+Verification : load again your user instance from the models
+
+```python
+foo = User.objects.get(username = '<your_username')
+```
+
+Check that your changes are applied (next instruction should return `True`)
+
+```python
+foo.is_superuser
+```
 
 You can know update your local environment variables by adding:
 
