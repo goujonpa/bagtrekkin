@@ -150,43 +150,43 @@ The first thing you need to do is create a new user using `Sign Up` form. It is 
 Import the corresponding module
 
 ```python
-from django.contrib.auth.models import User
+>>> from django.contrib.auth.models import User
 ```
 
 Get your user instance from the models
 
 ```python
-foo = User.objects.get(username = '<your_username>')
+>>> foo = User.objects.get(username = '<your_username>')
 ```
 
 Set your `is_staff` property to `True`
 
 ```python
-foo.is_staff = True
+>>> foo.is_staff = True
 ```
 
 Set your `is_superuser` property to `True`
 
 ```python
-foo.is_superuser = True
+>>> foo.is_superuser = True
 ````
 
 Save your changes
 
 ```python
-foo.save()
+>>> foo.save()
 ```
 
 Verification : load again your user instance from the models
 
 ```python
-foo = User.objects.get(username = '<your_username')
+>>> foo = User.objects.get(username = '<your_username')
 ```
 
 Check that your changes are applied (next instruction should return `True`)
 
 ```python
-foo.is_superuser
+>>> foo.is_superuser
 ```
 
 You can know update your local environment variables by adding:
