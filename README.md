@@ -188,6 +188,11 @@ Check that your changes are applied (next instruction should return `True`)
 ```python
 >>> foo.is_superuser
 ```
+### Doing the same on heroku
+_section will be completed
+
+You will have to do the same to be superuser on heroku.
+Repeat the procedure above.
 
 You can know update your local environment variables by adding:
 
