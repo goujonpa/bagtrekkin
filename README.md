@@ -189,7 +189,7 @@ Check that your changes are applied (next instruction should return `True`)
 >>> foo.is_superuser
 ```
 ### Doing the same on heroku
-_section will be completed
+_section will be completed_
 
 You will have to do the same to be superuser on heroku.
 Repeat the procedure above.
