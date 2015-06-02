@@ -57,9 +57,14 @@ By following those steps, you'll install the application development environment
 
 	Initiate a fresh database granted for current user:
 	```bash
-	$ initdb -D /usr/local/var/postgres -E utf8
+	$ initdb -D /usr/local/var/postgres
 	```
 
+	Launch postgresql:
+	```bash
+	$ pg_ctl -D /usr/local/var/postgres start
+	```
+	
 	Create a new user named bagtrekkin with a password prompted:
 
 	```bash
