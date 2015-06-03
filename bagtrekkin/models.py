@@ -108,7 +108,7 @@ class Material(models.Model):
 
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
-        materials = Materials.objects.filter(
+        materials = Material.objects.filter(
             datetime__gte=datetime.now()-timedelta(hours=1),
             material_number=self.material_number
         )
