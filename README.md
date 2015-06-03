@@ -100,12 +100,6 @@ By following those steps, you'll install the application development environment
 	(venv) $ python manage.py migrate
 	```
 
-7. Collect static files each time you alter `static` folder:
-
-	```bash
-	(venv) $ python manage.py collectstatic
-	```
-
 8. Test if everything runs well:
 
 	```bash
