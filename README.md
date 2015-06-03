@@ -57,9 +57,14 @@ By following those steps, you'll install the application development environment
 
 	Initiate a fresh database granted for current user:
 	```bash
-	$ initdb -D /usr/local/var/postgres -E utf8
+	$ initdb -D /usr/local/var/postgres
 	```
 
+	Launch postgresql:
+	```bash
+	$ pg_ctl -D /usr/local/var/postgres start
+	```
+	
 	Create a new user named bagtrekkin with a password prompted:
 
 	```bash
@@ -130,7 +135,58 @@ $ foreman start
 
 ### Create your Employee Account (i.e. User)
 
-The first thing you need to do is create a new user using `Sign Up` form. It is also an `Employee`.
+The first thing you need to do is create a new user using `Sign Up` form. It is also an `Employee`. Once your account is created, you basically want to be a superuser in order to access django admin interface.
+
+```bash
+(venv) $ python manage.py shell
+````
+
+Import the corresponding module
+
+```python
+>>> from django.contrib.auth.models import User
+```
+
+Get your user instance from the models
+
+```python
+>>> foo = User.objects.get(username = '<your_username>')
+```
+
+Set your `is_staff` property to `True`
+
+```python
+>>> foo.is_staff = True
+```
+
+Set your `is_superuser` property to `True`
+
+```python
+>>> foo.is_superuser = True
+````
+
+Save your changes
+
+```python
+>>> foo.save()
+```
+
+Verification : load again your user instance from the models
+
+```python
+>>> foo = User.objects.get(username = '<your_username')
+```
+
+Check that your changes are applied (next instruction should return `True`)
+
+```python
+>>> foo.is_superuser
+```
+### Doing the same on heroku
+_section will be completed_
+
+You will have to do the same to be superuser on heroku.
+Repeat the procedure above.
 
 You can know update your local environment variables by adding:
 
