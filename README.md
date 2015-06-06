@@ -219,15 +219,17 @@ You can find more details in [README.md](https://github.com/goujonpa/bagtrekkin/
 
 	* [`templates`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/templates/) folder contains all templates written in [Jade](http://jade-lang.com) and live time compiled using [PyJade](https://github.com/syrusakbary/pyjade).
 	* 
+
+
 # Contribute
 
-## Getting started
+### Getting started
 
 First, make sure your local work environment is correctly set using the setting paragraph above.
 
 Then, check the [`issues`](https://github.com/goujonpa/bagtrekkin/issues) to see what task is assigned to you. If you don't have any TO DO, please feel free to discuss it on the web slack channel.
 
-## Contribution
+### Contribution
 
 Every time you develop a new feature, please create a new branch
 
