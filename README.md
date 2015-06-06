@@ -182,6 +182,7 @@ Check that your changes are applied (next instruction should return `True`)
 ```python
 >>> foo.is_superuser
 ```
+
 ### Doing the same on heroku
 _section will be completed_
 
@@ -217,3 +218,33 @@ You can find more details in [README.md](https://github.com/goujonpa/bagtrekkin/
 	* [`static`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/static/) folder contains all static resources (i.e. js, css, fonts and img files used by the application).
 
 	* [`templates`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/templates/) folder contains all templates written in [Jade](http://jade-lang.com) and live time compiled using [PyJade](https://github.com/syrusakbary/pyjade).
+	* 
+# Contribute
+
+## Getting started
+
+First, make sure your local work environment is correctly set using the setting paragraph above.
+
+Then, check the [`issues`](https://github.com/goujonpa/bagtrekkin/issues) to see what task is assigned to you. If you don't have any TO DO, please feel free to discuss it on the web slack channel.
+
+## Contribution
+
+Every time you develop a new feature, please create a new branch
+
+```bash
+$ git checkout -b name_of_your_new_branch
+```
+
+When working on that branch, please make sure that you're on the right one
+```bash
+$ git branch
+```
+
+To switch from one branch to another
+```bash
+$ git checkout branch_I_want_to_go
+````
+
+Do your work, your commits, and then push to github.
+
+[`LAST BUT NOT LEAST, ask permission to add to master branch of the project by PULL-REQUESTS.`](https://help.github.com/articles/creating-a-pull-request/)
