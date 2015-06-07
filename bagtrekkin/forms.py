@@ -18,13 +18,30 @@ class UkErrorList(ErrorList):
         return '<span class="">%s</span>' % ''.join([e for e in self])
 
 
-class UkForm(forms.ModelForm):
+class UkForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
         super(UkForm, self).__init__(self, *args, **kwargs)
+
+
+class FormSearch(forms.Form):
+    error_css_class = 'uk-form-danger'
+    required_css_class = 'required'
+
+    pnr = forms.CharField()
+    material = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        kwargs.update({'error_class': UkErrorList})
+        super(FormSearch, self).__init__(*args, **kwargs)
+        self.fields['pnr'].required = False
+        self.fields['material'].required = False
+
+    def search(self):
+        pass
 
 
 class FormEmployee(UserChangeForm):

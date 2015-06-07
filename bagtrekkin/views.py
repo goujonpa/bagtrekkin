@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from bagtrekkin.forms import FormSignup, FormEmployee
+from bagtrekkin.forms import FormSignup, FormEmployee, FormSearch
 
 
 def index(request):
@@ -38,7 +38,14 @@ def signup(request):
 
 @login_required
 def actions(request):
-    return render(request, 'actions.jade')
+    if request.method == 'POST':
+        form = FormSearch(request.POST)
+        context = {'search_result': form.search()}
+    else:
+        form = FormSearch()
+        context = {'form': form}
+        context.update(csrf(request))
+        return render(request, 'actions.jade', context)
 
 
 @login_required
