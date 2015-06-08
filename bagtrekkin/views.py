@@ -40,7 +40,8 @@ def signup(request):
 def actions(request):
     if request.method == 'POST':
         form = FormSearch(request.POST)
-        context = {'search_result': form.search()}
+        if form.is_valid():
+            context = {'search_result': form.search()}
     else:
         form = FormSearch()
         context = {'form': form}

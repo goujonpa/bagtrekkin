@@ -24,7 +24,7 @@ STATUS_CHOICES = (
 )
 
 
-class Compagny(models.Model):
+class Company(models.Model):
     name = models.CharField(max_length=64)
 
     class Meta:
@@ -40,7 +40,7 @@ class Employee(models.Model):
     token = models.CharField(max_length=254)
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, blank=True, null=True)
     function = models.CharField(max_length=32, choices=FUNCTION_CHOICES, blank=True, null=True)
-    company = models.ForeignKey(Compagny, blank=True, null=True)
+    company = models.ForeignKey(Company, blank=True, null=True)
     user = models.OneToOneField(User)
 
     def __unicode__(self):
@@ -92,42 +92,35 @@ class Flight(models.Model):
     flight_date = models.DateField()
     duration = models.TimeField()
     eticket = models.ForeignKey(Eticket)
-    company = models.ForeignKey(Compagny)
+    company = models.ForeignKey(Company)
 
     def __unicode__(self):
         return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
 
 
-class Material(models.Model):
+class Luggage(models.Model):
     material_number = models.CharField(max_length=16)
     datetime = models.DateTimeField(auto_now_add=True)
     is_already_read = models.BooleanField(default=False)
+    passenger = models.ForeignKey(Passenger, null=True)
 
     def __unicode__(self):
         return unicode('%s <%s>' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
 
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
-        materials = Material.objects.filter(
+        luggages = Luggage.objects.filter(
             datetime__gte=datetime.now()-timedelta(hours=1),
             material_number=self.material_number
         )
-        if not materials:
-            super(Material, self).save(*args, **kwargs)
+        if not luggages:
+            super(Luggage, self).save(*args, **kwargs)
 
     def get_unreads():
-        '''Fetch all unread materials ordered by dateime DESC'''
-        return Materials.objects.filter(
+        '''Fetch all unread luggages ordered by dateime DESC'''
+        return Luggage.objects.filter(
             is_already_read=False
         ).order_by('-datetime')
-
-
-class Luggage(models.Model):
-    material = models.ForeignKey(Material)
-    passenger = models.ForeignKey(Passenger)
-
-    def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.material))
 
 
 class Log(models.Model):
