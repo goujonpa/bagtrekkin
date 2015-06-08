@@ -144,7 +144,7 @@ class Log(models.Model):
         '''Add employee district as default localisation'''
         if not self.localisation:
             self.localisation = self.employee.district
-            super(Log, self).save(*args, **kwargs)
+        super(Log, self).save(*args, **kwargs)
 
 
 def create_employee(sender, instance, created, **kwargs):
