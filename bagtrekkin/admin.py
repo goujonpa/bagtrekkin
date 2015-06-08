@@ -8,6 +8,7 @@ from bagtrekkin.models import Passenger
 from bagtrekkin.models import Eticket
 from bagtrekkin.models import Luggage
 from bagtrekkin.models import Log
+from bagtrekkin.models import Flight
 
 
 # Define an inline admin descriptor for Employee model
@@ -32,3 +33,4 @@ admin.site.register(Passenger)
 admin.site.register(Eticket)
 admin.site.register(Luggage)
 admin.site.register(Log)
+admin.site.register(Flight)
