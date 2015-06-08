@@ -58,7 +58,7 @@ if __name__ == '__main__':
                 status, message = readtag()
 
             headers = {'content-type': 'application/json'}
-            url = 'http://{}/api/materials/'.format(API_URL)
+            url = 'http://{}/api/luggages/'.format(API_URL)
 
             data = {'material_number': message}
             params = {'username': API_USER, 'api_key': API_KEY}
