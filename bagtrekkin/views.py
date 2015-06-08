@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from bagtrekkin.forms import FormSignup, FormEmployee, FormSearch
+from bagtrekkin.forms import FormSignup, FormEmployee, FormSearch, CheckinForm
 
 
 def index(request):

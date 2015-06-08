@@ -30,11 +30,15 @@ block content
                       div.uk-width-medium-1-2
                         div.uk-panel
                           div.uk-form-row
-                            {{ chekin_form.pnr.errors|safe }}
-                            {% render_field chekin_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=chekin_form.pnr.label %}
+                            {{ checkin_form.pnr.errors|safe }}
+                            {% render_field checkin_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=checkin_form.pnr.label %}
                           div.uk-form-row
-                            {{ chekin_form.name.errors|safe }}
-                            {% render_field chekin_form.name class="uk-width-1-1 uk-form-medium" placeholder=chekin_form.name.label %}
+                            {{ checkin_form.name.errors|safe }}
+                            {% render_field checkin_form.name class="uk-width-1-1 uk-form-medium" placeholder=checkin_form.name.label %}
+                      div.uk-width-medium-1-2
+                          div.uk-form-row
+                            {{ checkin_form.material_number.errors|safe }}
+                            {% render_field checkin_form.material_number class="uk-width-1-1 uk-form-medium" placeholder=checkin_form.material_number.label %}
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row

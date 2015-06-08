@@ -116,7 +116,8 @@ class Luggage(models.Model):
         if not luggages:
             super(Luggage, self).save(*args, **kwargs)
 
-    def get_unreads():
+    @staticmethod
+    def unreads():
         '''Fetch all unread luggages ordered by dateime DESC'''
         return Luggage.objects.filter(
             is_already_read=False
