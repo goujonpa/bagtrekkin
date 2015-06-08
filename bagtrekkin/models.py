@@ -101,7 +101,7 @@ class Eticket(models.Model):
     flights = models.ManyToManyField(Flight)
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.eticket))
+        return unicode('%s <%s>' % (self.passenger, self.ticket_number))
 
 
 class Luggage(models.Model):
