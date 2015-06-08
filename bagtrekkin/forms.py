@@ -33,7 +33,7 @@ class CheckinForm(forms.Form):
 
     pnr = forms.CharField(required=True, label='Passenger Name Record')
     name = forms.CharField(required=True, label='Passenger Name')
-    material_number = forms.ChoiceField(required=True, label='Material Number', choices=Luggage.unreads())
+    material_number = forms.ChoiceField(required=True, label='Material Number')
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})

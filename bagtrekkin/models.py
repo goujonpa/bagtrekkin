@@ -120,9 +120,9 @@ class Luggage(models.Model):
     @staticmethod
     def unreads():
         '''Fetch all unread luggages ordered by dateime DESC'''
-        return Luggage.objects.filter(
+        return list(Luggage.objects.filter(
             is_already_read=False
-        ).order_by('-datetime')
+        ).order_by('-datetime'))
 
 
 class Log(models.Model):
