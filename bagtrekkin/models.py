@@ -66,27 +66,12 @@ class Passenger(models.Model):
     pnr = models.CharField(max_length=6, unique=True)
     tel = models.CharField(max_length=20)
 
-    class Meta:
-        verbose_name_plural = 'passengers'
-
     def __unicode__(self):
         return unicode('%s <%s>' % (self.full_name, self.email))
 
     @property
     def full_name(self):
         return '%s %s %s' % (self.gender, self.first_name, self.last_name)
-
-
-class Eticket(models.Model):
-    ticket_number = models.CharField(max_length=14, unique=True)
-    summary = models.CharField(max_length=64)
-    passenger = models.ForeignKey(Passenger)
-
-    class Meta:
-        verbose_name_plural = 'etickets'
-
-    def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.ticket_number))
 
 
 class Flight(models.Model):
@@ -98,14 +83,25 @@ class Flight(models.Model):
     arrival_time = models.TimeField()
     flight_date = models.DateField()
     duration = models.DurationField()
-    eticket = models.ForeignKey(Eticket)
     company = models.ForeignKey(Company)
-
-    class Meta:
-        verbose_name_plural = 'flights'
 
     def __unicode__(self):
         return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
+
+    @staticmethod
+    def potentials():
+        '''Fetch all potentials flights regarding user company, locale date and time'''
+        return Flight.objects.all().order_by('+airline')
+
+
+class Eticket(models.Model):
+    ticket_number = models.CharField(max_length=14, unique=True)
+    summary = models.CharField(max_length=64)
+    passenger = models.ForeignKey(Passenger)
+    flights = models.ManyToManyField(Flight)
+
+    def __unicode__(self):
+        return unicode('%s <%s>' % (self.passenger, self.eticket))
 
 
 class Luggage(models.Model):
@@ -114,16 +110,13 @@ class Luggage(models.Model):
     is_already_read = models.BooleanField(default=False)
     passenger = models.ForeignKey(Passenger, null=True)
 
-    class Meta:
-        verbose_name_plural = 'luggages'
-
     def __unicode__(self):
         return unicode('%s <%s>' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
 
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
         luggages = Luggage.objects.filter(
-            datetime__gte=timezone.now()-timedelta(hours=1),
+            datetime__gte=timezone.now()-timedelta(minutes=10),
             material_number=self.material_number
         )
         if not luggages:
@@ -132,9 +125,9 @@ class Luggage(models.Model):
     @staticmethod
     def unreads():
         '''Fetch all unread luggages ordered by dateime DESC'''
-        return list(Luggage.objects.filter(
+        return Luggage.objects.filter(
             is_already_read=False
-        ).order_by('-datetime'))
+        ).order_by('-datetime')
 
 
 class Log(models.Model):

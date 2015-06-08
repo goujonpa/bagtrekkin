@@ -4,7 +4,7 @@ from django import forms
 from django.forms.utils import ErrorList
 
 from bagtrekkin.models import GENDER_CHOICES, STATUS_CHOICES, FUNCTION_CHOICES
-from bagtrekkin.models import Employee, Company, Passenger, Luggage
+from bagtrekkin.models import Employee, Company, Passenger, Luggage, Flight
 
 
 class UkErrorList(ErrorList):
@@ -27,13 +27,24 @@ class UkForm(forms.Form):
         super(UkForm, self).__init__(self, *args, **kwargs)
 
 
+class CurrentFlightForm(forms.Form):
+    error_css_class = 'uk-form-danger'
+    required_css_class = 'required'
+
+    flight = forms.ModelChoiceField(required=True, label='Flight Number', queryset=Flight.potentials())
+
+    def __init__(self, *args, **kwargs):
+        kwargs.update({'error_class': UkErrorList})
+        super(CheckinForm, self).__init__(*args, **kwargs)
+
+
 class CheckinForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
     pnr = forms.CharField(required=True, label='Passenger Name Record')
     name = forms.CharField(required=True, label='Passenger Name')
-    material_number = forms.ChoiceField(required=True, label='Material Number')
+    material_number = forms.ModelChoiceField(required=True, label='Material Number', queryset=Luggage.unreads())
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})

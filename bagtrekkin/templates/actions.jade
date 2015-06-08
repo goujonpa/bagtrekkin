@@ -11,6 +11,7 @@ block navbar-center
 
 block content
   div.uk-container.uk-container-center
+    button.uk-button(data-uk-modal="{target:'#current_flight'}") Set Current Fligh
     div.uk-grid(data-uk-grid-margin)
       div.uk-width-medium-1-4
         ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
@@ -42,7 +43,7 @@ block content
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row
-                        button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
+                        button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Save
                     {% endwith %}
             li
               div.uk-block.uk-block-muted
@@ -70,3 +71,23 @@ block content
                         div.uk-form-row
                         button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
                     {% endwith %}
+  div#modals
+    div#current_flight.uk-modal
+      div.uk-modal-dialog
+        a.uk-modal-close.uk-close
+        div.uk-container
+          h3 Current Flight
+          form.uk-panel.uk-panel-box.uk-form(action="{% url 'bt_actions' %}", method="post")
+            {% csrf_token %}
+            {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
+            div.uk-grid(data-uk-grid-margin)
+              div.uk-width-medium-1-4.uk-container-center
+                div.uk-form-row
+                  {{ current_flight_formr.flight.errors|safe }}
+                  {% render_field current_flight_formr.flight class="uk-width-1-1 uk-form-medium" placeholder=current_flight_formr.flight.label %}
+            div.uk-grid(data-uk-grid-margin)
+              div.uk-width-medium-1-4.uk-container-center
+                div.uk-form-row
+                button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Save
+            {% endwith %}
+
