@@ -42,13 +42,13 @@ block content
                 div#passwords.uk-hidden
                   div.uk-form-row
                     {{ form.old_password.errors|safe }}
-                    {% render_field form.old_password class="uk-width-1-1 uk-form-medium" placeholder=form.old_password.label %}
+                    {% render_field form.old_password class="uk-width-1-1 uk-form-medium" placeholder=form.old_password.label data-uk-form-password="" %}
                   div.uk-form-row
                     {{ form.new_password1.errors|safe }}
-                    {% render_field form.new_password1 class="uk-width-1-1 uk-form-medium" placeholder=form.new_password1.label %}
+                    {% render_field form.new_password1 class="uk-width-1-1 uk-form-medium" placeholder=form.new_password1.label data-uk-form-password="" %}
                   div.uk-form-row
                     {{ form.new_password2.errors|safe }}
-                    {% render_field form.new_password2 class="uk-width-1-1 uk-form-medium" placeholder=form.new_password2.label %}
+                    {% render_field form.new_password2 class="uk-width-1-1 uk-form-medium" placeholder=form.new_password2.label data-uk-form-password="" %}
 
           div.uk-width-medium-1-2
             div.uk-panel
