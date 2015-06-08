@@ -97,7 +97,7 @@ class Flight(models.Model):
     arrival_loc = models.CharField(max_length=254)
     arrival_time = models.TimeField()
     flight_date = models.DateField()
-    duration = models.TimeField()
+    duration = models.DurationField()
     eticket = models.ForeignKey(Eticket)
     company = models.ForeignKey(Company)
 
