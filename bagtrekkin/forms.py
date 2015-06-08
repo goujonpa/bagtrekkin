@@ -33,7 +33,7 @@ class CheckinForm(forms.Form):
 
     pnr = forms.CharField(required=True, label='Passenger Name Record')
     name = forms.CharField(required=True, label='Passenger Name')
-    material_number = forms.ChoiceField(required=True, label='Material Number')
+    material_number = forms.ModelChoiceField(required=True, label='Material Number', queryset=Luggage.unreads())
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
@@ -63,7 +63,7 @@ class FormSearch(forms.Form):
     def search(self):
         pnr = self.cleaned_data.get('pnr')
         material_number = self.cleaned_data.get('material_number')
-        if pnr is not None:  # pnr not none
+        if pnr is not None:
             passenger = Passenger.objects.get(pnr=pnr)
         elif material is not None:
             material = Material.objects.get(material_number=material_number)

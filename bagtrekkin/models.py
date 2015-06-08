@@ -29,7 +29,7 @@ class Company(models.Model):
     name = models.CharField(max_length=64)
 
     class Meta:
-        verbose_name_plural = "compagnies"
+        verbose_name_plural = "companies"
 
     def __unicode__(self):
         return unicode('%s' % self.name)
@@ -111,7 +111,7 @@ class Luggage(models.Model):
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
         luggages = Luggage.objects.filter(
-            datetime__gte=timezone.now()-timedelta(hours=1),
+            datetime__gte=timezone.now()-timedelta(minutes=10),
             material_number=self.material_number
         )
         if not luggages:
@@ -120,9 +120,9 @@ class Luggage(models.Model):
     @staticmethod
     def unreads():
         '''Fetch all unread luggages ordered by dateime DESC'''
-        return list(Luggage.objects.filter(
+        return Luggage.objects.filter(
             is_already_read=False
-        ).order_by('-datetime'))
+        ).order_by('-datetime')
 
 
 class Log(models.Model):
