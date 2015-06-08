@@ -142,11 +142,14 @@ class Log(models.Model):
     class Meta:
         verbose_name_plural = 'logs'
 
+    def __unicode__(self):
+        return unicode('%s <%s>' % (self.localisation, self.luggage))
+
     def save(self, *args, **kwargs):
         '''Add employee district as default localisation'''
         if not self.localisation:
             self.localisation = self.employee.district
-            super(Log, self).save(*args, **kwargs)
+        super(Log, self).save(*args, **kwargs)
 
 
 def create_employee(sender, instance, created, **kwargs):
