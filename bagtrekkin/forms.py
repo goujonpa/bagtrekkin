@@ -59,6 +59,10 @@ class SearchForm(forms.Form):
 
     pnr = forms.CharField(required=False, label='Passenger Name Record')
     material_number = forms.CharField(required=False, label='Material Number')
+    form_type = forms.CharField(
+        required=True,
+        initial='Search'
+    )
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})

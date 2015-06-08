@@ -41,9 +41,11 @@ def signup(request):
 @login_required
 def actions(request):
     if request.method == 'POST':
-        search_form = SearchForm(request.POST)
-        if search_form.is_valid():
-            context = {'search_result': search_form.search()}
+        if request.POST.get('form_type') == 'Search':
+            #search_form = SearchForm(request.POST)
+            #if search_form.is_valid():
+                context = {'search_result': 'YES'}
+        #  Else, whatever nigga
     else:
         context = {}
         search_form = SearchForm()
@@ -55,7 +57,7 @@ def actions(request):
             checkin_form = CheckinForm()
             context['checkin_form'] = checkin_form
         context.update(csrf(request))
-        return render(request, 'actions.jade', context)
+    return render(request, 'actions.jade', context)
 
 
 @login_required

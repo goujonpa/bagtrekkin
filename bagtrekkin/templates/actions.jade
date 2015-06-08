@@ -73,6 +73,7 @@ block content
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row
+                        {{ search_form.form_type.as_hidden }}
                         button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
                     {% endwith %}
   div#modals
