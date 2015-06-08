@@ -3,14 +3,14 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from bagtrekkin import views as bt_views
-from bagtrekkin.api import MaterialsResource
+from bagtrekkin.api import LuggagesResource
 
-materials_resource = MaterialsResource()
+luggages_resource = LuggagesResource()
 
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(materials_resource.urls)),
+    url(r'^api/', include(luggages_resource.urls)),
 
     url(r'^$', bt_views.index, name='bt_index'),
 

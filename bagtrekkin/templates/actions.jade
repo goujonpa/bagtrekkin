@@ -16,6 +16,7 @@ block content
         ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
           li.uk-active: a(href="#") Flights
           li: a(href="#") Passengers
+          li: a(href="#") Search
       div.uk-width-medium-3-4
           ul#tab-1.uk-switcher
             li.uk-active
@@ -28,3 +29,26 @@ block content
                 div.uk-container
                   h3 Passengers
                   p Hello from passengers
+
+            li
+              div.uk-block.uk-block-muted
+                div.uk-container
+                  h3 Search
+                  p
+                    form.uk-panel.uk-panel-box.uk-form(action="{% url 'bt_profile' %}", method="post")
+                      {% csrf_token %}
+                      {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
+                      div.uk-grid(data-uk-grid-margin)
+                        div.uk-width-medium-1-2
+                          div.uk-panel
+                            div.uk-form-row
+                              {{ form.pnr.errors|safe }}
+                              {% render_field form.pnr class="uk-width-1-1 uk-form-medium" placeholder=form.pnr.label %}
+                            div.uk-form-row
+                              {{ form.material.errors|safe }}
+                              {% render_field form.material class="uk-width-1-1 uk-form-medium" placeholder=form.material.label %}
+                      div.uk-grid(data-uk-grid-margin)
+                        div.uk-width-medium-1-4.uk-container-center
+                          div.uk-form-row
+                          button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
+                      {% endwith %}

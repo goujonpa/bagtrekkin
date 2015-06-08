@@ -4,7 +4,7 @@ from django import forms
 from django.forms.utils import ErrorList
 
 from bagtrekkin.models import GENDER_CHOICES, STATUS_CHOICES, FUNCTION_CHOICES
-from bagtrekkin.models import Employee, Compagny
+from bagtrekkin.models import Employee, Company, Passenger, Luggage
 
 
 class UkErrorList(ErrorList):
@@ -18,13 +18,42 @@ class UkErrorList(ErrorList):
         return '<span class="">%s</span>' % ''.join([e for e in self])
 
 
-class UkForm(forms.ModelForm):
+class UkForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
         super(UkForm, self).__init__(self, *args, **kwargs)
+
+
+class FormSearch(forms.Form):
+    error_css_class = 'uk-form-danger'
+    required_css_class = 'required'
+
+    pnr = forms.CharField(required=False, label='Passenger Name Record')
+    material_number = forms.CharField(required=False, label='Material Number')
+
+    def __init__(self, *args, **kwargs):
+        kwargs.update({'error_class': UkErrorList})
+        super(FormSearch, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(SearchForm, self).clean()
+        pnr = cleaned_data.get('pnr')
+        material = cleaned_data.get('material_number')
+        if not pnr and material_number:
+            msg = 'No value provided'
+            self.add_error('Error', msg)
+        return cleaned_data
+
+    def search(self):
+        pnr = self.cleaned_data.get('pnr')
+        material_number = self.cleaned_data.get('material_number')
+        if pnr is not None:  # pnr not none
+            passenger = Passenger.objects.get(pnr=pnr)
+        elif material is not None:
+            material = Material.objects.get(material_number=material_number)
 
 
 class FormEmployee(UserChangeForm):
@@ -34,7 +63,7 @@ class FormEmployee(UserChangeForm):
     gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
     function = forms.ChoiceField(choices=FUNCTION_CHOICES, required=True)
     district = forms.CharField(max_length=64, required=True)
-    company = forms.ModelChoiceField(queryset=Compagny.objects.all(), empty_label="(Choose a Compagny)")
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), empty_label="(Choose a Company)")
     old_password = forms.CharField(label="Old password", widget=forms.PasswordInput)
     new_password1 = forms.CharField(label="New password", widget=forms.PasswordInput)
     new_password2 = forms.CharField(label="New password confirmation", widget=forms.PasswordInput)
