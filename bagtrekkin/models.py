@@ -82,11 +82,11 @@ class Flight(models.Model):
     arrival_loc = models.CharField(max_length=254)
     arrival_time = models.TimeField()
     flight_date = models.DateField()
-    duration = models.TimeField()
+    duration = models.DurationField()
     company = models.ForeignKey(Company)
 
     def __unicode__(self):
-        return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
+        return unicode('%s <%s - %s>' % (self.aircraft, self.airline, self.company))
 
     @staticmethod
     def potentials():
@@ -101,7 +101,7 @@ class Eticket(models.Model):
     flights = models.ManyToManyField(Flight)
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.eticket))
+        return unicode('%s <%s>' % (self.passenger, self.ticket_number))
 
 
 class Luggage(models.Model):
@@ -136,6 +136,9 @@ class Log(models.Model):
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
+
+    class Meta:
+        verbose_name_plural = 'logs'
 
     def save(self, *args, **kwargs):
         '''Add employee district as default localisation'''

@@ -77,7 +77,9 @@ class FormSearch(forms.Form):
         if pnr is not None:
             passenger = Passenger.objects.get(pnr=pnr)
         elif material is not None:
-            material = Material.objects.get(material_number=material_number)
+            luggage = Luggage.objects.get(material_number=material_number)
+            passenger = luggage.passenger
+
 
 
 class FormEmployee(UserChangeForm):
