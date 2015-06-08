@@ -20,6 +20,6 @@ class LuggagesResource(ModelResource):
             localisation=request.user.district,
             flight=request.user.current_flight,
             employee=request.user,
-            luggage=bundle,
+            luggage=bundle
         ).save()
         return bundle

@@ -31,11 +31,13 @@ class CurrentFlightForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
-    flight = forms.ModelChoiceField(required=True, label='Flight Number', queryset=Flight.potentials())
+    flight = forms.ModelChoiceField(required=True, label='Flight Number', queryset=Flight.objects.all())
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
-        super(CheckinForm, self).__init__(*args, **kwargs)
+        super(CurrentFlightForm, self).__init__(*args, **kwargs)
+        self.user = user
+        self.fields['flight'].queryset = Flight.potentials(self.user)
 
 
 class CheckinForm(forms.Form):
