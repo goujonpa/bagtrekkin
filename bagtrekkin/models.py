@@ -74,15 +74,6 @@ class Passenger(models.Model):
         return '%s %s %s' % (self.gender, self.first_name, self.last_name)
 
 
-class Eticket(models.Model):
-    ticket_number = models.CharField(max_length=14, unique=True)
-    summary = models.CharField(max_length=64)
-    passenger = models.ForeignKey(Passenger)
-
-    def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.eticket))
-
-
 class Flight(models.Model):
     airline = models.CharField(max_length=6)
     aircraft = models.CharField(max_length=64)
@@ -92,11 +83,25 @@ class Flight(models.Model):
     arrival_time = models.TimeField()
     flight_date = models.DateField()
     duration = models.TimeField()
-    eticket = models.ForeignKey(Eticket)
     company = models.ForeignKey(Company)
 
     def __unicode__(self):
         return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
+
+    @staticmethod
+    def potentials():
+        '''Fetch all potentials flights regarding user company, locale date and time'''
+        return Flight.objects.all().order_by('+airline')
+
+
+class Eticket(models.Model):
+    ticket_number = models.CharField(max_length=14, unique=True)
+    summary = models.CharField(max_length=64)
+    passenger = models.ForeignKey(Passenger)
+    flights = models.ManyToManyField(Flight)
+
+    def __unicode__(self):
+        return unicode('%s <%s>' % (self.passenger, self.eticket))
 
 
 class Luggage(models.Model):

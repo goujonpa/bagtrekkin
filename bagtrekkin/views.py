@@ -1,6 +1,8 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import logout_then_login
 from django.core.context_processors import csrf
@@ -23,7 +25,7 @@ def signup(request):
             form.save()
             user = authenticate(username=form.cleaned_data['username'],
                                 password=form.cleaned_data['password1'])
-            login(request, user)
+            auth_login(request, user)
             return HttpResponseRedirect(reverse('bt_actions'))
         else:
             context = {'form': form}
@@ -44,8 +46,13 @@ def actions(request):
             context = {'search_result': search_form.search()}
     else:
         search_form = FormSearch()
-        checkin_form = CheckinForm()
-        context = {'search_form': search_form, 'checkin_form': checkin_form}
+        context = {'search_form': search_form}
+        if request.session.get('current_flight', False):
+            current_flight_form = CurrentFlightForm()
+            context['current_flight_form'] = current_flight_form
+        else:
+            checkin_form = CheckinForm()
+            context['checkin_form'] = checkin_form
         context.update(csrf(request))
         return render(request, 'actions.jade', context)
 
@@ -68,17 +75,25 @@ def profile(request):
         return render(request, 'profile.jade', context)
 
 
-# @login_required
-# def checkin(request, airline):
-#     if request.method == 'POST':
-#         return HttpResponseRedirect(reverse('bt_actions'))
-#     else:
-#         return render(request, 'checkin.jade')
+def login(request):
+    if request.method == 'POST':
+        user = authenticate(username=request.POST['username'],
+                            password=request.POST['password'])
+        if user:
+            if user.is_active:
+                auth_login(request, user)
+                return HttpResponseRedirect(reverse('bt_actions'))
+        else:
+            context = {'form': form}
+            context.update(csrf(request))
+            return render(request, 'login.jade', context)
+    else:
+        form = AuthenticationForm()
+        context = {'form': form}
+        context.update(csrf(request))
+        return render(request, 'login.jade', context)
 
 
-# @login_required
-# def fligths(request):
-#     fligths = Flights.objects.values('airline').distinct()
-#     context = {'fligths': fligths}
-#     context.update(csrf(request))
-#     return render(request, 'fligths.jade', context)
+def logout(request):
+    auth_logout(request)
+    return HttpResponseRedirect(reverse('bt_index'))
