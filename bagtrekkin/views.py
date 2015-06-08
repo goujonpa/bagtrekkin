@@ -11,7 +11,7 @@ from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from bagtrekkin.forms import FormSignup, FormEmployee, FormSearch, CheckinForm, CurrentFlightForm
+from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm, CheckinForm, CurrentFlightForm
 
 
 def index(request):
@@ -43,12 +43,12 @@ def actions(request):
     if request.method == 'POST':
         import ipdb
         ipdb.set_trace()
-        search_form = FormSearch(request.POST)
+        search_form = SearchForm(request.POST)
         if search_form.is_valid():
             context = {'search_result': search_form.search()}
     else:
         context = {}
-        search_form = FormSearch()
+        search_form = SearchForm()
         context['search_form'] = search_form
         if not request.session.get('current_flight', False):
             current_flight_form = CurrentFlightForm(request.user)
@@ -63,7 +63,7 @@ def actions(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = FormEmployee(request.POST, instance=request.user)
+        form = EmployeeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('bt_actions'))
@@ -72,7 +72,7 @@ def profile(request):
             context.update(csrf(request))
             return render(request, 'profile.jade', context)
     else:
-        form = FormEmployee(instance=request.user)
+        form = EmployeeForm(instance=request.user)
         context = {'form': form}
         context.update(csrf(request))
         return render(request, 'profile.jade', context)

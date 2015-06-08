@@ -53,7 +53,7 @@ class CheckinForm(forms.Form):
         super(CheckinForm, self).__init__(*args, **kwargs)
 
 
-class FormSearch(forms.Form):
+class SearchForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
@@ -62,7 +62,7 @@ class FormSearch(forms.Form):
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
-        super(FormSearch, self).__init__(*args, **kwargs)
+        super(SearchForm, self).__init__(*args, **kwargs)
 
     def clean(self):
         cleaned_data = super(SearchForm, self).clean()
@@ -85,7 +85,7 @@ class FormSearch(forms.Form):
         return (passenger, luggages)
 
 
-class FormEmployee(UserChangeForm):
+class EmployeeForm(UserChangeForm):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
@@ -99,7 +99,7 @@ class FormEmployee(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
-        super(FormEmployee, self).__init__(*args, **kwargs)
+        super(EmployeeForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
         self.fields['old_password'].required = False
