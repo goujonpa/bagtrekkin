@@ -66,6 +66,9 @@ class Passenger(models.Model):
     pnr = models.CharField(max_length=6, unique=True)
     tel = models.CharField(max_length=20)
 
+    class Meta:
+        verbose_name_plural = 'passengers'
+
     def __unicode__(self):
         return unicode('%s <%s>' % (self.full_name, self.email))
 
@@ -78,6 +81,9 @@ class Eticket(models.Model):
     ticket_number = models.CharField(max_length=14, unique=True)
     summary = models.CharField(max_length=64)
     passenger = models.ForeignKey(Passenger)
+
+    class Meta:
+        verbose_name_plural = 'etickets'
 
     def __unicode__(self):
         return unicode('%s <%s>' % (self.passenger, self.eticket))
@@ -95,6 +101,9 @@ class Flight(models.Model):
     eticket = models.ForeignKey(Eticket)
     company = models.ForeignKey(Company)
 
+    class Meta:
+        verbose_name_plural = 'flights'
+
     def __unicode__(self):
         return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
 
@@ -104,6 +113,9 @@ class Luggage(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     is_already_read = models.BooleanField(default=False)
     passenger = models.ForeignKey(Passenger, null=True)
+
+    class Meta:
+        verbose_name_plural = 'luggages'
 
     def __unicode__(self):
         return unicode('%s <%s>' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
@@ -131,6 +143,9 @@ class Log(models.Model):
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
+
+    class Meta:
+        verbose_name_plural = 'logs'
 
     def save(self, *args, **kwargs):
         '''Add employee district as default localisation'''
