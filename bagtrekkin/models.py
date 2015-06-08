@@ -45,7 +45,7 @@ class Employee(models.Model):
     user = models.OneToOneField(User)
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.user.get_full_name(), self.user.email))
+        return unicode('%s - %s' % (self.user.get_full_name(), self.user.email))
 
     def save(self, *args, **kwargs):
         '''Generate a new token based on email'''
@@ -67,7 +67,7 @@ class Passenger(models.Model):
     tel = models.CharField(max_length=20)
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.full_name, self.email))
+        return unicode('%s - %s' % (self.full_name, self.email))
 
     @property
     def full_name(self):
@@ -86,7 +86,7 @@ class Flight(models.Model):
     company = models.ForeignKey(Company)
 
     def __unicode__(self):
-        return unicode('%s <%s - %s>' % (self.aircraft, self.airline, self.company))
+        return unicode('%s - %s' % (self.airline, self.company))
 
     @staticmethod
     def potentials(user):
@@ -94,6 +94,13 @@ class Flight(models.Model):
         return Flight.objects.filter(
             company=user.employee.company
         ).order_by('airline')
+
+    @staticmethod
+    def from_session(session):
+        try:
+            return Flight.objects.get(id=session['current_flight'])
+        except (KeyError, Flight.DoesNotExist):
+            return None
 
 
 class Eticket(models.Model):
@@ -103,7 +110,7 @@ class Eticket(models.Model):
     flights = models.ManyToManyField(Flight)
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.ticket_number))
+        return unicode('%s - %s' % (self.passenger, self.ticket_number))
 
 
 class Luggage(models.Model):
@@ -113,7 +120,7 @@ class Luggage(models.Model):
     passenger = models.ForeignKey(Passenger, null=True)
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
+        return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
 
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
@@ -143,7 +150,7 @@ class Log(models.Model):
         verbose_name_plural = 'logs'
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.localisation, self.luggage))
+        return unicode('%s - %s' % (self.localisation, self.luggage))
 
     def save(self, *args, **kwargs):
         '''Add employee district as default localisation'''

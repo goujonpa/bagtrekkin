@@ -11,7 +11,11 @@ from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm, CheckinForm, CurrentFlightForm
+from bagtrekkin.forms import (
+    FormSignup, EmployeeForm, SearchForm, CheckinForm,
+    SetCurrentFlightForm, FlushCurrentFlightForm
+)
+from bagtrekkin.models import Flight
 
 
 def index(request):
@@ -40,24 +44,71 @@ def signup(request):
 
 @login_required
 def actions(request):
+    context = {}
     if request.method == 'POST':
         if request.POST.get('form_type') == 'Search':
-            #search_form = SearchForm(request.POST)
-            #if search_form.is_valid():
-                context = {'search_result': 'YES'}
-        #  Else, whatever nigga
+            search_form = SearchForm(request.POST)
+            if search_form.is_valid():
+                context.update({
+                    'current_flight': Flight.from_session(request.session),
+                    'checkin_form': CheckinForm(),
+                    'search_form': search_form,
+                    'set_current_flight_form': SetCurrentFlightForm(request.user),
+                    'flush_current_flight_form': FlushCurrentFlightForm()
+                })
+                return render(request, 'actions.jade', context)
+        elif request.POST.get('form_type') == 'Checkin':
+            checkin_form = CheckinForm(request.POST)
+            if checkin_form.is_valid():
+                context.update({
+                    'current_flight': Flight.from_session(request.session),
+                    'search_form': SearchForm(),
+                    'checkin_form': checkin_form,
+                    'set_current_flight_form': SetCurrentFlightForm(),
+                    'flush_current_flight_form': FlushCurrentFlightForm()
+                })
+                return render(request, 'actions.jade', context)
+        elif request.POST.get('form_type') == 'SetCurrentFlight':
+            set_current_flight_form = SetCurrentFlightForm(request.user, request.POST)
+            if set_current_flight_form.is_valid():
+                request.session['current_flight'] = set_current_flight_form.cleaned_data['current_flight'].id
+                context.update({
+                    'current_flight': Flight.from_session(request.session),
+                    'search_form': SearchForm(),
+                    'checkin_form': CheckinForm(),
+                    'set_current_flight_form': set_current_flight_form,
+                    'flush_current_flight_form': FlushCurrentFlightForm()
+                })
+                return render(request, 'actions.jade', context)
+        elif request.POST.get('form_type') == 'FlushCurrentFlight':
+            flush_current_flight_form = FlushCurrentFlightForm(request.POST)
+            if flush_current_flight_form.is_valid():
+                try:
+                    del request.session['current_flight']
+                except IndexError:
+                    pass
+                context.update({
+                    'current_flight': Flight.from_session(request.session),
+                    'search_form': SearchForm(),
+                    'checkin_form': CheckinForm(),
+                    'set_current_flight_form': SetCurrentFlightForm(request.user),
+                    'flush_current_flight_form': flush_current_flight_form
+                })
+                return render(request, 'actions.jade', context)
     else:
-        context = {}
-        search_form = SearchForm()
-        context['search_form'] = search_form
-        if not request.session.get('current_flight', False):
-            current_flight_form = CurrentFlightForm(request.user)
-            context['current_flight_form'] = current_flight_form
+        if not request.session.get('current_flight'):
+            set_current_flight_form = SetCurrentFlightForm(request.user)
+            context['set_current_flight_form'] = set_current_flight_form
         else:
             checkin_form = CheckinForm()
             context['checkin_form'] = checkin_form
+        context.update({
+            'current_flight': Flight.from_session(request.session),
+            'search_form': SearchForm(),
+            'flush_current_flight_form': FlushCurrentFlightForm()
+        })
         context.update(csrf(request))
-    return render(request, 'actions.jade', context)
+        return render(request, 'actions.jade', context)
 
 
 @login_required

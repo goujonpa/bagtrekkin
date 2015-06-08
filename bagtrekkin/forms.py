@@ -27,17 +27,29 @@ class UkForm(forms.Form):
         super(UkForm, self).__init__(self, *args, **kwargs)
 
 
-class CurrentFlightForm(forms.Form):
+class FlushCurrentFlightForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
-    flight = forms.ModelChoiceField(required=True, label='Flight Number', queryset=Flight.objects.all())
+    form_type = forms.CharField(required=True, initial='FlushCurrentFlight')
+
+    def __init__(self, *args, **kwargs):
+        kwargs.update({'error_class': UkErrorList})
+        super(FlushCurrentFlightForm, self).__init__(*args, **kwargs)
+
+
+class SetCurrentFlightForm(forms.Form):
+    error_css_class = 'uk-form-danger'
+    required_css_class = 'required'
+
+    current_flight = forms.ModelChoiceField(required=True, label='Flight Number', queryset=Flight.objects.all())
+    form_type = forms.CharField(required=True, initial='SetCurrentFlight')
 
     def __init__(self, user, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
-        super(CurrentFlightForm, self).__init__(*args, **kwargs)
+        super(SetCurrentFlightForm, self).__init__(*args, **kwargs)
         self.user = user
-        self.fields['flight'].queryset = Flight.potentials(self.user)
+        self.fields['current_flight'].queryset = Flight.potentials(self.user)
 
 
 class CheckinForm(forms.Form):
@@ -47,6 +59,7 @@ class CheckinForm(forms.Form):
     pnr = forms.CharField(required=True, label='Passenger Name Record')
     name = forms.CharField(required=True, label='Passenger Name')
     material_number = forms.ModelChoiceField(required=True, label='Material Number', queryset=Luggage.unreads())
+    form_type = forms.CharField(required=True, initial='Checkin')
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
@@ -59,10 +72,7 @@ class SearchForm(forms.Form):
 
     pnr = forms.CharField(required=False, label='Passenger Name Record')
     material_number = forms.CharField(required=False, label='Material Number')
-    form_type = forms.CharField(
-        required=True,
-        initial='Search'
-    )
+    form_type = forms.CharField(required=True, initial='Search')
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})

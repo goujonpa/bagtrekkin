@@ -8,7 +8,10 @@ block vars
 
 block navbar-center
   div.uk-navbar-content.uk-navbar-center
-    {{ request.user.get_full_name }} {{ request.session.current_flight }}
+    if current_flight
+      {{ request.user.get_full_name }} - {{ current_flight }}
+    else
+      {{ request.user.get_full_name }}
 
 block content
   div.uk-container.uk-container-center
@@ -44,11 +47,12 @@ block content
                       div.uk-grid(data-uk-grid-margin)
                         div.uk-width-medium-1-4.uk-container-center
                           div.uk-form-row
-                          button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Save
+                            {{ checkin_form.form_type.as_hidden }}
+                            button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Save
                       {% endwith %}
                   else
                     p You must set your current flight before starting adding passengers.
-                    button.uk-button(data-uk-modal="{target:'#current_flight'}") Set Current Flight
+                    button.uk-button(data-uk-modal="{target:'#set_current_flight'}") Set Current Flight
             li
               div.uk-block.uk-block-muted
                 div.uk-container
@@ -73,11 +77,11 @@ block content
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row
-                        {{ search_form.form_type.as_hidden }}
-                        button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
+                          {{ search_form.form_type.as_hidden }}
+                          button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
                     {% endwith %}
   div#modals
-    div#current_flight.uk-modal
+    div#set_current_flight.uk-modal
       div.uk-modal-dialog
         a.uk-modal-close.uk-close
         div.uk-container
@@ -88,11 +92,26 @@ block content
             div.uk-grid(data-uk-grid-margin)
               div.uk-width-medium-1-2.uk-container-center
                 div.uk-form-row
-                  {{ current_flight_form.flight.errors|safe }}
-                  {% render_field current_flight_form.flight class="uk-width-1-1 uk-form-medium" placeholder=current_flight_form.flight.label %}
+                  {{ set_current_flight_form.current_flight.errors|safe }}
+                  {% render_field set_current_flight_form.current_flight class="uk-width-1-1 uk-form-medium" placeholder=set_current_flight_form.current_flight.label %}
             div.uk-grid(data-uk-grid-margin)
               div.uk-width-medium-1-2.uk-container-center
                 div.uk-form-row
-                button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Save
+                  {{ set_current_flight_form.form_type.as_hidden }}
+                  button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Set
+            {% endwith %}
+    div#flush_current_flight.uk-modal
+      div.uk-modal-dialog
+        a.uk-modal-close.uk-close
+        div.uk-container
+          h3 Flush Current Flight
+          form.uk-form(action="{% url 'bt_actions' %}", method="post")
+            {% csrf_token %}
+            {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
+            div.uk-grid(data-uk-grid-margin)
+              div.uk-width-medium-1-2.uk-container-center
+                div.uk-form-row
+                  {{ flush_current_flight_form.form_type.as_hidden }}
+                  button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Flush
             {% endwith %}
 

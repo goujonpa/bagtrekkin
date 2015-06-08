@@ -32,8 +32,10 @@ html
                 div.uk-dropdown.uk-dropdown-navbar
                   ul.uk-nav.uk-nav-navbar
                     li: a(href="{% url 'bt_actions' %}") Actions
-                    li: a(href="#" data-uk-modal="{target:'#current_flight'}") Set Current Flight
                     li: a(href="{% url 'bt_profile' %}") Profile
+                    li.uk-nav-divider
+                    li: a(href="#" data-uk-modal="{target:'#set_current_flight'}") Set Current Flight
+                    li: a(href="#" data-uk-modal="{target:'#flush_current_flight'}") Flush Current Flight
                     li.uk-nav-divider
                     li: a(href="{% url 'bt_logout' %}") Logout
             else
