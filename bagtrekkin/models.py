@@ -86,7 +86,7 @@ class Eticket(models.Model):
         verbose_name_plural = 'etickets'
 
     def __unicode__(self):
-        return unicode('%s <%s>' % (self.passenger, self.eticket))
+        return unicode('%s <%s>' % (self.passenger, self.ticket_number))
 
 
 class Flight(models.Model):
