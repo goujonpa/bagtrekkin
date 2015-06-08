@@ -86,7 +86,7 @@ class Flight(models.Model):
     company = models.ForeignKey(Company)
 
     def __unicode__(self):
-        return unicode('%s <%s - %s>' % (self.eticket, self.airline, self.company))
+        return unicode('%s <%s - %s>' % (self.aircraft, self.airline, self.company))
 
     @staticmethod
     def potentials():
