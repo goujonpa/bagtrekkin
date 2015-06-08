@@ -29,7 +29,7 @@ class Company(models.Model):
     name = models.CharField(max_length=64)
 
     class Meta:
-        verbose_name_plural = "compagnies"
+        verbose_name_plural = "companies"
 
     def __unicode__(self):
         return unicode('%s' % self.name)
