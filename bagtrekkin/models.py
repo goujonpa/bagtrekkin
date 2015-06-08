@@ -1,8 +1,9 @@
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.http import HttpResponseServerError
+from django.utils import timezone
 
 from tastypie.models import create_api_key
 
@@ -110,7 +111,7 @@ class Luggage(models.Model):
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
         luggages = Luggage.objects.filter(
-            datetime__gte=datetime.now()-timedelta(hours=1),
+            datetime__gte=timezone.now()-timedelta(hours=1),
             material_number=self.material_number
         )
         if not luggages:
