@@ -11,7 +11,7 @@ from django.forms.models import model_to_dict
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from bagtrekkin.forms import FormSignup, FormEmployee, FormSearch, CheckinForm
+from bagtrekkin.forms import FormSignup, FormEmployee, FormSearch, CheckinForm, CurrentFlightForm
 
 
 def index(request):
@@ -45,9 +45,10 @@ def actions(request):
         if search_form.is_valid():
             context = {'search_result': search_form.search()}
     else:
+        context = {}
         search_form = FormSearch()
-        context = {'search_form': search_form}
-        if request.session.get('current_flight', False):
+        context['search_form'] = search_form
+        if not request.session.get('current_flight', False):
             current_flight_form = CurrentFlightForm()
             context['current_flight_form'] = current_flight_form
         else:
