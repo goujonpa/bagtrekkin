@@ -7,13 +7,11 @@ block vars
 {% load widget_tweaks %}
 
 block navbar-center
-  div.uk-navbar-content.uk-navbar-center: {{ request.user.get_full_name }}
+  div.uk-navbar-content.uk-navbar-center
+    {{ request.user.get_full_name }} {{ request.session.current_flight }}
 
 block content
   div.uk-container.uk-container-center
-    div.uk-grid(data-uk-grid-margin)
-      div.uk-width-medium-1-4
-        button.uk-button(data-uk-modal="{target:'#current_flight'}") Set Current Fligh
     div.uk-grid(data-uk-grid-margin)
       div.uk-width-medium-1-4
         ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
@@ -50,7 +48,7 @@ block content
                       {% endwith %}
                   else
                     p You must set your current flight before starting adding passengers.
-                    button.uk-button(data-uk-modal="{target:'#current_flight'}") Set Current Fligh
+                    button.uk-button(data-uk-modal="{target:'#current_flight'}") Set Current Flight
             li
               div.uk-block.uk-block-muted
                 div.uk-container

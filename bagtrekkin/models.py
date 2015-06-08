@@ -89,9 +89,11 @@ class Flight(models.Model):
         return unicode('%s <%s - %s>' % (self.aircraft, self.airline, self.company))
 
     @staticmethod
-    def potentials():
+    def potentials(user):
         '''Fetch all potentials flights regarding user company, locale date and time'''
-        return Flight.objects.all().order_by('+airline')
+        return Flight.objects.filter(
+            company=user.employee.company
+        ).order_by('airline')
 
 
 class Eticket(models.Model):

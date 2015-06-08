@@ -41,6 +41,8 @@ def signup(request):
 @login_required
 def actions(request):
     if request.method == 'POST':
+        import ipdb
+        ipdb.set_trace()
         search_form = FormSearch(request.POST)
         if search_form.is_valid():
             context = {'search_result': search_form.search()}
@@ -49,7 +51,7 @@ def actions(request):
         search_form = FormSearch()
         context['search_form'] = search_form
         if not request.session.get('current_flight', False):
-            current_flight_form = CurrentFlightForm()
+            current_flight_form = CurrentFlightForm(request.user)
             context['current_flight_form'] = current_flight_form
         else:
             checkin_form = CheckinForm()
