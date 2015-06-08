@@ -23,7 +23,23 @@ block content
               div.uk-block.uk-block-muted
                 div.uk-container
                   h3 Check-In
-                  p Hello from fligths
+                  form.uk-panel.uk-panel-box.uk-form(action="{% url 'bt_actions' %}", method="post")
+                    {% csrf_token %}
+                    {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
+                    div.uk-grid(data-uk-grid-margin)
+                      div.uk-width-medium-1-2
+                        div.uk-panel
+                          div.uk-form-row
+                            {{ chekin_form.pnr.errors|safe }}
+                            {% render_field chekin_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=chekin_form.pnr.label %}
+                          div.uk-form-row
+                            {{ chekin_form.name.errors|safe }}
+                            {% render_field chekin_form.name class="uk-width-1-1 uk-form-medium" placeholder=chekin_form.name.label %}
+                    div.uk-grid(data-uk-grid-margin)
+                      div.uk-width-medium-1-4.uk-container-center
+                        div.uk-form-row
+                        button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
+                    {% endwith %}
             li
               div.uk-block.uk-block-muted
                 div.uk-container
@@ -33,18 +49,18 @@ block content
               div.uk-block.uk-block-muted
                 div.uk-container
                   h3 Search
-                  form.uk-panel.uk-panel-box.uk-form(action="{% url 'bt_profile' %}", method="post")
+                  form.uk-panel.uk-panel-box.uk-form(action="{% url 'bt_actions' %}", method="post")
                     {% csrf_token %}
                     {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-2
                         div.uk-panel
                           div.uk-form-row
-                            {{ form.pnr.errors|safe }}
-                            {% render_field form.pnr class="uk-width-1-1 uk-form-medium" placeholder=form.pnr.label %}
+                            {{ search_form.pnr.errors|safe }}
+                            {% render_field search_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=search_form.pnr.label %}
                           div.uk-form-row
-                            {{ form.material_number.errors|safe }}
-                            {% render_field form.material_number class="uk-width-1-1 uk-form-medium" placeholder=form.material_number.label %}
+                            {{ search_form.material_number.errors|safe }}
+                            {% render_field search_form.material_number class="uk-width-1-1 uk-form-medium" placeholder=search_form.material_number.label %}
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row

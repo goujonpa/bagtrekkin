@@ -27,6 +27,18 @@ class UkForm(forms.Form):
         super(UkForm, self).__init__(self, *args, **kwargs)
 
 
+class CheckinForm(forms.Form):
+    error_css_class = 'uk-form-danger'
+    required_css_class = 'required'
+
+    pnr = forms.CharField(required=True, label='Passenger Name Record')
+    name = forms.CharField(required=True, label='Passenger Name')
+
+    def __init__(self, *args, **kwargs):
+        kwargs.update({'error_class': UkErrorList})
+        super(CheckinForm, self).__init__(*args, **kwargs)
+
+
 class FormSearch(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
