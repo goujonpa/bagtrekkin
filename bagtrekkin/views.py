@@ -41,8 +41,6 @@ def signup(request):
 @login_required
 def actions(request):
     if request.method == 'POST':
-        import ipdb
-        ipdb.set_trace()
         search_form = FormSearch(request.POST)
         if search_form.is_valid():
             context = {'search_result': search_form.search()}
