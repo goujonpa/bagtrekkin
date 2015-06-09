@@ -18,9 +18,18 @@ block content
     div.uk-grid(data-uk-grid-margin)
       div.uk-width-medium-1-4
         ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
-          li.uk-active: a(href="#") Check-In
-          li: a(href="#") Passengers
-          li: a(href="#") Search
+          if active == 'CheckIn'
+            li.uk-active: a(href="#") Check-In
+          else
+            li: a(href="#") Check-In
+          if active == 'Passengers'
+            li.uk-active: a(href="#") Passengers
+          else
+            li: a(href="#") Passengers
+          if active == 'Search'
+            li.uk-active: a(href="#") Search
+          else
+            li: a(href="#") Search
       div.uk-width-medium-3-4
           ul#tab-1.uk-switcher
             li.uk-active
@@ -80,6 +89,49 @@ block content
                           {{ search_form.form_type.as_hidden }}
                           button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
                     {% endwith %}
+                  if passenger
+                    table.uk-table
+                      caption PASSENGER INFORMATIONS
+                      thead
+                        tr
+                          th First name
+                          th Last name
+                          th Email
+                      tbody
+                        tr
+                          th {{ passenger.first_name }}
+                          th {{ passenger.last_name }}
+                          th {{ passenger.email }}
+                  if luggages
+                    table.uk-table
+                      caption LUGGAGES INFORMATIONS
+                      thead
+                        tr
+                          th RFID
+                          th Saving date
+                      tbody
+                        {% for luggage in luggages %}
+                        tr
+                          th {{ luggage.material_number }}
+                          th {{ luggage.datetime }}
+                        {% endfor %}
+                  if logs
+                    table.uk-table
+                      caption LOGS INFORMATIONS
+                      thead
+                        tr
+                          th RFID
+                          th Localisation
+                          th Date
+                          th Employee
+                      tbody
+                        {% for log in logs %}
+                        tr
+                          th {{ log.luggage.material_number }}
+                          th {{ log.localisation }}
+                          th {{ log.horodator }}
+                          th {{ log.employee }}
+                        {% endfor %}
   div#modals
     div#set_current_flight.uk-modal
       div.uk-modal-dialog

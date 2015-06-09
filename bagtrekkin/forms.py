@@ -4,7 +4,7 @@ from django import forms
 from django.forms.utils import ErrorList
 
 from bagtrekkin.models import GENDER_CHOICES, STATUS_CHOICES, FUNCTION_CHOICES
-from bagtrekkin.models import Employee, Company, Passenger, Luggage, Flight
+from bagtrekkin.models import Employee, Company, Passenger, Luggage, Flight, Log
 
 
 class UkErrorList(ErrorList):
@@ -81,22 +81,23 @@ class SearchForm(forms.Form):
     def clean(self):
         cleaned_data = super(SearchForm, self).clean()
         pnr = cleaned_data.get('pnr')
-        material = cleaned_data.get('material_number')
-        if not pnr and material_number:
-            msg = 'No value provided'
-            self.add_error('Error', msg)
+        material_number = cleaned_data.get('material_number')
+
+        if not (pnr or material_number):
+            raise forms.ValidationError("Please fill at least one field")
         return cleaned_data
 
     def search(self):
         pnr = self.cleaned_data.get('pnr')
         material_number = self.cleaned_data.get('material_number')
-        if pnr is not None:
+        if pnr:
             passenger = Passenger.objects.get(pnr=pnr)
-        elif material is not None:
+        elif material_number:
             luggage = Luggage.objects.get(material_number=material_number)
             passenger = luggage.passenger
         luggages = Luggage.objects.filter(passenger=passenger)
-        return (passenger, luggages)
+        logs = Log.objects.filter(luggage__passenger=passenger)
+        return (passenger, luggages, logs)
 
 
 class EmployeeForm(UserChangeForm):

@@ -49,10 +49,15 @@ def actions(request):
         if request.POST.get('form_type') == 'Search':
             search_form = SearchForm(request.POST)
             if search_form.is_valid():
+                search_result = search_form.search()
                 context.update({
+                    'active': 'Search',
                     'current_flight': Flight.from_session(request.session),
                     'checkin_form': CheckinForm(),
                     'search_form': search_form,
+                    'passenger': search_result[0],
+                    'luggages': search_result[1],
+                    'logs': search_result[2],
                     'set_current_flight_form': SetCurrentFlightForm(request.user),
                     'flush_current_flight_form': FlushCurrentFlightForm()
                 })
