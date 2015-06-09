@@ -171,6 +171,7 @@ def login(request):
                 auth_login(request, user)
                 return HttpResponseRedirect(reverse('bt_actions'))
         else:
+            form = AuthenticationForm()
             context = {'form': form}
             context.update(csrf(request))
             return render(request, 'login.jade', context)
