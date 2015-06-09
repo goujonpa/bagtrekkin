@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -36,34 +36,11 @@ class Company(models.Model):
         return unicode('%s - %s' % (self.name, self.code))
 
 
-class Employee(models.Model):
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
-    district = models.CharField(max_length=64, blank=True, null=True)
-    token = models.CharField(max_length=254)
-    status = models.CharField(max_length=32, choices=STATUS_CHOICES, blank=True, null=True)
-    function = models.CharField(max_length=32, choices=FUNCTION_CHOICES, blank=True, null=True)
-    company = models.ForeignKey(Company, blank=True, null=True)
-    user = models.OneToOneField(User)
-
-    def __unicode__(self):
-        return unicode('%s - %s' % (self.user.get_full_name(), self.user.email))
-
-    def save(self, *args, **kwargs):
-        '''Generate a new token based on email'''
-        if self.pk is not None:
-            orig = Employee.objects.get(pk=self.pk)
-            if orig.user.email != self.user.email:
-                self.token = generate_token(self.user.email)
-        else:
-            self.token = generate_token(self.user.email)
-        super(Employee, self).save(*args, **kwargs)
-
-
 class Passenger(models.Model):
     email = models.CharField(max_length=254, unique=True)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     pnr = models.CharField(max_length=6, unique=True)
     tel = models.CharField(max_length=20)
 
@@ -76,7 +53,7 @@ class Passenger(models.Model):
 
 
 class Flight(models.Model):
-    airline = models.CharField(max_length=6)
+    airline = models.CharField(max_length=6, unique=True)
     aircraft = models.CharField(max_length=64)
     departure_loc = models.CharField(max_length=254)
     departure_time = models.TimeField()
@@ -97,11 +74,48 @@ class Flight(models.Model):
         ).order_by('airline')
 
     @staticmethod
-    def from_session(session):
-        try:
-            return Flight.objects.get(id=session['current_flight'])
-        except (KeyError, Flight.DoesNotExist):
-            return None
+    def from_json(json):
+        '''Create a new Flight instance given a json'''
+        airline = json['airline'].split(' ')[-1]
+        company_name = ' '.join(json['airline'].split(' ')[:-1])
+        flight_datetime = datetime.strptime(json['date'], "%A, %B %d, %Y")
+        flight = Flight(
+            airline=airline,
+            aircraft=json['aircraft'],
+            departure_loc=json['departure']['location'],
+            departure_time='%s:00' % json['departure']['time'],
+            arrival_loc=json['arrival']['location'],
+            arrival_time='%s:00' % json['arrival']['time'],
+            flight_date=flight_datetime.date(),
+            duration='%s:00' % json['duration'],
+            company=Company.objects.filter(name__contains=company_name).first()
+        )
+        flight.save()
+        return flight
+
+
+class Employee(models.Model):
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    district = models.CharField(max_length=64, blank=True, null=True)
+    token = models.CharField(max_length=254)
+    status = models.CharField(max_length=32, choices=STATUS_CHOICES, blank=True, null=True)
+    function = models.CharField(max_length=32, choices=FUNCTION_CHOICES, blank=True, null=True)
+    company = models.ForeignKey(Company, blank=True, null=True)
+    current_flight = models.ForeignKey(Flight, blank=True, null=True)
+    user = models.OneToOneField(User)
+
+    def __unicode__(self):
+        return unicode('%s - %s' % (self.user.get_full_name(), self.user.email))
+
+    def save(self, *args, **kwargs):
+        '''Generate a new token based on email'''
+        if self.pk is not None:
+            orig = Employee.objects.get(pk=self.pk)
+            if orig.user.email != self.user.email:
+                self.token = generate_token(self.user.email)
+        else:
+            self.token = generate_token(self.user.email)
+        super(Employee, self).save(*args, **kwargs)
 
 
 class Eticket(models.Model):
@@ -121,7 +135,10 @@ class Luggage(models.Model):
     passenger = models.ForeignKey(Passenger, null=True)
 
     def __unicode__(self):
-        return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
+        if self.datetime:
+            return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
+        else:
+            return unicode('%s' % (self.material_number))
 
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''

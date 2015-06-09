@@ -1,3 +1,5 @@
+import requests
+
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -15,7 +17,7 @@ from bagtrekkin.forms import (
     FormSignup, EmployeeForm, SearchForm, CheckinForm,
     SetCurrentFlightForm, FlushCurrentFlightForm
 )
-from bagtrekkin.models import Flight
+from bagtrekkin.models import GENDER_CHOICES, Flight, Passenger, Eticket
 
 
 def index(request):
@@ -50,7 +52,7 @@ def actions(request):
             search_form = SearchForm(request.POST)
             if search_form.is_valid():
                 context.update({
-                    'current_flight': Flight.from_session(request.session),
+                    'current_flight': request.user.employee.current_flight,
                     'checkin_form': CheckinForm(),
                     'search_form': search_form,
                     'set_current_flight_form': SetCurrentFlightForm(request.user),
@@ -60,20 +62,53 @@ def actions(request):
         elif request.POST.get('form_type') == 'Checkin':
             checkin_form = CheckinForm(request.POST)
             if checkin_form.is_valid():
+                headers = {'content-type': 'application/json'}
+                url = 'http://alfredpnr.favrodd.com/find/%s/%s' % (checkin_form.cleaned_data['pnr'],
+                                                                   checkin_form.cleaned_data['name'])
+                response = requests.get(url, headers=headers)
+                if response.status_code == requests.codes.ok:
+                    result = response.json()
+                    if result.get('status') and result.get('status') == 'success':
+                        full_name = result['passenger']['fullname']
+                        if 'mr' in full_name or 'Mr' in full_name:
+                            gender = GENDER_CHOICES[1][0]
+                        first_name = ' '.join(full_name.split(' ')[:-1])
+                        last_name = full_name.split(' ')[-1]
+                        passenger = Passenger(
+                            email=result['passenger']['email'],
+                            tel=result['passenger']['tel'],
+                            first_name=first_name,
+                            last_name=last_name,
+                            pnr=checkin_form.cleaned_data['pnr'],
+                            gender=gender
+                        )
+                        passenger.save()
+                        for json_eticket in result['etickets']:
+                            number = json_eticket['number']
+                            summary = json_eticket['summary']
+                            eticket = Eticket(
+                                ticket_number=number,
+                                summary=summary,
+                                passenger=passenger,
+                            )
+                            eticket.save()
+                            for json_flight in result['flights'][number]:
+                                eticket.flights.add(Flight.from_json(json_flight))
                 context.update({
-                    'current_flight': Flight.from_session(request.session),
+                    'current_flight': request.user.employee.current_flight,
                     'search_form': SearchForm(),
                     'checkin_form': checkin_form,
-                    'set_current_flight_form': SetCurrentFlightForm(),
+                    'set_current_flight_form': SetCurrentFlightForm(request.user),
                     'flush_current_flight_form': FlushCurrentFlightForm()
                 })
                 return render(request, 'actions.jade', context)
         elif request.POST.get('form_type') == 'SetCurrentFlight':
             set_current_flight_form = SetCurrentFlightForm(request.user, request.POST)
             if set_current_flight_form.is_valid():
-                request.session['current_flight'] = set_current_flight_form.cleaned_data['current_flight'].id
+                request.user.employee.current_flight = set_current_flight_form.cleaned_data['current_flight']
+                request.user.employee.save()
                 context.update({
-                    'current_flight': Flight.from_session(request.session),
+                    'current_flight': request.user.employee.current_flight,
                     'search_form': SearchForm(),
                     'checkin_form': CheckinForm(),
                     'set_current_flight_form': set_current_flight_form,
@@ -83,12 +118,10 @@ def actions(request):
         elif request.POST.get('form_type') == 'FlushCurrentFlight':
             flush_current_flight_form = FlushCurrentFlightForm(request.POST)
             if flush_current_flight_form.is_valid():
-                try:
-                    del request.session['current_flight']
-                except IndexError:
-                    pass
+                request.user.employee.current_flight = None
+                request.user.employee.save()
                 context.update({
-                    'current_flight': Flight.from_session(request.session),
+                    'current_flight': request.user.employee.current_flight,
                     'search_form': SearchForm(),
                     'checkin_form': CheckinForm(),
                     'set_current_flight_form': SetCurrentFlightForm(request.user),
@@ -96,14 +129,14 @@ def actions(request):
                 })
                 return render(request, 'actions.jade', context)
     else:
-        if not request.session.get('current_flight'):
+        if not request.user.employee.current_flight:
             set_current_flight_form = SetCurrentFlightForm(request.user)
             context['set_current_flight_form'] = set_current_flight_form
         else:
             checkin_form = CheckinForm()
             context['checkin_form'] = checkin_form
         context.update({
-            'current_flight': Flight.from_session(request.session),
+            'current_flight': request.user.employee.current_flight,
             'search_form': SearchForm(),
             'flush_current_flight_form': FlushCurrentFlightForm()
         })
@@ -149,5 +182,7 @@ def login(request):
 
 
 def logout(request):
+    request.user.employee.current_flight = None
+    request.user.employee.save()
     auth_logout(request)
     return HttpResponseRedirect(reverse('bt_index'))

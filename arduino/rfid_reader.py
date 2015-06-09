@@ -79,7 +79,7 @@ class TagReader():
             self.com.close()
 
     def _readline(self):
-        return self.com.readline().rstrip()
+        return self.com.readline().strip()
 
     def _getport(self):
         if platform.system() == PLATFORM_DARWIN:
@@ -89,10 +89,9 @@ class TagReader():
 
     def readtag(self):
         try:
-            if time.time() >= TagReader.last_read + 1:
+            if time.time() >= TagReader.last_read + 10:
                 number = self._readline()
                 if number and number not in self.buf:
-                    number = self._readline()
                     self.buf.append(number)
                     logr('Read %s' % number)
                     TagReader.last_read = time.time()
