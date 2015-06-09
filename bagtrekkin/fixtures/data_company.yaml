@@ -1,0 +1,75 @@
+- model: bagtrekkin.company
+  pk: 1
+  fields:
+    name: Air France
+    code: AFR
+- model: bagtrekkin.company
+  pk: 2
+  fields:
+    name: Airbus France
+    code: RBU
+- model: bagtrekkin.company
+  pk: 3
+  fields:
+    name: Cardolaar
+    code: GOL
+- model: bagtrekkin.company
+  pk: 4
+  fields:
+    name: EPAG Groupe Air France
+    code: IAG
+- model: bagtrekkin.company
+  pk: 5
+  fields:
+    name: Eagle Aviation France
+    code: EGN
+- model: bagtrekkin.company
+  pk: 6
+  fields:
+    name: France Douanes
+    code: FDO
+- model: bagtrekkin.company
+  pk: 7
+  fields:
+    name: France Marine Nationale
+    code: FNY
+- model: bagtrekkin.company
+  pk: 8
+  fields:
+    name: Heli France
+    code: HFR
+- model: bagtrekkin.company
+  pk: 9
+  fields:
+    name: TAP Portugal
+    code: TAP
+- model: bagtrekkin.company
+  pk: 10
+  fields:
+    name: TAPSA Transportes Aereos Petroleros
+    code: TPS
+- model: bagtrekkin.company
+  pk: 11
+  fields:
+    name: Transair France
+    code: TSA
+- model: bagtrekkin.company
+  pk: 12
+  fields:
+    name: TAPC Aviatrans Aircompany
+    code: UTM
+- model: bagtrekkin.company
+  pk: 13
+  fields:
+    name: XL Airways France
+    code: SEU
+- model: bagtrekkin.company
+  pk: 14
+  fields:
+    name: Transavia France
+    code: TVF
+- model: bagtrekkin.company
+  pk: 15
+  fields:
+    name: Azul
+    code: AZU

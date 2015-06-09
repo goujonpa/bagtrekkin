@@ -9,9 +9,9 @@ block vars
 block navbar-center
   div.uk-navbar-content.uk-navbar-center
     if current_flight
-      {{ request.user.get_full_name }} - {{ current_flight }}
+      {{ request.user.get_full_name }} - {{ request.user.employee.district }} - {{ current_flight }}
     else
-      {{ request.user.get_full_name }}
+      {{ request.user.get_full_name }} - {{ request.user.employee.district }}
 
 block content
   div.uk-container.uk-container-center
