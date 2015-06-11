@@ -1,16 +1,17 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 
 from bagtrekkin import views as bt_views
-from bagtrekkin.api import LuggagesResource
+from bagtrekkin.api import LuggagesResource, FlightsResource
 
-luggages_resource = LuggagesResource()
+v1_api = Api(api_name='v1')
+v1_apiregister(LuggagesResource())
+v1_apiregister(FlightsResource())
 
 urlpatterns = patterns(
     '',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(luggages_resource.urls)),
+    url(r'^api/', include(v1_api.urls)),
 
     url(r'^$', bt_views.index, name='bt_index'),
 
@@ -19,7 +20,4 @@ urlpatterns = patterns(
     url(r'signup\.html', bt_views.signup, name='bt_signup'),
     url(r'profile\.html', bt_views.profile, name='bt_profile'),
     url(r'actions\.html', bt_views.actions, name='bt_actions'),
-
-    # url(r'^fligths/', bt_views.fligths, name='bt_flights'),
-    # url(r'^fligths/(?P<airline>.*\w+)/', bt_views.checkin, name='bt_airline'),
 )

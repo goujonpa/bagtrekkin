@@ -2,14 +2,14 @@ from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 
-from bagtrekkin.models import Luggage, Log
+from bagtrekkin.models import Luggage, Log, Flight
 
 
 class LuggagesResource(ModelResource):
 
     class Meta:
         queryset = Luggage.objects.all()
-        resource_name = 'luggages'
+        resource_name = 'luggage'
         allowed_methods = ['post']
         authentication = ApiKeyAuthentication()
         authorization = Authorization()
@@ -24,3 +24,13 @@ class LuggagesResource(ModelResource):
                 luggage=bundle.obj
             ).save()
         return bundle
+
+
+class FlightsResource(ModelResource):
+
+    class Meta:
+        queryset = Flight.objects.all()
+        resource_name = 'flight'
+        allowed_methods = ['post', 'get']
+        authentication = ApiKeyAuthentication()
+        authorization = Authorization()

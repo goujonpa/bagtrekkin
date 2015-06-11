@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 import collections
-import io
 import json
 import os
 import platform
@@ -47,12 +46,17 @@ def logs(message):
 
 def send(number):
     headers = {'content-type': 'application/json'}
-    url = 'http://{}/api/luggages/'.format(API_URL)
+    url = 'http://{}/api/v1/luggage/'.format(API_URL)
     params = {'username': API_USER, 'api_key': API_KEY}
     data = {'material_number': number}
 
     logs('Sending')
-    response = requests.post(url, params=params, data=json.dumps(data), headers=headers)
+    response = requests.post(
+        url,
+        params=params,
+        data=json.dumps(data),
+        headers=headers
+    )
     logs('Sent')
     logn('')
     response.raise_for_status()
@@ -70,7 +74,9 @@ class TagReader():
             self.com = serial.Serial(self.port, baudrate=BAUD_RATE, timeout=1)
             logn('Serial Com Connected\n')
         except (serial.SerialException, OSError), e:
-            raise serial.SerialException('could not open serial port {}: {}'.format(self.port, e))
+            raise serial.SerialException(
+                'could not open serial port {}: {}'.format(self.port, e)
+            )
         return self
 
     def __exit__(self, type, value, traceback):
@@ -98,7 +104,9 @@ class TagReader():
                     return number
             return None
         except serial.SerialException, e:
-            raise serial.SerialException('could not readline from serial port {}: {}'.format(self.port, e))
+            raise serial.SerialException(
+                'could not readline from serial port {}: {}'.format(self.port, e)
+            )
 
 
 if __name__ == '__main__':

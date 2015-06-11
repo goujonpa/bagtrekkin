@@ -53,7 +53,7 @@ class Passenger(models.Model):
 
 
 class Flight(models.Model):
-    airline = models.CharField(max_length=6, unique=True)
+    airline = models.CharField(max_length=6)
     aircraft = models.CharField(max_length=64)
     departure_loc = models.CharField(max_length=254)
     departure_time = models.TimeField()
@@ -64,11 +64,11 @@ class Flight(models.Model):
     company = models.ForeignKey(Company)
 
     def __unicode__(self):
-        return unicode('%s - %s' % (self.airline, self.company))
+        return unicode('%s - %s - %s' % (self.airline, self.company, self.flight_date))
 
     @staticmethod
     def potentials(user):
-        '''Fetch all potentials flights regarding user company, locale date and time'''
+        '''Fetch all potentials flights regarding user company'''
         return Flight.objects.filter(
             company=user.employee.company
         ).order_by('airline')
@@ -163,9 +163,6 @@ class Log(models.Model):
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
-
-    class Meta:
-        verbose_name_plural = 'logs'
 
     def __unicode__(self):
         return unicode('%s - %s' % (self.localisation, self.luggage))
