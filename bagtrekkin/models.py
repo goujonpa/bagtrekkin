@@ -2,7 +2,7 @@ from datetime import timedelta, datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.http import HttpResponseServerError
+#from django.http import HttpResponseServerError
 from django.utils import timezone
 
 from tastypie.models import create_api_key
@@ -53,7 +53,7 @@ class Passenger(models.Model):
 
 
 class Flight(models.Model):
-    airline = models.CharField(max_length=6)
+    airline = models.CharField(max_length=10)
     aircraft = models.CharField(max_length=64)
     departure_loc = models.CharField(max_length=254)
     departure_time = models.TimeField()
@@ -74,6 +74,11 @@ class Flight(models.Model):
         ).order_by('airline')
 
     @staticmethod
+    def from_airline(airline):
+        '''Retrieve the best Flight object from airline'''
+        return Flight.objects.filter(airline__icontains=airline).first()
+
+    @staticmethod
     def from_json(json):
         '''Create a new Flight instance given a json'''
         airline = json['airline'].split(' ')[-1]
@@ -88,7 +93,7 @@ class Flight(models.Model):
             arrival_time='%s:00' % json['arrival']['time'],
             flight_date=flight_datetime.date(),
             duration='%s:00' % json['duration'],
-            company=Company.objects.filter(name__contains=company_name).first()
+            company=Company.objects.filter(name__icontains=company_name).first()
         )
         flight.save()
         return flight
@@ -132,13 +137,10 @@ class Luggage(models.Model):
     material_number = models.CharField(max_length=16)
     datetime = models.DateTimeField(auto_now_add=True)
     is_already_read = models.BooleanField(default=False)
-    passenger = models.ForeignKey(Passenger, null=True)
+    passenger = models.ForeignKey(Passenger)
 
     def __unicode__(self):
-        if self.datetime:
-            return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
-        else:
-            return unicode('%s' % (self.material_number))
+        return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
 
     def save(self, *args, **kwargs):
         '''Fetch materials since one hour with the given material number'''
@@ -151,7 +153,7 @@ class Luggage(models.Model):
 
     @staticmethod
     def unreads():
-        '''Fetch all unread luggages ordered by dateime DESC'''
+        '''Fetch all unread luggages ordered by datetime DESC'''
         return Luggage.objects.filter(
             is_already_read=False
         ).order_by('-datetime')
@@ -171,6 +173,8 @@ class Log(models.Model):
         '''Add employee district as default localisation'''
         if not self.localisation:
             self.localisation = self.employee.district
+        if not self.flight:
+            self.flight = self.employee.current_flight
         super(Log, self).save(*args, **kwargs)
 
 
