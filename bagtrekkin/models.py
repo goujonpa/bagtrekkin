@@ -76,7 +76,10 @@ class Flight(models.Model):
     @staticmethod
     def from_airline(airline):
         '''Retrieve the best Flight object from airline'''
-        return Flight.objects.filter(airline__icontains=airline).first()
+        if airline:
+            return Flight.objects.filter(airline__icontains=airline).first()
+        else:
+            raise Flight.DoesNotExist
 
     @staticmethod
     def from_json(json):
