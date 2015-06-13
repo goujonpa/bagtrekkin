@@ -28,7 +28,7 @@ html
         ul.uk-navbar-nav.uk-hidden-small
           li.uk-active
             if user.is_authenticated
-                a(href="{% url 'bt_actions' %}"): i.uk-icon-home.uk-icon-medium
+                a(href="{% url 'bt_search' %}"): i.uk-icon-home.uk-icon-medium
             else
                 a(href="{% url 'bt_index' %}"): i.uk-icon-home.uk-icon-medium
         div.uk-navbar-flip
@@ -39,12 +39,9 @@ html
                   i.uk-icon-cog.uk-icon-medium
                 div.uk-dropdown.uk-dropdown-navbar
                   ul.uk-nav.uk-nav-navbar
-                    li: a(href="{% url 'bt_actions' %}") Actions
+                    li: a(href="{% url 'bt_search' %}") Actions
                     li: a(href="{% url 'bt_profile' %}") Profile
-                    li.uk-nav-divider
-                    li: a(href="#" data-uk-modal="{target:'#set_current_flight'}") Set Current Flight
-                    li: a(href="#" data-uk-modal="{target:'#flush_current_flight'}") Flush Current Flight
-                    li.uk-nav-divider
+                   li.uk-nav-divider
                     li: a(href="{% url 'bt_logout' %}") Logout
             else
               li

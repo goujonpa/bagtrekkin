@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.forms.utils import ErrorList
 
-from bagtrekkin.models import GENDER_CHOICES, STATUS_CHOICES, FUNCTION_CHOICES
+from bagtrekkin.models import GENDER_CHOICES, FUNCTION_CHOICES
 from bagtrekkin.models import Employee, Company, Passenger, Luggage, Flight
 
 
@@ -27,52 +27,12 @@ class UkForm(forms.Form):
         super(UkForm, self).__init__(self, *args, **kwargs)
 
 
-class FlushCurrentFlightForm(forms.Form):
-    error_css_class = 'uk-form-danger'
-    required_css_class = 'required'
-
-    form_type = forms.CharField(required=True, initial='FlushCurrentFlight')
-
-    def __init__(self, *args, **kwargs):
-        kwargs.update({'error_class': UkErrorList})
-        super(FlushCurrentFlightForm, self).__init__(*args, **kwargs)
-
-
-class SetCurrentFlightForm(forms.Form):
-    error_css_class = 'uk-form-danger'
-    required_css_class = 'required'
-
-    current_flight = forms.ModelChoiceField(required=True, label='Flight Number', queryset=Flight.objects.all())
-    form_type = forms.CharField(required=True, initial='SetCurrentFlight')
-
-    def __init__(self, user, *args, **kwargs):
-        kwargs.update({'error_class': UkErrorList})
-        super(SetCurrentFlightForm, self).__init__(*args, **kwargs)
-        self.user = user
-        self.fields['current_flight'].queryset = Flight.potentials(self.user)
-
-
-class CheckinForm(forms.Form):
-    error_css_class = 'uk-form-danger'
-    required_css_class = 'required'
-
-    pnr = forms.CharField(required=True, label='Passenger Name Record')
-    name = forms.CharField(required=True, label='Passenger Name')
-    material_number = forms.ModelChoiceField(required=True, label='Material Number', queryset=Luggage.unreads())
-    form_type = forms.CharField(required=True, initial='Checkin')
-
-    def __init__(self, *args, **kwargs):
-        kwargs.update({'error_class': UkErrorList})
-        super(CheckinForm, self).__init__(*args, **kwargs)
-
-
 class SearchForm(forms.Form):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
     pnr = forms.CharField(required=False, label='Passenger Name Record')
     material_number = forms.CharField(required=False, label='Material Number')
-    form_type = forms.CharField(required=True, initial='Search')
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
@@ -81,8 +41,8 @@ class SearchForm(forms.Form):
     def clean(self):
         cleaned_data = super(SearchForm, self).clean()
         pnr = cleaned_data.get('pnr')
-        material = cleaned_data.get('material_number')
-        if not pnr and material_number:
+        material_number = cleaned_data.get('material_number')
+        if not (pnr and material_number):
             msg = 'No value provided'
             self.add_error('Error', msg)
         return cleaned_data
@@ -90,11 +50,10 @@ class SearchForm(forms.Form):
     def search(self):
         pnr = self.cleaned_data.get('pnr')
         material_number = self.cleaned_data.get('material_number')
-        if pnr is not None:
+        if pnr:
             passenger = Passenger.objects.get(pnr=pnr)
-        elif material is not None:
-            luggage = Luggage.objects.get(material_number=material_number)
-            passenger = luggage.passenger
+        elif material_number:
+            passenger = Luggage.objects.get(material_number=material_number).passenger
         luggages = Luggage.objects.filter(passenger=passenger)
         return (passenger, luggages)
 

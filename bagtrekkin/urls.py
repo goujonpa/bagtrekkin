@@ -5,7 +5,8 @@ from tastypie.api import Api
 from bagtrekkin import views as bt_views
 from bagtrekkin.api import (
     UserResource, CompanyResource, PassengerResource, FlightResource,
-    EmployeeResource, EticketResource, LuggageResource, LogResource
+    EmployeeResource, EticketResource, LuggageResource, LogResource,
+    CheckinResource
 )
 
 v1_api = Api(api_name='v1')
@@ -17,6 +18,7 @@ v1_api.register(EmployeeResource())
 v1_api.register(EticketResource())
 v1_api.register(LuggageResource())
 v1_api.register(LogResource())
+v1_api.register(CheckinResource())
 
 urlpatterns = patterns(
     '',
@@ -29,5 +31,5 @@ urlpatterns = patterns(
     url(r'logout\.html', bt_views.logout, name='bt_logout'),
     url(r'signup\.html', bt_views.signup, name='bt_signup'),
     url(r'profile\.html', bt_views.profile, name='bt_profile'),
-    url(r'actions\.html', bt_views.actions, name='bt_actions'),
+    url(r'search\.html', bt_views.search, name='bt_search'),
 )

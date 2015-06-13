@@ -1,20 +1,14 @@
-import requests
-
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
-from django.contrib.auth.models import User
-from django.contrib.auth.views import logout_then_login
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
-from django.forms.models import model_to_dict
-from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
-from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm, CheckinForm
-from bagtrekkin.models import GENDER_CHOICES, Flight, Passenger, Eticket
+from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm
 
 
 def index(request):
@@ -29,7 +23,7 @@ def signup(request):
             user = authenticate(username=form.cleaned_data['username'],
                                 password=form.cleaned_data['password1'])
             auth_login(request, user)
-            return HttpResponseRedirect(reverse('bt_actions'))
+            return HttpResponseRedirect(reverse('bt_search'))
         else:
             context = {'form': form}
             context.update(csrf(request))
@@ -42,63 +36,20 @@ def signup(request):
 
 
 @login_required
-def actions(request):
+def search(request):
     if request.method == 'POST':
-        if request.POST.get('form_type') == 'Search':
-            search_form = SearchForm(request.POST)
-            if search_form.is_valid():
-                context = {
-                    'checkin_form': CheckinForm(),
-                    'search_form': search_form
-                }
-                return render(request, 'actions.jade', context)
-        elif request.POST.get('form_type') == 'Checkin':
-            checkin_form = CheckinForm(request.POST)
-            if checkin_form.is_valid():
-                headers = {'content-type': 'application/json'}
-                url = 'http://alfredpnr.favrodd.com/find/%s/%s' % (checkin_form.cleaned_data['pnr'],
-                                                                   checkin_form.cleaned_data['name'])
-                response = requests.get(url, headers=headers)
-                if response.status_code == requests.codes.ok:
-                    result = response.json()
-                    if result.get('status') and result.get('status') == 'success':
-                        full_name = result['passenger']['fullname']
-                        if 'mr' in full_name or 'Mr' in full_name:
-                            gender = GENDER_CHOICES[1][0]
-                        first_name = ' '.join(full_name.split(' ')[:-1])
-                        last_name = full_name.split(' ')[-1]
-                        passenger = Passenger(
-                            email=result['passenger']['email'],
-                            tel=result['passenger']['tel'],
-                            first_name=first_name,
-                            last_name=last_name,
-                            pnr=checkin_form.cleaned_data['pnr'],
-                            gender=gender
-                        )
-                        passenger.save()
-                        for json_eticket in result['etickets']:
-                            number = json_eticket['number']
-                            summary = json_eticket['summary']
-                            eticket = Eticket(
-                                ticket_number=number,
-                                summary=summary,
-                                passenger=passenger,
-                            )
-                            eticket.save()
-                            for json_flight in result['flights'][number]:
-                                eticket.flights.add(Flight.from_json(json_flight))
-                context = {
-                    'search_form': SearchForm(),
-                    'checkin_form': checkin_form
-                }
-                return render(request, 'actions.jade', context)
+        search_form = SearchForm(request.POST)
+        if search_form.is_valid():
+            context = {
+                'search_form': search_form
+            }
+            return render(request, 'search.jade', context)
     else:
         context = {
             'search_form': SearchForm(),
-            'checkin_form': CheckinForm()
         }
         context.update(csrf(request))
-        return render(request, 'actions.jade', context)
+        return render(request, 'search.jade', context)
 
 
 @login_required
@@ -107,7 +58,7 @@ def profile(request):
         form = EmployeeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('bt_actions'))
+            return HttpResponseRedirect(reverse('bt_search'))
         else:
             context = {'form': form}
             context.update(csrf(request))
@@ -126,7 +77,7 @@ def login(request):
         if user:
             if user.is_active:
                 auth_login(request, user)
-                return HttpResponseRedirect(reverse('bt_actions'))
+                return HttpResponseRedirect(reverse('bt_search'))
         else:
             form = AuthenticationForm()
             context = {'form': form}

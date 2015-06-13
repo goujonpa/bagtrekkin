@@ -1,8 +1,9 @@
+import requests
 from datetime import timedelta, datetime
 
 from django.contrib.auth.models import User
-from django.db import models
-#from django.http import HttpResponseServerError
+from django.db import IntegrityError, models
+from django.http import HttpResponseBadRequest
 from django.utils import timezone
 
 from tastypie.models import create_api_key
@@ -49,7 +50,7 @@ class Passenger(models.Model):
 
     @property
     def full_name(self):
-        return '%s %s %s' % (self.gender, self.first_name, self.last_name)
+        return '%s %s' % (self.first_name, self.last_name)
 
 
 class Flight(models.Model):
@@ -146,11 +147,13 @@ class Luggage(models.Model):
         return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
 
     def save(self, *args, **kwargs):
-        '''Fetch materials since one hour with the given material number'''
+        '''Fetch materials since one hour with the given material number and datetime default'''
         luggages = Luggage.objects.filter(
             datetime__gte=timezone.now()-timedelta(minutes=10),
             material_number=self.material_number
         )
+        if not self.datetime:
+            self.datetime = timezone.now()
         if not luggages:
             super(Luggage, self).save(*args, **kwargs)
 
@@ -173,7 +176,9 @@ class Log(models.Model):
         return unicode('%s - %s' % (self.localisation, self.luggage))
 
     def save(self, *args, **kwargs):
-        '''Add employee district as default localisation'''
+        '''Add employee district as default localisation and other defaults'''
+        if not self.horodator:
+            self.horodator = timezone.now()
         if not self.localisation:
             self.localisation = self.employee.district
         if not self.flight:
@@ -185,6 +190,61 @@ def create_employee(sender, instance, created, **kwargs):
     if created:
         employee, _ = Employee.objects.get_or_create(user=instance)
         employee.save()
+
+
+
+def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
+    headers = {'content-type': 'application/json'}
+    url = 'http://alfredpnr.favrodd.com/find/%s/%s' % (pnr, last_name)
+    response = requests.get(url, headers=headers)
+    if response.status_code == requests.codes.ok:
+        result = response.json()
+        if result.get('status') and result.get('status') == 'success':
+            full_name = result['passenger']['fullname']
+            if 'mr' in full_name or 'Mr' in full_name:
+                gender = GENDER_CHOICES[1][0]
+            else:
+                gender = GENDER_CHOICES[0][0]
+            first_name = ' '.join(full_name.split(' ')[:-1])
+            last_name = full_name.split(' ')[-1]
+            passenger = Passenger(
+                email=result['passenger']['email'],
+                tel=result['passenger']['tel'],
+                first_name=first_name,
+                last_name=last_name,
+                pnr=pnr,
+                gender=gender
+            )
+            try:
+                passenger.save()
+            except IntegrityError, e:
+                passenger = Passenger.objects.get(pnr=pnr)
+            for json_eticket in result['etickets']:
+                number = json_eticket['number']
+                summary = json_eticket['summary']
+                eticket = Eticket(
+                    ticket_number=number,
+                    summary=summary,
+                    passenger=passenger,
+                )
+                try:
+                    eticket.save()
+                except IntegrityError, e:
+                    eticket = Eticket.objects.get(ticket_number=number)
+                for json_flight in result['flights'][number]:
+                    eticket.flights.add(Flight.from_json(json_flight))
+            luggage = Luggage(
+                material_number=material_number,
+                passenger=passenger,
+                is_already_read=True
+            )
+            luggage.save()
+            return passenger, eticket, luggage
+        else:
+            raise HttpResponseBadRequest(result)
+    else:
+        response.raise_for_status()
+
 
 
 models.signals.post_save.connect(create_api_key, sender=User)

@@ -16,7 +16,7 @@ from getenv import env
 # Application variables
 LOGIN_URL = "bt_login"
 LOGOUT_URL = "bt_logout"
-LOGIN_REDIRECT_URL = "bt_actions"
+LOGIN_REDIRECT_URL = "bt_search"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
