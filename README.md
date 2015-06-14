@@ -203,6 +203,10 @@ You can find more details in [README.md](https://github.com/goujonpa/bagtrekkin/
 
   * [`templates`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/templates/) folder contains all templates written in [Jade](http://jade-lang.com) and live time compiled using [PyJade](https://github.com/syrusakbary/pyjade).
 
+* [`documentation`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/documentation/) folder contains documentation about the project
+
+* [`postman`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/postman/) folder contains JSON file and documentation for
+[`Postman Application`](https://www.getpostman.com)
 
 ## Git Documentation
 
