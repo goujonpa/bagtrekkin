@@ -82,12 +82,15 @@ While you're working on your feature, you can commit and push to your branch in 
 From now on, your feature is supposed to work well and be fully tested. You can go to Github and submit a pull request on master based on your branch.
 
 1. Create the pull request on Github
+
   ![Compare and create Pull Request](https://raw.githubusercontent.com/goujonpa/bagtrekkin/master/documentation/img/compare.png)
 
 2. Check everything looks good, add a description if PR needs enlightenments and reference the corresponding issue number by inserting `#num`
+
   ![Check Pull Request](https://raw.githubusercontent.com/goujonpa/bagtrekkin/master/documentation/img/pr.png)
 
 3. You're not supposed to merge your own PR, it should be your team mate's job
+
   ![Merge Pull Request](https://raw.githubusercontent.com/goujonpa/bagtrekkin/master/documentation/img/compare.png)
 
 4. Once merge done, you can safely delete the branch
