@@ -107,7 +107,7 @@ By following those steps, you'll install the application development environment
 
   You are now fully operational to join the developer team :)
 
-  **/!\ Please read carefully [How to Contribute](https://github.com/goujonpa/bagtrekkin/blob/master/CONTRIBUTE.md) /!\\**
+  **/!\ Please read carefully [How to Contribute](https://github.com/goujonpa/bagtrekkin/blob/master/documentation/CONTRIBUTE.md) /!\\**
 
 ### Optional
 
