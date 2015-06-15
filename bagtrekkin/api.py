@@ -112,7 +112,7 @@ class EticketResource(ModelResource):
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
 
 
-class LuggageResource( ModelResource):
+class LuggageResource(ModelResource):
     passenger = fields.ForeignKey(PassengerResource, 'passenger')
 
     class Meta:
@@ -165,15 +165,18 @@ class CheckinResource(Resource):
             # if the luggage has correctly been saved, we can add a log
             # we take the flight from passenger eticket's first flight
             if luggage.pk:
-                Log(
-                    employee=request.user.employee,
-                    luggage=luggage,
-                    flight=[
-                        flight
-                        for e in etickets
-                        for flight in e.flights.order_by('flight_date','departure_time')
-                    ][0]
-                ).save()
+                try:
+                    Log(
+                        employee=request.user.employee,
+                        luggage=luggage,
+                        flight=[
+                            flight
+                            for e in etickets
+                            for flight in e.flights.order_by('flight_date', 'departure_time')
+                        ][0]
+                    ).save()
+                except IndexError:
+                    return http.HttpApplicationError('Application didn\'t fight any flight from etickets')
             return http.HttpCreated()
         else:
             raise BadRequest('Missing pnr and/or last_name and/or material_number')
