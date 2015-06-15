@@ -93,9 +93,9 @@ class EmployeeResource(ModelResource):
             )
         try:
             flight_resource = FlightResource()
-            flight_bundle = flight_resource.build_bundle(obj=Flight.from_airline(new_data['current_flight']))
+            flight_bundle = flight_resource.build_bundle(obj=Flight.get_from_airline(new_data['current_flight']))
             new_data['current_flight'] = flight_resource.get_resource_uri(flight_bundle)
-        except Flight.DoesNotExist, e:
+        except Flight.DoesNotExist:
             new_data['current_flight'] = None
         return super(EmployeeResource, self).update_in_place(
             request, original_bundle, new_data
@@ -147,10 +147,10 @@ class LogResource(ModelResource):
 class CheckinResource(Resource):
 
     class Meta:
-       allowed_methods = ['post']
-       authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
-       authorization = Authorization()
-       always_return_data = False
+        allowed_methods = ['post']
+        authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
+        authorization = Authorization()
+        always_return_data = False
 
     def obj_create(self, bundle, **kwargs):
         request = bundle.request

@@ -68,14 +68,14 @@ class Flight(models.Model):
         return unicode('%s - %s - %s' % (self.airline, self.company, self.flight_date))
 
     @staticmethod
-    def potentials(user):
+    def list_potentials(user):
         '''Fetch all potentials flights regarding user company'''
         return Flight.objects.filter(
             company=user.employee.company
         ).order_by('airline')
 
     @staticmethod
-    def from_airline(airline):
+    def get_from_airline(airline):
         '''Retrieve the best Flight object from airline'''
         if airline:
             return Flight.objects.filter(airline__icontains=airline).first()
@@ -83,7 +83,7 @@ class Flight(models.Model):
             raise Flight.DoesNotExist
 
     @staticmethod
-    def from_json(json):
+    def get_from_json(json):
         '''Create a new Flight instance given a json'''
         airline = json['airline'].split(' ')[-1]
         company_name = ' '.join(json['airline'].split(' ')[:-1])
@@ -158,7 +158,7 @@ class Luggage(models.Model):
             super(Luggage, self).save(*args, **kwargs)
 
     @staticmethod
-    def unreads():
+    def list_unreads():
         '''Fetch all unread luggages ordered by datetime DESC'''
         return Luggage.objects.filter(
             is_already_read=False
@@ -185,12 +185,14 @@ class Log(models.Model):
             self.flight = self.employee.current_flight
         super(Log, self).save(*args, **kwargs)
 
+    def list_from_flight(self, flight):
+        pass
+
 
 def create_employee(sender, instance, created, **kwargs):
     if created:
         employee, _ = Employee.objects.get_or_create(user=instance)
         employee.save()
-
 
 
 def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
@@ -217,7 +219,7 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
             )
             try:
                 passenger.save()
-            except IntegrityError, e:
+            except IntegrityError:
                 passenger = Passenger.objects.get(pnr=pnr)
             for json_eticket in result['etickets']:
                 number = json_eticket['number']
@@ -229,10 +231,10 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
                 )
                 try:
                     eticket.save()
-                except IntegrityError, e:
+                except IntegrityError:
                     eticket = Eticket.objects.get(ticket_number=number)
                 for json_flight in result['flights'][number]:
-                    eticket.flights.add(Flight.from_json(json_flight))
+                    eticket.flights.add(Flight.get_from_json(json_flight))
             luggage = Luggage(
                 material_number=material_number,
                 passenger=passenger,
@@ -244,7 +246,6 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
             raise HttpResponseBadRequest(result)
     else:
         response.raise_for_status()
-
 
 
 models.signals.post_save.connect(create_api_key, sender=User)
