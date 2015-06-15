@@ -18,3 +18,23 @@ In order to play with API easily, you can use [Postman](https://www.getpostman.c
 3. Import Data by pasting the URL
 
 ![Postman Settings](https://raw.githubusercontent.com/goujonpa/bagtrekkin/master/documentation/img/postman_2_paste.png)
+
+## API Usage
+
+How to communicate with the API the right way.
+
+### Chekin
+
+1. Check Log in credentials
+  Use `Employee List` Postman request using Basic Authentication.
+  Response should be `200 OK` if user is authorized and authenticated. If not, response is `401 UNAUTHORIZED`.
+  Notice you retrieve a list of user objects containing only you.
+
+2. Send Chekin data
+  Use `Checkin Submit` Postman request using Basic Authentication.
+  Response should be `201 CREATED`. Otherwise an error occured.
+  First addition for a given passenger will take some time due to AlfredPNR API call. Be sure to set an enought high timeout (~3s).
+
+### Ramp
+
+
