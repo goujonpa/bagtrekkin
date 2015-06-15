@@ -110,7 +110,7 @@ class Employee(models.Model):
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, blank=True, null=True)
     function = models.CharField(max_length=32, choices=FUNCTION_CHOICES, blank=True, null=True)
     company = models.ForeignKey(Company, blank=True, null=True)
-    current_flight = models.ForeignKey(Flight, blank=True, null=True)
+    current_flight = models.ForeignKey(Flight, blank=True, null=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(User)
 
     def __unicode__(self):
@@ -138,7 +138,7 @@ class Eticket(models.Model):
 
 
 class Luggage(models.Model):
-    material_number = models.CharField(max_length=16)
+    material_number = models.CharField(max_length=30)
     datetime = models.DateTimeField(auto_now_add=True)
     is_already_read = models.BooleanField(default=False)
     passenger = models.ForeignKey(Passenger)
@@ -164,6 +164,14 @@ class Luggage(models.Model):
             is_already_read=False
         ).order_by('-datetime')
 
+    @staticmethod
+    def filter_from_flight(object_list, flight):
+        return object_list.filter(
+            passenger__in=Eticket.objects.filter(
+                flights=flight
+            ).values_list('passenger__pk', flat=True)
+        )
+
 
 class Log(models.Model):
     horodator = models.DateTimeField(auto_now_add=True)
@@ -184,9 +192,6 @@ class Log(models.Model):
         if not self.flight:
             self.flight = self.employee.current_flight
         super(Log, self).save(*args, **kwargs)
-
-    def list_from_flight(self, flight):
-        pass
 
 
 def create_employee(sender, instance, created, **kwargs):
@@ -221,6 +226,7 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
                 passenger.save()
             except IntegrityError:
                 passenger = Passenger.objects.get(pnr=pnr)
+            etickets = []
             for json_eticket in result['etickets']:
                 number = json_eticket['number']
                 summary = json_eticket['summary']
@@ -233,6 +239,7 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
                     eticket.save()
                 except IntegrityError:
                     eticket = Eticket.objects.get(ticket_number=number)
+                etickets.append(eticket)
                 for json_flight in result['flights'][number]:
                     eticket.flights.add(Flight.get_from_json(json_flight))
             luggage = Luggage(
@@ -241,7 +248,7 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
                 is_already_read=True
             )
             luggage.save()
-            return passenger, eticket, luggage
+            return passenger, etickets, luggage
         else:
             raise HttpResponseBadRequest(result)
     else:

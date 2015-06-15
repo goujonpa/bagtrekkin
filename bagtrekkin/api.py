@@ -7,7 +7,7 @@ from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
 
-from bagtrekkin.authorization import EmployeeObjectsOnlyAuthorization
+from bagtrekkin.authorization import EmployeeObjectsOnlyAuthorization, LuggageObjectsOnlyAuthorization
 from bagtrekkin.models import Company, Passenger, Flight, Employee, Eticket, Luggage, Log
 from bagtrekkin.models import build_from_pnr_lastname_material_number
 
@@ -112,14 +112,14 @@ class EticketResource(ModelResource):
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
 
 
-class LuggageResource(ModelResource):
+class LuggageResource( ModelResource):
     passenger = fields.ForeignKey(PassengerResource, 'passenger')
 
     class Meta:
         queryset = Luggage.objects.all()
         allowed_methods = ['get', 'post']
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
-        authorization = Authorization()
+        authorization = LuggageObjectsOnlyAuthorization()
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(LuggageResource, self).obj_create(bundle, **kwargs)
@@ -150,7 +150,6 @@ class CheckinResource(Resource):
         allowed_methods = ['post']
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
         authorization = Authorization()
-        always_return_data = False
 
     def obj_create(self, bundle, **kwargs):
         request = bundle.request
@@ -158,30 +157,24 @@ class CheckinResource(Resource):
                                         format=request.META.get('CONTENT_TYPE', 'application/json'))
         deserialized = self.alter_deserialized_detail_data(request, deserialized)
         if all(k in deserialized for k in ['pnr', 'last_name', 'material_number']):
-            passenger, eticket, luggage = build_from_pnr_lastname_material_number(
+            passenger, etickets, luggage = build_from_pnr_lastname_material_number(
                 deserialized['pnr'],
                 deserialized['last_name'],
                 deserialized['material_number']
             )
-            if not self._meta.always_return_data:
-                return http.HttpCreated()
-            else:
-                passenger_res = PassengerResource()
-                passenger_bundle = passenger_res.build_bundle(obj=passenger)
-                passenger_bundle = passenger_res.full_dehydrate(passenger_bundle)
-                eticket_res = EticketResource()
-                eticket_bundle = eticket_res.build_bundle(obj=eticket)
-                eticket_bundle = eticket_res.full_dehydrate(eticket_bundle)
-                luggage_res = LuggageResource()
-                luggage_bundle = luggage_res.build_bundle(obj=luggage)
-                luggage_bundle = luggage_res.full_dehydrate(luggage_bundle)
-                response_data = {
-                    'passenger': passenger_bundle,
-                    'eticket': eticket_bundle,
-                    'luggage': luggage_bundle
-                }
-                return self.create_response(request, response_data,
-                                            response_class=http.HttpCreated, location=request.path)
+            # if the luggage has correctly been saved, we can add a log
+            # we take the flight from passenger eticket's first flight
+            if luggage.pk:
+                Log(
+                    employee=request.user.employee,
+                    luggage=luggage,
+                    flight=[
+                        flight
+                        for e in etickets
+                        for flight in e.flights.order_by('flight_date','departure_time')
+                    ][0]
+                ).save()
+            return http.HttpCreated()
         else:
             raise BadRequest('Missing pnr and/or last_name and/or material_number')
 
