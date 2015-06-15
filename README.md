@@ -205,9 +205,6 @@ You can find more details in [README.md](https://github.com/goujonpa/bagtrekkin/
 
 * [`documentation`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/documentation/) folder contains documentation about the project
 
-* [`postman`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/postman/) folder contains JSON file and documentation for
-[`Postman Application`](https://www.getpostman.com)
-
 ## Git Documentation
 
 1. [Getting Started](http://git-scm.com/book/en/v2/Getting-Started-About-Version-Control)
