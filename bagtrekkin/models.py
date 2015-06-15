@@ -201,13 +201,10 @@ def create_employee(sender, instance, created, **kwargs):
 
 
 def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
-    import ipdb
     try:
-        ipdb.set_trace()
         passenger = Passenger.objects.get(pnr=pnr)
         etickets = passenger.eticket_set.all()
     except Passenger.DoesNotExist:
-        ipdb.set_trace()
         headers = {'content-type': 'application/json'}
         url = 'http://alfredpnr.favrodd.com/find/%s/%s' % (pnr, last_name)
         response = requests.get(url, headers=headers)
