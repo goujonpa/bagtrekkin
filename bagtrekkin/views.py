@@ -40,8 +40,12 @@ def search(request):
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
+            passenger, luggages, logs = search_form.search()
             context = {
-                'search_form': search_form
+                'search_form': search_form,
+                'passenger': passenger,
+                'luggages': luggages,
+                'logs': logs
             }
             return render(request, 'search.jade', context)
     else:

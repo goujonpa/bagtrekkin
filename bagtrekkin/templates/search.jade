@@ -16,7 +16,7 @@ block content
       div.uk-width-medium-1-4
         ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
           li.uk-active: a(href="#") Search
-          li: a(href="#") Passengers
+          li: a(href="#") Lost and Founds
       div.uk-width-medium-3-4
         ul#tab-1.uk-switcher
             li
@@ -38,10 +38,54 @@ block content
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row
+                          {{ search_form.form_type.as_hidden }}
                           button.uk-width-1-1.uk-button.uk-button-primary.uk-button-medium(type="submit") Search
                     {% endwith %}
+                  if passenger
+                    table.uk-table
+                      caption PASSENGER INFORMATIONS
+                      thead
+                        tr
+                          th First name
+                          th Last name
+                          th Email
+                      tbody
+                        tr
+                          th {{ passenger.first_name }}
+                          th {{ passenger.last_name }}
+                          th {{ passenger.email }}
+                  if luggages
+                    table.uk-table
+                      caption LUGGAGES INFORMATIONS
+                      thead
+                        tr
+                          th RFID
+                          th Saving date
+                      tbody
+                        {% for luggage in luggages %}
+                        tr
+                          th {{ luggage.material_number }}
+                          th {{ luggage.datetime }}
+                        {% endfor %}
+                  if logs
+                    table.uk-table
+                      caption LOGS INFORMATIONS
+                      thead
+                        tr
+                          th RFID
+                          th Localisation
+                          th Date
+                          th Employee
+                      tbody
+                        {% for log in logs %}
+                        tr
+                          th {{ log.luggage.material_number }}
+                          th {{ log.localisation }}
+                          th {{ log.horodator }}
+                          th {{ log.employee }}
+                        {% endfor %}
             li
               div.uk-block.uk-block-muted
                 div.uk-container
-                  h3 Passengers
-                  p Hello from passengers
+                  h3 Lost and Founds
+                  p Luggage list
