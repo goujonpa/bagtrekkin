@@ -1,15 +1,18 @@
 language: python
 python:
-  - 2.7
+- 2.7
 env:
-  - SECRET_KEY=1234567890 DATABASE_URL=postgres://postgres@localhost/travis_ci_test
+- SECRET_KEY=1234567890 DATABASE_URL=postgres://postgres@localhost/travis_ci_test
 services:
-  - postgresql
+- postgresql
 install:
-  - pip install -r requirements.txt
-  - pip install -r requirements-test.txt
+- pip install -r requirements.txt
+- pip install -r requirements-test.txt
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-  - python manage.py migrate
+- psql -c 'create database travis_ci_test;' -U postgres
+- python manage.py migrate
 script:
-  - python manage.py test
+- python manage.py test
+notifications:
+  slack:
+    secure: XgJ2htMSV5ZiLZxnksnyWx3oxYxPB7a94oVwBk+qppCxGYWmKnzrPgkDjSqD7ShNpzJ7GhcvmG7/48tzc4nTmwjVrTfeYZmr3j7Z3R0k2BPcCFVg3Y0uvai+e285xSI4T650CvY10ZHhPx+MvOBYTbZ1MKAzeXqJYGhnbf+YWr6jH+SYVU8ACSqgJBgnCCANmlhiF3K1E3t5xb3DZ2EQdliaMTLcjHcGrynikwJMs2dYREfT+MX9Cy2CJ6iWwGsxtfpYBG1FtIE+gjvxwo3XkLiCxxMOB4Rrw3x99frKgMgia1y5EzWLDbgdYOoC4pMe3/yLJ/kwKFDVYA/EdE923KUdyNtrbR246BfngmYFLdAnaUmHRmvWHsjT45K0o88EC704IzKfezFC/2HRjD7EQDSnSlJ3V8iCk7RrAuPmgNHroMmJUa+GWWV+E36t4EjmyISp1wO4Tkt4gOXfDswrRp4eid4s3U2f9SgIl2V6pxpxifm3gatLEqTfUDVsj2wXOI4sx2z6fc0r1JCqpWMnnjmKIQ4PHFN0ehhCDNSL2CAIFr1XlPk+IHs8xmYYa6ztOLv6wlewE9S8fv0ZFtP6MklCsrylqVLaACtzOfX9h9YI+kTyVHyBrX7SX8TimfuIKHFDUswcwtpfYXiL66BETDNE//kirz0nYrLeVUtjeqw=
