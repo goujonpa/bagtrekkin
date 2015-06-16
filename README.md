@@ -36,6 +36,7 @@ By following those steps, you'll install the application development environment
 
   ```bash
   (venv) $ pip install -r requirements.txt
+  (venv) $ pip install -r requirements-dev.txt
   ```
 
   Currently both Tastypie and PyJade are installed from master development branch. When both package will be released in pip. Requirements must be edited.

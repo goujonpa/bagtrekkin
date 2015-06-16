@@ -63,7 +63,6 @@ class EmployeeResource(ModelResource):
         allowed_methods = ['get', 'post', 'patch']
         authorization = EmployeeObjectsOnlyAuthorization()
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
-        excludes = ['token']
         allowed_update_fields = ['current_flight']
         always_return_data = True
 

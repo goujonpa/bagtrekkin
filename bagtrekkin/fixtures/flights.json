@@ -1,0 +1,32 @@
+[
+	{
+		"model": "bagtrekkin.flight",
+		"pk": 1,
+		"fields": {
+			"airline": "AR123",
+			"aircraft": "Terminator IV",
+			"departure_loc": "Neptune Star Airport",
+			"departure_time": "10:25:00",
+			"arrival_loc": "Pluton Gaz Airport",
+			"arrival_time": "18:45:00",
+			"flight_date": "2015-01-10",
+			"duration": "06:20:00",
+			"company_id": 1
+		}
+	},
+	{
+		"model": "bagtrekkin.flight",
+		"pk": 2,
+		"fields": {
+			"airline": "PK728",
+			"aircraft": "Alphonse Brown",
+			"departure_loc": "Pluton Get Airport",
+			"departure_time": "19:45:00",
+			"arrival_loc": "Saturne Comet Airport",
+			"arrival_time": "23:45:00",
+			"flight_date": "2015-01-10",
+			"duration": "04:00:00",
+			"company_id": 1
+		}
+	}
+]

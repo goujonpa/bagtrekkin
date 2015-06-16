@@ -13,7 +13,7 @@ from getenv import env
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-read_dotenv(os.path.join(BASE_DIR, '.env'))
+read_dotenv(os.path.join(BASE_DIR, '/arduino/.env'))
 
 STEPS = ['-', '/', '|', '\\']
 

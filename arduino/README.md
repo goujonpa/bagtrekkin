@@ -1,2 +1,0 @@
-# Bagtrekkin Hardware Side
-

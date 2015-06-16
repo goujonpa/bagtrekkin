@@ -8,7 +8,6 @@ from django.utils import timezone
 
 from tastypie.models import create_api_key
 
-from bagtrekkin.utils import generate_token
 
 GENDER_CHOICES = (
     ('f', 'F'),
@@ -50,6 +49,7 @@ class Passenger(models.Model):
 
     @property
     def full_name(self):
+        '''Concatenate first and last name'''
         return '%s %s' % (self.first_name, self.last_name)
 
 
@@ -106,7 +106,6 @@ class Flight(models.Model):
 class Employee(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     district = models.CharField(max_length=64, blank=True, null=True)
-    token = models.CharField(max_length=254)
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, blank=True, null=True)
     function = models.CharField(max_length=32, choices=FUNCTION_CHOICES, blank=True, null=True)
     company = models.ForeignKey(Company, blank=True, null=True)
@@ -115,16 +114,6 @@ class Employee(models.Model):
 
     def __unicode__(self):
         return unicode('%s - %s' % (self.user.get_full_name(), self.user.email))
-
-    def save(self, *args, **kwargs):
-        '''Generate a new token based on email'''
-        if self.pk is not None:
-            orig = Employee.objects.get(pk=self.pk)
-            if orig.user.email != self.user.email:
-                self.token = generate_token(self.user.email)
-        else:
-            self.token = generate_token(self.user.email)
-        super(Employee, self).save(*args, **kwargs)
 
 
 class Eticket(models.Model):
@@ -138,34 +127,15 @@ class Eticket(models.Model):
 
 
 class Luggage(models.Model):
-    material_number = models.CharField(max_length=30)
-    datetime = models.DateTimeField(auto_now_add=True)
-    is_already_read = models.BooleanField(default=False)
+    material_number = models.CharField(max_length=30, unique=True)
     passenger = models.ForeignKey(Passenger)
 
     def __unicode__(self):
-        return unicode('%s - %s' % (self.material_number, self.datetime.strftime('%d, %b %Y @ %H:%m')))
-
-    def save(self, *args, **kwargs):
-        '''Fetch materials since one hour with the given material number and datetime default'''
-        luggages = Luggage.objects.filter(
-            datetime__gte=timezone.now()-timedelta(minutes=10),
-            material_number=self.material_number
-        )
-        if not self.datetime:
-            self.datetime = timezone.now()
-        if not luggages:
-            super(Luggage, self).save(*args, **kwargs)
-
-    @staticmethod
-    def list_unreads():
-        '''Fetch all unread luggages ordered by datetime DESC'''
-        return Luggage.objects.filter(
-            is_already_read=False
-        ).order_by('-datetime')
+        return unicode('%s - %s' % (self.material_number))
 
     @staticmethod
     def filter_from_flight(object_list, flight):
+        '''Filter a luggage list given a flight'''
         return object_list.filter(
             passenger__in=Eticket.objects.filter(
                 flights=flight
@@ -174,19 +144,21 @@ class Luggage(models.Model):
 
 
 class Log(models.Model):
-    horodator = models.DateTimeField(auto_now_add=True)
+    datetime = models.DateTimeField(auto_now_add=True)
     localisation = models.CharField(max_length=254)
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
 
     def __unicode__(self):
-        return unicode('%s - %s' % (self.localisation, self.luggage))
+        return unicode('%s - %s - %s' % (
+            self.localisation, self.luggage, self.datetime.strftime('%d, %b %Y @ %H:%m')
+        ))
 
     def save(self, *args, **kwargs):
-        '''Add employee district as default localisation and other defaults'''
-        if not self.horodator:
-            self.horodator = timezone.now()
+        '''Add datetime, localisation and flights defaults'''
+        if not self.datetime:
+            self.datetime = timezone.now()
         if not self.localisation:
             self.localisation = self.employee.district
         if not self.flight:
@@ -195,12 +167,14 @@ class Log(models.Model):
 
 
 def create_employee(sender, instance, created, **kwargs):
+    '''Signal to create an employee for every user creation'''
     if created:
         employee, _ = Employee.objects.get_or_create(user=instance)
         employee.save()
 
 
 def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
+    '''Build passenger, etickets list, luggage objects from PNR and Passenger Last Name'''
     try:
         passenger = Passenger.objects.get(pnr=pnr)
         etickets = passenger.eticket_set.all()
@@ -249,8 +223,7 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
             response.raise_for_status()
     luggage = Luggage(
         material_number=material_number,
-        passenger=passenger,
-        is_already_read=True
+        passenger=passenger
     )
     luggage.save()
     return passenger, etickets, luggage

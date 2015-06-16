@@ -1,0 +1,12 @@
+[
+	{
+		"model": "bagtrekkin.eticket",
+		"pk": 1,
+		"fields": {
+			"ticket_number": "047-0123456789",
+			"summary": "Neptune - Saturne",
+			"flights": [1, 2],
+			"passenger_id": 1
+		}
+	}
+]

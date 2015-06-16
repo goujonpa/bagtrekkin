@@ -1,0 +1,14 @@
+[
+	{
+		"model": "bagtrekkin.passenger",
+		"pk": 1,
+		"fields": {
+			"email": "test@mail.com",
+			"first_name": "Jean Claude",
+			"last_name": "Dus",
+			"gender": "m",
+			"pnr": "ABC123",
+			"tel": "0123456789"
+		}
+	}
+]

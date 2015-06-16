@@ -1,0 +1,15 @@
+[
+	{
+		"pk": 2,
+		"model": "bagtrekkin.employee",
+		"fields": {
+			"status": "active",
+			"function": "checkin",
+			"district": "Neptune, Space X",
+			"gender": "m",
+			"company_id": 1,
+			"user_id": 1,
+			"current_flight": null
+		}
+	}
+]

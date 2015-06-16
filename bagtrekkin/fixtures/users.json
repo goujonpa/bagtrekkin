@@ -1,0 +1,20 @@
+[
+	{
+		"pk": 1,
+		"model": "auth.user",
+		"fields": {
+			"username": "capflam",
+			"first_name": "Capitain",
+			"last_name": "Flamme",
+			"is_active": true,
+			"is_superuser": true,
+			"is_staff": true,
+			"last_login": "2015-06-13T23:23:36Z",
+			"groups": [],
+			"user_permissions": [],
+			"password": "pbkdf2_sha256$20000$XgZEoOMJvKpt$02XjXOP3Ih3yyR3BuN1+k05v3JRrSqMhbFuAg3tbvGk=",
+			"email": "capflam@space.com",
+			"date_joined": "2015-06-01T07:34:49Z"
+		}
+	}
+]
