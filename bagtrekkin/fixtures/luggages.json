@@ -4,7 +4,6 @@
 		"pk": 1,
 		"fields": {
 			"material_number": "E200 3411 B802 0115 1612 6723",
-			"datetime": "2015-06-15T18:48:12.060Z",
 			"passenger_id": 1
 		}
 	},
@@ -13,7 +12,6 @@
 		"pk": 2,
 		"fields": {
 			"material_number": "E200 6296 9619 0229 0370 EC2B",
-			"datetime": "2015-06-15T18:58:22.080Z",
 			"passenger_id": 1
 		}
 	}
