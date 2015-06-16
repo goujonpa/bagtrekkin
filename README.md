@@ -1,4 +1,4 @@
-# Bagtrekkin
+# Bagtrekkin [![Build Status](https://travis-ci.org/goujonpa/bagtrekkin.svg?branch=master)](https://travis-ci.org/goujonpa/bagtrekkin)
 
 Bagtrekkin is a full-stack application involving both hardware and software.
 
@@ -190,15 +190,13 @@ You can know update your local environment variables by adding:
 
 This configuration is used by `rfid_reader.py` micro-client.
 
-You can find more details in [README.md](https://github.com/goujonpa/bagtrekkin/blob/master/arduino/README.md)
-
 ### Understand application structure
 
 * [`arduino`](https://github.com/goujonpa/bagtrekkin/blob/master/arduino/) folder contains hardware code currently not being used by application server-side (i.e. Hosted on Heroku)
 
 * [`bagtrekkin`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/) folder contains the server-side application.
 
-  * [`migrations`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/migrations/) folder contains all migrations run using `migrate` management command. If you want to create new migrations, please read carefully [How to write Migrations](https://github.com/goujonpa/bagtrekkin/blob/master/MIGRATIONS.md).
+  * [`migrations`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/migrations/) folder contains all migrations run using `migrate` management command. If you want to create new migrations, please read carefully [How to write Migrations](https://github.com/goujonpa/bagtrekkin/blob/master/documentation/MIGRATIONS.md).
 
   * [`static`](https://github.com/goujonpa/bagtrekkin/blob/master/bagtrekkin/static/) folder contains all static resources (i.e. js, css, fonts and img files used by the application).
 
