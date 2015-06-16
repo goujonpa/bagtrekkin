@@ -176,7 +176,14 @@ class CheckinResource(Resource):
                         ][0]
                     ).save()
                 except IndexError:
-                    return http.HttpApplicationError('Application didn\'t fight any flight from etickets')
+                    return http.HttpApplicationError(
+                        'Application didn\'t find any flight for etickets.'
+                    )
+                except Employee.DoesNotExist:
+                    return http.HttpApplicationError(
+                        'Missing Employee Object for current User.\n'
+                        'Please add your profile on web application'
+                    )
             return http.HttpCreated()
         else:
             raise BadRequest('Missing pnr and/or last_name and/or material_number')
