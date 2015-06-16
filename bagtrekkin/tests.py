@@ -37,7 +37,7 @@ class FlightTestCase(TestCase):
 class EmployeeTestCase(TestCase):
     fixtures = ['companies', 'users', 'passengers']
 
-    def test_company_unicode(self):
+    def test_employee_unicode(self):
         """Employee should be printed as expected"""
         employee = Employee.objects.first()
         self.assertEqual(unicode(employee), '%s - %s' % (employee.user.get_full_name(), employee.user.email))
@@ -46,7 +46,7 @@ class EmployeeTestCase(TestCase):
 class EticketTestCase(TestCase):
     fixtures = ['companies', 'flights', 'passengers', 'etickets']
 
-    def test_company_unicode(self):
+    def test_eticket_unicode(self):
         """Eticket should be printed as expected"""
         eticket = Eticket.objects.first()
         self.assertEqual(unicode(eticket), '%s - %s' % (eticket.passenger, eticket.ticket_number))
@@ -55,18 +55,16 @@ class EticketTestCase(TestCase):
 class LuggageTestCase(TestCase):
     fixtures = ['passengers', 'luggages']
 
-    def test_company_unicode(self):
+    def test_luggage_unicode(self):
         """Luggage should be printed as expected"""
         luggage = Luggage.objects.first()
-        self.assertEqual(unicode(luggage), '%s - %s' % (
-            luggage.material_number, luggage.datetime.strftime('%d, %b %Y @ %H:%m')
-        ))
+        self.assertEqual(unicode(luggage), '%s' % (luggage.material_number))
 
 
 class LogTestCase(TestCase):
     fixtures = ['companies', 'passengers', 'flights', 'users', 'employees', 'luggages', 'logs']
 
-    def test_company_unicode(self):
+    def test_log_unicode(self):
         """Log should be printed as expected"""
         log = Log.objects.first()
         self.assertEqual(unicode(log), '%s - %s - %s' % (

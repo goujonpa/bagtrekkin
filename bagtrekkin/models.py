@@ -1,5 +1,5 @@
 import requests
-from datetime import timedelta, datetime
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError, models
@@ -131,7 +131,7 @@ class Luggage(models.Model):
     passenger = models.ForeignKey(Passenger)
 
     def __unicode__(self):
-        return unicode('%s - %s' % (self.material_number))
+        return unicode('%s' % (self.material_number))
 
     @staticmethod
     def filter_from_flight(object_list, flight):
