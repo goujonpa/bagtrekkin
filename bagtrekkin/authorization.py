@@ -1,8 +1,6 @@
 from tastypie.authorization import Authorization
 from tastypie.exceptions import Unauthorized
 
-from bagtrekkin.models import Luggage
-
 
 class EmployeeObjectsOnlyAuthorization(Authorization):
     def read_list(self, object_list, bundle):
@@ -42,27 +40,3 @@ class EmployeeObjectsOnlyAuthorization(Authorization):
         raise Unauthorized("Sorry, no deletes.")
 
 
-class LuggageObjectsOnlyAuthorization(Authorization):
-    def read_list(self, object_list, bundle):
-        # This assumes a ``QuerySet`` from ``ModelResource``.
-        return Luggage.filter_from_flight(
-            object_list, bundle.request.user.employee.current_flight
-        )
-
-    def update_list(self, object_list, bundle):
-        allowed = []
-
-        # Since they may not all be saved, iterate over them.
-        for obj in object_list:
-            if obj.user == bundle.request.user:
-                allowed.append(obj)
-
-        return allowed
-
-    def delete_list(self, object_list, bundle):
-        # Sorry user, no deletes for you!
-        raise Unauthorized("Sorry, no deletes.")
-
-    def delete_detail(self, object_list, bundle):
-        # Sorry user, no deletes for you!
-        raise Unauthorized("Sorry, no deletes.")

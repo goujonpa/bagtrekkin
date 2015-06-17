@@ -134,13 +134,13 @@ class Luggage(models.Model):
         return unicode('%s' % (self.material_number))
 
     @staticmethod
-    def filter_from_flight(object_list, flight):
-        '''Filter a luggage list given a flight'''
-        return object_list.filter(
-            passenger__in=Eticket.objects.filter(
+    def filters_from_flight(flight):
+        '''Return a filters dict given a flight'''
+        return {
+            'passenger__in': Eticket.objects.filter(
                 flights=flight
             ).values_list('passenger__pk', flat=True)
-        )
+        }
 
 
 class Log(models.Model):

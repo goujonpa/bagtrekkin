@@ -7,7 +7,7 @@ from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
 
-from bagtrekkin.authorization import EmployeeObjectsOnlyAuthorization, LuggageObjectsOnlyAuthorization
+from bagtrekkin.authorization import EmployeeObjectsOnlyAuthorization
 from bagtrekkin.models import Company, Passenger, Flight, Employee, Eticket, Luggage, Log
 from bagtrekkin.models import build_from_pnr_lastname_material_number
 
@@ -86,7 +86,7 @@ class EmployeeResource(ModelResource):
     def update_in_place(self, request, original_bundle, new_data):
         if set(new_data.keys()) - set(self._meta.allowed_update_fields):
             raise BadRequest(
-                'Only update on %s allowed' % ', '.join(
+                'Only update on %s allowed.' % ', '.join(
                     self._meta.allowed_update_fields
                 )
             )
@@ -116,20 +116,60 @@ class LuggageResource(ModelResource):
 
     class Meta:
         queryset = Luggage.objects.all()
-        allowed_methods = ['get', 'post']
+        allowed_methods = ['get', 'post', 'patch', 'put', 'delete']
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
-        authorization = LuggageObjectsOnlyAuthorization()
+        authorization = Authorization()
+        filtering = {
+            'passenger': ALL
+        }
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(LuggageResource, self).obj_create(bundle, **kwargs)
         # if the bundle has correctly been saved we add a log
         if bundle.obj.pk:
-            Log(
-                employee=bundle.request.user.employee,
-                luggage=bundle.obj
-            ).save()
+            try:
+                if bundle.request.user.employee.current_flight:
+                    Log(
+                        employee=bundle.request.user.employee,
+                        luggage=bundle.obj,
+                        flight=bundle.request.user.employee.current_flight
+                    ).save()
+                else:
+                    raise BadRequest(
+                        'Missing current_flight for current Employee. '
+                        'Please set your current_flight first.'
+                    )
+            except Employee.DoesNotExist:
+                raise BadRequest(
+                    'Missing Employee Object for current User. '
+                    'Please add your profile on web application.'
+                )
+        else:
+            raise BadRequest('Luggage can\'t be saved... Please try again.')
         return bundle
 
+    def apply_filters(self, request, applicable_filters):
+        try:
+            if request.user.employee.current_flight:
+                filters = Luggage.filters_from_flight(
+                    request.user.employee.current_flight
+                )
+                return super(LuggageResource, self).apply_filters(
+                    request, applicable_filters
+                ).filter(**filters)
+            else:
+                raise BadRequest(
+                    'Missing current_flight for current Employee. '
+                    'Please set your current_flight first.'
+                )
+        except Employee.DoesNotExist:
+            raise BadRequest(
+                'Missing Employee Object for current User. '
+                'Please add your profile on web application.'
+            )
+
+    def post_list(self, request, **kwargs):
+        return BadRequest('Not yet fully implemented.')
 
 class LogResource(ModelResource):
     luggage = fields.ForeignKey(LuggageResource, 'luggage', full=True)
@@ -180,12 +220,14 @@ class CheckinResource(Resource):
                     )
                 except Employee.DoesNotExist:
                     return http.HttpApplicationError(
-                        'Missing Employee Object for current User.\n'
-                        'Please add your profile on web application'
+                        'Missing Employee Object for current User.'
+                        'Please add your profile on web application.'
                     )
             return http.HttpCreated()
         else:
-            raise BadRequest('Missing pnr and/or last_name and/or material_number')
+            return http.HttpApplicationError(
+                'Missing pnr and/or last_name and/or material_number.'
+            )
 
     def detail_uri_kwargs(self, bundle_or_obj):
         kwargs = {}

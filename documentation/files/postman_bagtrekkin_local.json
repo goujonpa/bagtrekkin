@@ -20,6 +20,7 @@
 		"f1b9a286-bc14-754e-ef42-faa1f90042f3",
 		"7aeb2565-d137-f9eb-de88-1331e247a9c9",
 		"289ed69a-5d58-66da-e75a-20f7f3c87901",
+		"ec4acd80-8e01-82f7-f733-4df1a7907551",
 		"877f13dc-d5cf-7e68-fb82-c0a256cd8f15",
 		"50e7149f-6c94-2544-b917-dc2215876692",
 		"04a80c68-c5f8-e3f9-4174-169023e23d51"
@@ -483,6 +484,26 @@
 			"collectionId": "b40b6ae3-3112-1f24-46f8-572189b47b50",
 			"collectionOwner": 0,
 			"synced": false
+		},
+		{
+			"id": "ec4acd80-8e01-82f7-f733-4df1a7907551",
+			"headers": "Content-Type: application/json\nAuthorization: ApiKey hugo:8597a48c9da72a4cc04a9361edee43bfce293d8b\n",
+			"url": "http://localhost:8000/api/v1/luggage/",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1434580507642,
+			"name": "Luggage Post List",
+			"description": "",
+			"collectionId": "b40b6ae3-3112-1f24-46f8-572189b47b50",
+			"synced": false,
+			"rawModeData": "{\n  \"positive_objects\": [\n    {\n      \"id\": 41,\n      \"material_number\": \"E200 6296 9619 0229 0370 EC2B\",\n      \"passenger\": \"/api/v1/passenger/35/\",\n      \"resource_uri\": \"/api/v1/luggage/41/\"\n    }\n  ],\n  \"false_positive_objects\": [\n    {\n      \"id\": 41,\n      \"material_number\": \"E200 6296 9619 0229 0370 EC2B\",\n      \"passenger\": \"/api/v1/passenger/35/\",\n      \"resource_uri\": \"/api/v1/luggage/41/\"\n    }\n  ],\n  \"false_negative_objects\": [\n    {\n      \"material_number\": \"E200 6296 9619 0229 0370 EC2B\",\n    }\n  ]\n}"
 		},
 		{
 			"id": "f1b9a286-bc14-754e-ef42-faa1f90042f3",
