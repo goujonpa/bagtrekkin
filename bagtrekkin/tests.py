@@ -76,6 +76,6 @@ class LogTestCase(TestCase):
     def test_log_unicode(self):
         """Log should be printed as expected"""
         log = Log.objects.first()
-        self.assertEqual(unicode(log), '%s - %s - %s' % (
-            log.localisation, log.luggage, log.datetime.strftime('%d, %b %Y @ %H:%m')
+        self.assertEqual(unicode(log), '%s (%s) - %s - %s' % (
+            self.airport, self.stage, self.luggage, self.datetime.strftime('%d, %b %Y @ %H:%m')
         ))
