@@ -44,7 +44,7 @@ class FlightTestCase(TestCase):
 
 
 class EmployeeTestCase(TestCase):
-    fixtures = ['companies', 'users', 'passengers']
+    fixtures = ['airports', 'companies', 'users', 'passengers']
 
     def test_employee_unicode(self):
         """Employee should be printed as expected"""
@@ -71,11 +71,11 @@ class LuggageTestCase(TestCase):
 
 
 class LogTestCase(TestCase):
-    fixtures = ['companies', 'passengers', 'flights', 'users', 'employees', 'luggages', 'logs']
+    fixtures = ['airports', 'companies', 'passengers', 'flights', 'users', 'employees', 'luggages', 'logs']
 
     def test_log_unicode(self):
         """Log should be printed as expected"""
         log = Log.objects.first()
         self.assertEqual(unicode(log), '%s (%s) - %s - %s' % (
-            self.airport, self.stage, self.luggage, self.datetime.strftime('%d, %b %Y @ %H:%m')
+            log.airport, log.stage, log.luggage, log.datetime.strftime('%d, %b %Y @ %H:%m')
         ))
