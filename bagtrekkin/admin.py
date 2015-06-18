@@ -3,13 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from tastypie.admin import ApiKeyInline
 
-from bagtrekkin.models import Company
-from bagtrekkin.models import Employee
-from bagtrekkin.models import Passenger
-from bagtrekkin.models import Eticket
-from bagtrekkin.models import Luggage
-from bagtrekkin.models import Log
-from bagtrekkin.models import Flight
+from bagtrekkin.models import Airport, Company, Employee, Passenger, Eticket, Luggage, Log, Flight
 
 
 # Define an inline admin descriptor for Employee model
@@ -30,6 +24,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 # Basic registers
+admin.site.register(Airport)
 admin.site.register(Company)
 admin.site.register(Passenger)
 admin.site.register(Eticket)
