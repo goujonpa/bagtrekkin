@@ -127,7 +127,7 @@ class LuggageResource(ModelResource):
     def obj_create(self, bundle, **kwargs):
         bundle = super(LuggageResource, self).obj_create(bundle, **kwargs)
         Log.create(
-            user.request.user,
+            user=bundle.request.user,
             luggage=bundle.obj,
         )
         return bundle
@@ -156,24 +156,27 @@ class LuggageResource(ModelResource):
         deserialized = self.deserialize(request, request.body,
                                         format=request.META.get('CONTENT_TYPE', 'application/json'))
         deserialized = self.alter_deserialized_detail_data(request, deserialized)
-        data=dict_strip_unicode_keys(deserialized)
-
-        keys = ['good_objects', 'bad_objects']
-
+        data = dict_strip_unicode_keys(deserialized)
+        keys = ['tp_objects', 'fn_objects']
         if not any([x in data for x in keys]):
             raise BadRequest('Missing at least one of good_objects or bad_objects list.')
-
         base_bundle = self.build_bundle(request=request)
         supposed_objects = self.obj_get_list(bundle=base_bundle, **self.remove_api_resource_names(kwargs))
-
         for key in keys:
             numbers = [obj['material_number'] for obj in data.get(key)]
             if numbers:
                 filters = {'material_number__in': numbers}
                 objects = self.get_object_list(request).filter(**filters)
-
+                status = key.split('_')[0]
+                for obj in objects:
+                    Log.create(
+                        user=request.user,
+                        luggage=obj,
+                        status=status
+                    )
         import ipdb
         ipdb.set_trace()
+        return http.HttpCreated()
 
 
 class LogResource(ModelResource):

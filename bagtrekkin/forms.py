@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.forms.utils import ErrorList
 
-from bagtrekkin.models import GENDER_CHOICES, FUNCTION_CHOICES
+from bagtrekkin.models import EMPLOYEE_GENDERS, EMPLOYEE_FUNCTIONS
 from bagtrekkin.models import Employee, Company, Passenger, Luggage, Log
 
 
@@ -64,8 +64,8 @@ class EmployeeForm(UserChangeForm):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
-    gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
-    function = forms.ChoiceField(choices=FUNCTION_CHOICES, required=True)
+    gender = forms.ChoiceField(choices=EMPLOYEE_GENDERS, required=True)
+    function = forms.ChoiceField(choices=EMPLOYEE_FUNCTIONS, required=True)
     district = forms.CharField(max_length=64, required=True)
     company = forms.ModelChoiceField(queryset=Company.objects.all(), empty_label="(Choose a Company)")
     old_password = forms.CharField(label="Old password", widget=forms.PasswordInput)

@@ -10,19 +10,27 @@ from tastypie.exceptions import BadRequest
 from tastypie.models import create_api_key
 
 
-GENDER_CHOICES = (
+EMPLOYEE_GENDERS = (
     ('f', 'F'),
     ('m', 'M'),
 )
-FUNCTION_CHOICES = (
+EMPLOYEE_FUNCTIONS = (
     ('checkin', 'Check-In'),
     ('ramp', 'Ramp'),
     ('lostfounds', 'Lost and Founds'),
 )
-STATUS_CHOICES = (
+EMPLOYEE_STATUS = (
     ('pending', 'Pending'),
     ('active', 'Active'),
     ('blocked', 'Blocked'),
+)
+LOG_STATUS = (
+    # Should be there, but not in reality
+    ('fp', 'False Positive'),
+    # Should not be there, but is in reality
+    ('fn', 'False Negative'),
+    # Should be there, and is in reality
+    ('tp', 'True Positive')
 )
 
 
@@ -51,7 +59,7 @@ class Passenger(models.Model):
     email = models.CharField(max_length=254, unique=True)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    gender = models.CharField(max_length=1, choices=EMPLOYEE_GENDERS, blank=True, null=True)
     pnr = models.CharField(max_length=6, unique=True)
     tel = models.CharField(max_length=20)
 
@@ -115,10 +123,10 @@ class Flight(models.Model):
 
 
 class Employee(models.Model):
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    gender = models.CharField(max_length=1, choices=EMPLOYEE_GENDERS, blank=True, null=True)
     district = models.CharField(max_length=63, blank=True, null=True)
-    status = models.CharField(max_length=31, choices=STATUS_CHOICES, blank=True, null=True)
-    function = models.CharField(max_length=31, choices=FUNCTION_CHOICES, blank=True, null=True)
+    status = models.CharField(max_length=31, choices=EMPLOYEE_STATUS, blank=True, null=True)
+    function = models.CharField(max_length=31, choices=EMPLOYEE_FUNCTIONS, blank=True, null=True)
     airport = models.ForeignKey(Airport, blank=True, null=True)
     company = models.ForeignKey(Company, blank=True, null=True)
     current_flight = models.ForeignKey(Flight, blank=True, null=True, on_delete=models.SET_NULL)
@@ -160,6 +168,7 @@ class Log(models.Model):
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
+    status = models.CharField(max_length=31, choices=LOG_STATUS)
 
     def __unicode__(self):
         return unicode('%s (%s) - %s - %s' % (
@@ -187,7 +196,7 @@ class Log(models.Model):
         self.luggae.passenger.pnr
 
     @staticmethod
-    def create(user, luggage, flight=None):
+    def create(user, luggage, flight=None, status=LOG_STATUS[2][0]):
         '''Create a new Log based on user, using luggage and flight if any'''
         if not luggage.pk:
             raise BadRequest('Luggage can\'t be saved... Please try again.')
@@ -208,8 +217,8 @@ class Log(models.Model):
                 )
         datetime = timezone.now()
         Log(
-            datetime=datetime, localisation=localisation,
-            employee=employee, luggage=luggage, flight=flight
+            datetime=datetime, employee=employee,
+            luggage=luggage, flight=flight, status=status
         ).save()
 
 
@@ -234,9 +243,9 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
             if result.get('status') and result.get('status') == 'success':
                 full_name = result['passenger']['fullname']
                 if 'mr' in full_name or 'Mr' in full_name:
-                    gender = GENDER_CHOICES[1][0]
+                    gender = EMPLOYEE_GENDERS[1][0]
                 else:
-                    gender = GENDER_CHOICES[0][0]
+                    gender = EMPLOYEE_GENDERS[0][0]
                 first_name = ' '.join(full_name.split(' ')[:-1])
                 last_name = full_name.split(' ')[-1]
                 passenger = Passenger(
