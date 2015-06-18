@@ -6,6 +6,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
+from tastypie.utils import dict_strip_unicode_keys
 
 from bagtrekkin.authorization import EmployeeObjectsOnlyAuthorization
 from bagtrekkin.models import Company, Passenger, Flight, Employee, Eticket, Luggage, Log
@@ -60,7 +61,7 @@ class EmployeeResource(ModelResource):
 
     class Meta:
         queryset = Employee.objects.all()
-        allowed_methods = ['get', 'post', 'patch']
+        allowed_methods = ['get', 'post']
         authorization = EmployeeObjectsOnlyAuthorization()
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
         allowed_update_fields = ['current_flight']
@@ -125,27 +126,10 @@ class LuggageResource(ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(LuggageResource, self).obj_create(bundle, **kwargs)
-        # if the bundle has correctly been saved we add a log
-        if bundle.obj.pk:
-            try:
-                if bundle.request.user.employee.current_flight:
-                    Log(
-                        employee=bundle.request.user.employee,
-                        luggage=bundle.obj,
-                        flight=bundle.request.user.employee.current_flight
-                    ).save()
-                else:
-                    raise BadRequest(
-                        'Missing current_flight for current Employee. '
-                        'Please set your current_flight first.'
-                    )
-            except Employee.DoesNotExist:
-                raise BadRequest(
-                    'Missing Employee Object for current User. '
-                    'Please add your profile on web application.'
-                )
-        else:
-            raise BadRequest('Luggage can\'t be saved... Please try again.')
+        Log.create(
+            user.request.user,
+            luggage=bundle.obj,
+        )
         return bundle
 
     def apply_filters(self, request, applicable_filters):
@@ -165,11 +149,32 @@ class LuggageResource(ModelResource):
         except Employee.DoesNotExist:
             raise BadRequest(
                 'Missing Employee Object for current User. '
-                'Please add your profile on web application.'
+                'Please create your profile on web the application.'
             )
 
     def post_list(self, request, **kwargs):
-        return BadRequest('Not yet fully implemented.')
+        deserialized = self.deserialize(request, request.body,
+                                        format=request.META.get('CONTENT_TYPE', 'application/json'))
+        deserialized = self.alter_deserialized_detail_data(request, deserialized)
+        data=dict_strip_unicode_keys(deserialized)
+
+        keys = ['good_objects', 'bad_objects']
+
+        if not any([x in data for x in keys]):
+            raise BadRequest('Missing at least one of good_objects or bad_objects list.')
+
+        base_bundle = self.build_bundle(request=request)
+        supposed_objects = self.obj_get_list(bundle=base_bundle, **self.remove_api_resource_names(kwargs))
+
+        for key in keys:
+            numbers = [obj['material_number'] for obj in data.get(key)]
+            if numbers:
+                filters = {'material_number__in': numbers}
+                objects = self.get_object_list(request).filter(**filters)
+
+        import ipdb
+        ipdb.set_trace()
+
 
 class LogResource(ModelResource):
     luggage = fields.ForeignKey(LuggageResource, 'luggage', full=True)
@@ -203,26 +208,17 @@ class CheckinResource(Resource):
             )
             # if the luggage has correctly been saved, we can add a log
             # we take the flight from passenger eticket's first flight
-            if luggage.pk:
-                try:
-                    Log(
-                        employee=request.user.employee,
-                        luggage=luggage,
-                        flight=[
-                            flight
-                            for e in etickets
-                            for flight in e.flights.order_by('flight_date', 'departure_time')
-                        ][0]
-                    ).save()
-                except IndexError:
-                    return http.HttpApplicationError(
-                        'Application didn\'t find any flight for etickets.'
-                    )
-                except Employee.DoesNotExist:
-                    return http.HttpApplicationError(
-                        'Missing Employee Object for current User.'
-                        'Please add your profile on web application.'
-                    )
+            try:
+                flight = [
+                    flight
+                    for e in etickets
+                    for flight in e.flights.order_by('flight_date', 'departure_time')
+                ][0]
+            except IndexError:
+                return http.HttpApplicationError(
+                    'Application didn\'t find any flight for etickets.'
+                )
+            Log.create(user=request.user, luggage=luggage, flight=flight)
             return http.HttpCreated()
         else:
             return http.HttpApplicationError(

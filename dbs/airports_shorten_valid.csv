@@ -1,317 +1,1 @@
-"Mvengue","Franceville","Gabon","MVB"
-"Calais Dunkerque","Calais","France","CQF"
-"Le Touquet Paris Plage","Le Tourquet","France","LTQ"
-"La Garenne","Agen","France","AGF"
-"Merignac","Bordeaux","France","BOD"
-"Roumaniere","Bergerac","France","EGC"
-"Chateaubernard","Cognac","France","CNG"
-"Biard","Poitiers","France","PIS"
-"Bellegarde","Limoges","France","LIG"
-"Souche","Niort","France","NIT"
-"Blagnac","Toulouse","France","TLS"
-"Pau Pyrenees","Pau","France","PUF"
-"Lourdes","Tarbes","France","LDE"
-"Brie Champniers","Angouleme","France","ANG"
-"La Roche","Brive","France","BVE"
-"Bassillac","Perigueux","France","PGX"
-"Anglet","Biarritz-bayonne","France","BIQ"
-"La Teste De Buch","Arcachon","France","XAC"
-"Le Sequestre","Albi","France","LBI"
-"Mazamet","Castres","France","DCM"
-"Marcillac","Rodez","France","RDZ"
-"Medis","Royan","France","RYN"
-"St Agnant","Rochefort","France","RCO"
-"Houssen","Colmar","France","CMR"
-"Tavaux","Dole","France","DLE"
-"Ardeche Meridionale","Aubenas-vals-lanas","France","OBS"
-"Loudes","Le Puy","France","LPY"
-"Ceyzeriat","Bourg","France","XBK"
-"Tarare","Vilefrance","France","XVF"
-"Montbeugny","Moulins","France","XMU"
-"Metz Nancy Lorraine","Metz","France","ETZ"
-"Poretta","Bastia","France","BIA"
-"Saint Catherine","Calvi","France","CLY"
-"Sud Corse","Figari","France","FSC"
-"Campo Dell Oro","Ajaccio","France","AJA"
-"Solenzara","Solenzara","France","SOZ"
-"Branches","Auxerre","France","AUF"
-"Aix Les Bains","Chambery","France","CMF"
-"Auvergne","Clermont-Ferrand","France","CFE"
-"Bourges","Bourges","France","BOU"
-"Champforgeuil","Chalon","France","XCD"
-"Annemasse","Annemasse","France","QNJ"
-"Saint Exupery","Lyon","France","LYS"
-"Charnay","Macon","France","QNX"
-"Renaison","Roanne","France","RNE"
-"Meythet","Annecy","France","NCY"
-"Saint Geoirs","Grenoble","France","GNB"
-"Domerat","Montlucon","France","MCU"
-"Chabeuil","Valence","France","VAF"
-"Charmeil","Vichy","France","VHY"
-"Aurillac","Aurillac","France","AUR"
-"Deols","Chateauroux","France","CHR"
-"Bron","Lyon","France","LYN"
-"Aix Les Milles","Aix-les-milles","France","QXB"
-"Mandelieu","Cannes","France","CEQ"
-"Boutheon","St-Etienne","France","EBU"
-"Salvaza","Carcassonne","France","CCF"
-"Provence","Marseille","France","MRS"
-"Cote D\\'Azur","Nice","France","NCE"
-"Rivesaltes","Perpignan","France","PGF"
-"Le Castellet","Le Castellet","France","CTT"
-"Mediterranee","Montpellier","France","MPL"
-"Vias","Beziers","France","BZR"
-"Caumont","Avignon","France","AVN"
-"Brenoux","Mende","France","MEN"
-"Tille","Beauvais","France","BVA"
-"Octeville","Le Havre","France","LEH"
-"Bricy","Orleans","France","ORE"
-"Vatry","Chalons","France","XCR"
-"Vallee De Seine","Rouen","France","URO"
-"Val De Loire","Tours","France","TUF"
-"Le Pontreau","Cholet","France","CET"
-"Entrammes","Laval","France","LVA"
-"Le Bourget","Paris","France","LBG"
-"Creil","Creil","France","CSF"
-"Charles De Gaulle","Paris","France","CDG"
-"Toussus Le Noble","Toussous-le-noble","France","TNF"
-"Orly","Paris","France","ORY"
-"Cormeilles En Vexin","Pontoise","France","POX"
-"Barberey","Troyes","France","QYR"
-"Fourchambault","Nevers","France","NVS"
-"Lesquin","Lille","France","LIL"
-"Guipavas","Brest","France","BES"
-"Maupertus","Cherbourg","France","CER"
-"Pleurtuit","Dinard","France","DNR"
-"Granville","Granville","France","GFR"
-"St Gatien","Deauville","France","DOL"
-"Lann Bihoue","Lorient","France","LRT"
-"Les Ajoncs","La Roche-sur-yon","France","EDM"
-"Carpiquet","Caen","France","CFR"
-"Arnage","Le Mans","France","LME"
-"St Jacques","Rennes","France","RNS"
-"Lannion","Lannion","France","LAI"
-"Pluguffan","Quimper","France","UIP"
-"Nantes Atlantique","Nantes","France","NTE"
-"Armor","St.-brieuc Armor","France","SBK"
-"Ploujean","Morlaix","France","MXN"
-"Meucon","Vannes","France","VNE"
-"Montoir","St.-nazaire","France","SNR"
-"Bale Mulhouse","Mulhouse","France","MLH"
-"Longvic","Dijon","France","DIJ"
-"Frescaty","Metz","France","MZM"
-"Mirecourt","Epinal","France","EPL"
-"Essey","Nancy","France","ENC"
-"Champagne","Reims","France","RHE"
-"Entzheim","Strasbourg","France","SXB"
-"Le Palyvestre","Hyeres","France","TLN"
-"Garons","Nimes","France","FNI"
-"Santa Maria","Santa Maria (island)","Portugal","SMA"
-"Braganca","Braganca","Portugal","BGC"
-"Flores","Flores","Portugal","FLW"
-"Faro","Faro","Portugal","FAO"
-"Graciosa","Graciosa Island","Portugal","GRW"
-"Horta","Horta","Portugal","HOR"
-"Lajes","Lajes (terceira Island)","Portugal","TER"
-"Ponta Delgada","Ponta Delgada","Portugal","PDL"
-"Pico","Pico","Portugal","PIX"
-"Porto","Porto","Portugal","OPO"
-"Porto Santo","Porto Santo","Portugal","PXO"
-"Lisboa","Lisbon","Portugal","LIS"
-"Sao Jorge","Sao Jorge Island","Portugal","SJZ"
-"Vila Real","Vila Real","Portugal","VRL"
-"Lyon Part-Dieu Railway","Lyon","France","XYD"
-"Conceicao Do Araguaia","Conceicao Do Araguaia","Brazil","CDJ"
-"Araraquara","Araracuara","Brazil","AQA"
-"Santa Maria","Aracaju","Brazil","AJU"
-"Alta Floresta","Alta Floresta","Brazil","AFL"
-"Aracatuba","Aracatuba","Brazil","ARU"
-"Val De Cans Intl","Belem","Brazil","BEL"
-"Comandante Gustavo Kraemer","Bage","Brazil","BGX"
-"Pampulha Carlos Drummond De Andrade","Belo Horizonte","Brazil","PLU"
-"Bacacheri","Curitiba","Brazil","BFH"
-"Presidente Juscelino Kubitschek","Brasilia","Brazil","BSB"
-"Bauru","Bauru","Brazil","BAU"
-"Boa Vista","Boa Vista","Brazil","BVB"
-"Cascavel","Cascavel","Brazil","CAC"
-"Tancredo Neves Intl","Belo Horizonte","Brazil","CNF"
-"Campo Grande","Campo Grande","Brazil","CGR"
-"Chapeco","Chapeco","Brazil","XAP"
-"Carolina","Carolina","Brazil","CLN"
-"Forquilhinha","Criciuma","Brazil","CCM"
-"Bartolomeu Lisandro","Campos","Brazil","CAW"
-"Corumba Intl","Corumba","Brazil","CMG"
-"Afonso Pena","Curitiba","Brazil","CWB"
-"Caravelas","Caravelas","Brazil","CRQ"
-"Campo Dos Bugres","Caxias Do Sul","Brazil","CXJ"
-"Marechal Rondon","Cuiaba","Brazil","CGB"
-"Cruzeiro do Sul","Cruzeiro do Sul","Brazil","CZS"
-"Presidente Prudente","President Prudente","Brazil","PPB"
-"Eduardo Gomes Intl","Manaus","Brazil","MAO"
-"Cataratas Intl","Foz Do Iguacu","Brazil","IGU"
-"Hercilio Luz","Florianopolis","Brazil","FLN"
-"Fernando De Noronha","Fernando Do Noronha","Brazil","FEN"
-"Pinto Martins Intl","Fortaleza","Brazil","FOR"
-"Galeao Antonio Carlos Jobim","Rio De Janeiro","Brazil","GIG"
-"Santa Genoveva","Goiania","Brazil","GYN"
-"Guarulhos Gov Andre Franco Montouro","Sao Paulo","Brazil","GRU"
-"Altamira","Altamira","Brazil","ATM"
-"Ilheus","Ilheus","Brazil","IOS"
-"Usiminas","Ipatinga","Brazil","IPN"
-"Prefeito Renato Moreira","Imperatriz","Brazil","IMP"
-"Francisco De Assis","Juiz De Fora","Brazil","JDF"
-"Presidente Castro Pinto","Joao Pessoa","Brazil","JPA"
-"Lauro Carneiro De Loyola","Joinville","Brazil","JOI"
-"Presidente Joao Suassuna","Campina Grande","Brazil","CPV"
-"Viracopos","Campinas","Brazil","VCP"
-"Lins","Lins","Brazil","LIP"
-"Londrina","Londrina","Brazil","LDB"
-"Bom Jesus Da Lapa","Bom Jesus Da Lapa","Brazil","LAZ"
-"Maraba","Maraba","Brazil","MAB"
-"Regional De Maringa Silvio Name Junior","Maringa","Brazil","MGF"
-"Mario Ribeiro","Montes Claros","Brazil","MOC"
-"Zumbi Dos Palmares","Maceio","Brazil","MCZ"
-"Macapa","Macapa","Brazil","MCP"
-"Manicore","Manicore","Brazil","MNX"
-"Ministro Victor Konder Intl","Navegantes","Brazil","NVT"
-"Santo Angelo","Santo Angelo","Brazil","GEL"
-"Augusto Severo","Natal","Brazil","NAT"
-"Salgado Filho","Porto Alegre","Brazil","POA"
-"Pocos De Caldas","Pocos De Caldas","Brazil","POO"
-"Lauro Kurtz","Passo Fundo","Brazil","PFB"
-"Pelotas","Pelotas","Brazil","PET"
-"Senador Nilo Coelho","Petrolina","Brazil","PNZ"
-"Porto Nacional","Porto Nacional","Brazil","PNB"
-"Ponta Pora","Ponta Pora","Brazil","PMG"
-"Governador Jorge Teixeira De Oliveira","Porto Velho","Brazil","PVH"
-"Pl√É¬°cido de Castro","Rio Branco","Brazil","RBR"
-"Guararapes Gilberto Freyre Intl","Recife","Brazil","REC"
-"Rio Grande","Rio Grande","Brazil","RIG"
-"Santos Dumont","Rio De Janeiro","Brazil","SDU"
-"Leite Lopes","Ribeirao Preto","Brazil","RAO"
-"Santa Cruz","Rio De Janeiro","Brazil","STU"
-"Professor Urbano Ernesto Stumpf","Sao Jose Dos Campos","Brazil","SJK"
-"Marechal Cunha Machado Intl","Sao Luis","Brazil","SLZ"
-"Congonhas","Sao Paulo","Brazil","CGH"
-"Sao Jose Do Rio Preto","Sao Jose Do Rio Preto","Brazil","SJP"
-"Base Aerea De Santos","Santos","Brazil","SSZ"
-"Deputado Luis Eduardo Magalhaes","Salvador","Brazil","SSA"
-"Trombetas","Oriximina","Brazil","TMT"
-"Senador Petronio Portella","Teresina","Brazil","THE"
-"Tefe","Tefe","Brazil","TFF"
-"Tabatinga","Tabatinga","Brazil","TBT"
-"Tucurui","Tucurui","Brazil","TUR"
-"Paulo Afonso","Paulo Alfonso","Brazil","PAV"
-"Rubem Berta","Uruguaiana","Brazil","URG"
-"Ten Cel Av Cesar Bombonato","Uberlandia","Brazil","UDI"
-"Uberaba","Uberaba","Brazil","UBA"
-"Major Brigadeiro Trompowsky","Varginha","Brazil","VAG"
-"Vilhena","Vilhena","Brazil","BVH"
-"Goiabeiras","Vitoria","Brazil","VIX"
-"Campo Fontenelle","Piracununga","Brazil","QPS"
-"Madeira","Funchal","Portugal","FNC"
-"Santarem","Santarem","Brazil","STM"
-"Aeroporto de Porto Seguro","Porto Seguro","Brazil","BPS"
-"Palmas","Palmas","Brazil","PMW"
-"Caldas Novas","Caldas Novas","Brazil","CLV"
-"Ji-Paran√° Airport","Ji-Paran√°","Brazil","JPR"
-"Mucuri Airport","Mucuri","Brazil","MVS"
-"Toledo Airport","Toledo","Brazil","TOW"
-"Santa Maria Airport","Santa Maria","Brazil","RIA"
-"Chapada Diamantina Airport","Len√ß√≥is","Brazil","LEC"
-"Orlando Bezerra de Menezes Airport","Juazeiro Do Norte","Brazil","JDO"
-"Corvo Airport","Corvo","Portugal","CVU"
-"La M√¥le Airport","La M√¥le","France","LTT"
-"EuroAirport","Mulhouse","France","EAP"
-"Angers-Loire Airport","Angers/Marc√©","France","ANE"
-"√éle d'Yeu Airport","√éle d'Yeu","France","IDY"
-"Croisette Heliport","Cannes","France","JCA"
-"Fort Frances Municipal Airport","Fort Frances","Canada","YAG"
-"Santa Rosa Airport","Santa Rosa","Brazil","SRA"
-"Sorocaba Airport","Sorocaba","Brazil","SOD"
-"Vit√≥ria da Conquista Airport","Vit√≥ria Da Conquista","Brazil","VDC"
-"Mar√≠lia Airport","Mar√≠lia","Brazil","MII"
-"Maca√© Airport","Maca√©","Brazil","MEA"
-"Saint Barthelemy","Gustavia","France","SBH"
-"Erechim Airport","Erechim","Brazil","ERM"
-"Courchevel Airport","Courcheval","France","CVF"
-"La Defense Heliport","Paris","France","JPU"
-"La Rochelle-Ile de Re","La Rochelle","France","LRH"
-"Aeroporto Prefeito Octavio de Almeida Neves","Sao Joao del Rei","Brazil","JDR"
-"Governador Valadares Airport","Governador Valadares","Brazil","GVR"
-"Amarais Airport","Campinas","Brazil","CPQ"
-"Cabo Frio International Airport","Cabo Frio","Brazil","CFB"
-"Sinop Airport","Sinop","Brazil","OPS"
-"Gurupi Airport","Gurupi","Brazil","GRP"
-"Campo Alegre Airport","Santana do Araguaia","Brazil","CMP"
-"Breves Airport","Breves","Brazil","BVS"
-"Soure Airport","Soure","Brazil","SFK"
-"Julio Belem Airport","Parintins","Brazil","PIN"
-"Barreiras Airport","Barreiras","Brazil","BRA"
-"Confresa Airport","Santa Terezinha","Brazil","STZ"
-"Minacu Airport","Minacu","Brazil","MQH"
-"Araguaina Airport","Araguaina","Brazil","AUX"
-"Novo Aripuana Airport","Novo Aripuana","Brazil","NVP"
-"Bom Futuro Airport","Lucas do Rio Verde","Brazil","LVR"
-"Franca Airport","Franca","Brazil","FRC"
-"Dourados Airport","Dourados","Brazil","DOU"
-"Labrea Airport","Labrea","Brazil","LBR"
-"Rondonopolis Airport","Rondonopolis","Brazil","ROO"
-"Tancredo Thomaz de Faria Airport","Guarapuava","Brazil","GPB"
-"Joacaba Airport","Joacaba","Brazil","JCB"
-"General leite de Castro Airport","Rio Verde","Brazil","RVD"
-"Araxa Airport","Araxa","Brazil","AAX"
-"Maues Airport","Maues","Brazil","MBZ"
-"Borba Airport","Borba","Brazil","RBB"
-"Coari Airport","Coari","Brazil","CIZ"
-"Barcelos Airport","Barcelos","Brazil","BAZ"
-"Diamantino Airport","Diamantino","Brazil","DMT"
-"Guanambi Airport","Guanambi","Brazil","GNM"
-"Lille","Lille","France","XDB"
-"Ponta Pelada Airport","Manaus","Brazil","PLL"
-"Sao Gabriel da Cachoeira Airport","Sao Gabriel da Cachoeira","Brazil","SJL"
-"Carajas Airport","Parauapebas","Brazil","CKS"
-"Cachimbo","Itaituba","Brazil","ITB"
-"Valenca Airport","Valenca","Brazil","VAL"
-"Dix Sept Rosado Airport","Mossoro","Brazil","MVF"
-"Caruaru Airport","Caruaru","Brazil","CAU"
-"Aeroclube de Nova Iguacu","Nova Iguacu","Brazil","QNV"
-"Gare du Nord","Paris","France","XPG"
-"Gare Montparnasse","Paris","France","XGB"
-"Saint-Pierre-des-Corps","Tours","France","XSH"
-"Frejus Saint Raphael","Frejus","France","FRJ"
-"Megeve Airport","Verdun","France","MVV"
-"Meribel Airport","Ajaccio","France","MFX"
-"Aeroporto Blumenau","BLUMENAU","Brazil","BNU"
-"Zona da Mata Regional Airport","Juiz de Fora","Brazil","IZA"
-"Angers St Laud","Angers","France","QXG"
-"Patos de Minas Airport","Patos de Minas","Brazil","POJ"
-"Bauru-Arealva","Bauru","Brazil","JTC"
-"Ourilandia do Norte Airport","Ourilandia do Norte","Brazil","OIA"
-"Redencao Airport","Redencao","Brazil","RDC"
-"Sao Felix do Xingu Airport","Sao Felix do Xingu","Brazil","SXX"
-"Bonito Airport","Bointo","Brazil","BYO"
-"Sao Felix do Araguaia Airport","Sao Felix do Araguaia","Brazil","SXO"
-"Carlos Alberto da Costa Neves Airport","Cacador","Brazil","CFC"
-"Carauari Airport","Carauari","Brazil","CAF"
-"Amaury Feitosa Tomaz Airport","Eirunepe","Brazil","ERN"
-"Concordia Airport","Concordia","Brazil","CCI"
-"Paulo Abdala Airport","Francisco Beltrao","Brazil","FBE"
-"Confresa Airport","Confresa","Brazil","CFO"
-"Orlando de Carvalho Airport","Umuarama","Brazil","UMU"
-"Diamantina Airport","Diamantina","Brazil","DTI"
-"Fonte Boa Airport","Fonte Boa","Brazil","FBA"
-"Senadora Eunice Micheles Airport","Sao Paulo de Olivenca","Brazil","OLC"
-"Humaita Airport","Humaita","Brazil","HUW"
-"Tapuruquara Airport","Santa Isabel do Rio Negro","Brazil","IRZ"
-"Oriximina Airport","Oriximina","Brazil","ORX"
-"Una-Comandatuba Airport","Una","Brazil","UNA"
-"Gare de Strasbourg","Strasbourg","France","XWG"
-"Gare de Lyon","Paris","France","PLY"
-"Gare de LEst","Paris","France","XHP"
-"All Airports","Paris","France","PAR"
-"Botucatu","Botucatu","Brazil","QCJ"
-"Sao Carlos TAM","Sao Carlos","Brazil","QSC"
-"Aeroporto Estadual Arthur Siqueira","Braganca Paulista","Brazil","BJP"
-"Fontaine Airport","Belfort","France","BOR"
-"Pampulha","Belo Horizonte","Brazil","BHZ"
+name;city;country;codeMvengue;Franceville;Gabon;MVBCalais Dunkerque;Calais;France;CQFLe Touquet Paris Plage;Le Tourquet;France;LTQLa Garenne;Agen;France;AGFMerignac;Bordeaux;France;BODRoumaniere;Bergerac;France;EGCChateaubernard;Cognac;France;CNGBiard;Poitiers;France;PISBellegarde;Limoges;France;LIGSouche;Niort;France;NITBlagnac;Toulouse;France;TLSPau Pyrenees;Pau;France;PUFLourdes;Tarbes;France;LDEBrie Champniers;Angouleme;France;ANGLa Roche;Brive;France;BVEBassillac;Perigueux;France;PGXAnglet;Biarritz-bayonne;France;BIQLa Teste De Buch;Arcachon;France;XACLe Sequestre;Albi;France;LBIMazamet;Castres;France;DCMMarcillac;Rodez;France;RDZMedis;Royan;France;RYNSt Agnant;Rochefort;France;RCOHoussen;Colmar;France;CMRTavaux;Dole;France;DLEArdeche Meridionale;Aubenas-vals-lanas;France;OBSLoudes;Le Puy;France;LPYCeyzeriat;Bourg;France;XBKTarare;Vilefrance;France;XVFMontbeugny;Moulins;France;XMUMetz Nancy Lorraine;Metz;France;ETZPoretta;Bastia;France;BIASaint Catherine;Calvi;France;CLYSud Corse;Figari;France;FSCCampo Dell Oro;Ajaccio;France;AJASolenzara;Solenzara;France;SOZBranches;Auxerre;France;AUFAix Les Bains;Chambery;France;CMFAuvergne;Clermont-Ferrand;France;CFEBourges;Bourges;France;BOUChampforgeuil;Chalon;France;XCDAnnemasse;Annemasse;France;QNJSaint Exupery;Lyon;France;LYSCharnay;Macon;France;QNXRenaison;Roanne;France;RNEMeythet;Annecy;France;NCYSaint Geoirs;Grenoble;France;GNBDomerat;Montlucon;France;MCUChabeuil;Valence;France;VAFCharmeil;Vichy;France;VHYAurillac;Aurillac;France;AURDeols;Chateauroux;France;CHRBron;Lyon;France;LYNAix Les Milles;Aix-les-milles;France;QXBMandelieu;Cannes;France;CEQBoutheon;St-Etienne;France;EBUSalvaza;Carcassonne;France;CCFProvence;Marseille;France;MRSCote D\\'Azur;Nice;France;NCERivesaltes;Perpignan;France;PGFLe Castellet;Le Castellet;France;CTTMediterranee;Montpellier;France;MPLVias;Beziers;France;BZRCaumont;Avignon;France;AVNBrenoux;Mende;France;MENTille;Beauvais;France;BVAOcteville;Le Havre;France;LEHBricy;Orleans;France;OREVatry;Chalons;France;XCRVallee De Seine;Rouen;France;UROVal De Loire;Tours;France;TUFLe Pontreau;Cholet;France;CETEntrammes;Laval;France;LVALe Bourget;Paris;France;LBGCreil;Creil;France;CSFCharles De Gaulle;Paris;France;CDGToussus Le Noble;Toussous-le-noble;France;TNFOrly;Paris;France;ORYCormeilles En Vexin;Pontoise;France;POXBarberey;Troyes;France;QYRFourchambault;Nevers;France;NVSLesquin;Lille;France;LILGuipavas;Brest;France;BESMaupertus;Cherbourg;France;CERPleurtuit;Dinard;France;DNRGranville;Granville;France;GFRSt Gatien;Deauville;France;DOLLann Bihoue;Lorient;France;LRTLes Ajoncs;La Roche-sur-yon;France;EDMCarpiquet;Caen;France;CFRArnage;Le Mans;France;LMESt Jacques;Rennes;France;RNSLannion;Lannion;France;LAIPluguffan;Quimper;France;UIPNantes Atlantique;Nantes;France;NTEArmor;St.-brieuc Armor;France;SBKPloujean;Morlaix;France;MXNMeucon;Vannes;France;VNEMontoir;St.-nazaire;France;SNRBale Mulhouse;Mulhouse;France;MLHLongvic;Dijon;France;DIJFrescaty;Metz;France;MZMMirecourt;Epinal;France;EPLEssey;Nancy;France;ENCChampagne;Reims;France;RHEEntzheim;Strasbourg;France;SXBLe Palyvestre;Hyeres;France;TLNGarons;Nimes;France;FNISanta Maria;Santa Maria (island);Portugal;SMABraganca;Braganca;Portugal;BGCFlores;Flores;Portugal;FLWFaro;Faro;Portugal;FAOGraciosa;Graciosa Island;Portugal;GRWHorta;Horta;Portugal;HORLajes;Lajes (terceira Island);Portugal;TERPonta Delgada;Ponta Delgada;Portugal;PDLPico;Pico;Portugal;PIXPorto;Porto;Portugal;OPOPorto Santo;Porto Santo;Portugal;PXOLisboa;Lisbon;Portugal;LISSao Jorge;Sao Jorge Island;Portugal;SJZVila Real;Vila Real;Portugal;VRLLyon Part-Dieu Railway;Lyon;France;XYDConceicao Do Araguaia;Conceicao Do Araguaia;Brazil;CDJAraraquara;Araracuara;Brazil;AQASanta Maria;Aracaju;Brazil;AJUAlta Floresta;Alta Floresta;Brazil;AFLAracatuba;Aracatuba;Brazil;ARUVal De Cans Intl;Belem;Brazil;BELComandante Gustavo Kraemer;Bage;Brazil;BGXPampulha Carlos Drummond De Andrade;Belo Horizonte;Brazil;PLUBacacheri;Curitiba;Brazil;BFHPresidente Juscelino Kubitschek;Brasilia;Brazil;BSBBauru;Bauru;Brazil;BAUBoa Vista;Boa Vista;Brazil;BVBCascavel;Cascavel;Brazil;CACTancredo Neves Intl;Belo Horizonte;Brazil;CNFCampo Grande;Campo Grande;Brazil;CGRChapeco;Chapeco;Brazil;XAPCarolina;Carolina;Brazil;CLNForquilhinha;Criciuma;Brazil;CCMBartolomeu Lisandro;Campos;Brazil;CAWCorumba Intl;Corumba;Brazil;CMGAfonso Pena;Curitiba;Brazil;CWBCaravelas;Caravelas;Brazil;CRQCampo Dos Bugres;Caxias Do Sul;Brazil;CXJMarechal Rondon;Cuiaba;Brazil;CGBCruzeiro do Sul;Cruzeiro do Sul;Brazil;CZSPresidente Prudente;President Prudente;Brazil;PPBEduardo Gomes Intl;Manaus;Brazil;MAOCataratas Intl;Foz Do Iguacu;Brazil;IGUHercilio Luz;Florianopolis;Brazil;FLNFernando De Noronha;Fernando Do Noronha;Brazil;FENPinto Martins Intl;Fortaleza;Brazil;FORGaleao Antonio Carlos Jobim;Rio De Janeiro;Brazil;GIGSanta Genoveva;Goiania;Brazil;GYNGuarulhos Gov Andre Franco Montouro;Sao Paulo;Brazil;GRUAltamira;Altamira;Brazil;ATMIlheus;Ilheus;Brazil;IOSUsiminas;Ipatinga;Brazil;IPNPrefeito Renato Moreira;Imperatriz;Brazil;IMPFrancisco De Assis;Juiz De Fora;Brazil;JDFPresidente Castro Pinto;Joao Pessoa;Brazil;JPALauro Carneiro De Loyola;Joinville;Brazil;JOIPresidente Joao Suassuna;Campina Grande;Brazil;CPVViracopos;Campinas;Brazil;VCPLins;Lins;Brazil;LIPLondrina;Londrina;Brazil;LDBBom Jesus Da Lapa;Bom Jesus Da Lapa;Brazil;LAZMaraba;Maraba;Brazil;MABRegional De Maringa Silvio Name Junior;Maringa;Brazil;MGFMario Ribeiro;Montes Claros;Brazil;MOCZumbi Dos Palmares;Maceio;Brazil;MCZMacapa;Macapa;Brazil;MCPManicore;Manicore;Brazil;MNXMinistro Victor Konder Intl;Navegantes;Brazil;NVTSanto Angelo;Santo Angelo;Brazil;GELAugusto Severo;Natal;Brazil;NATSalgado Filho;Porto Alegre;Brazil;POAPocos De Caldas;Pocos De Caldas;Brazil;POOLauro Kurtz;Passo Fundo;Brazil;PFBPelotas;Pelotas;Brazil;PETSenador Nilo Coelho;Petrolina;Brazil;PNZPorto Nacional;Porto Nacional;Brazil;PNBPonta Pora;Ponta Pora;Brazil;PMGGovernador Jorge Teixeira De Oliveira;Porto Velho;Brazil;PVHPlÃƒÂ¡cido de Castro;Rio Branco;Brazil;RBRGuararapes Gilberto Freyre Intl;Recife;Brazil;RECRio Grande;Rio Grande;Brazil;RIGSantos Dumont;Rio De Janeiro;Brazil;SDULeite Lopes;Ribeirao Preto;Brazil;RAOSanta Cruz;Rio De Janeiro;Brazil;STUProfessor Urbano Ernesto Stumpf;Sao Jose Dos Campos;Brazil;SJKMarechal Cunha Machado Intl;Sao Luis;Brazil;SLZCongonhas;Sao Paulo;Brazil;CGHSao Jose Do Rio Preto;Sao Jose Do Rio Preto;Brazil;SJPBase Aerea De Santos;Santos;Brazil;SSZDeputado Luis Eduardo Magalhaes;Salvador;Brazil;SSATrombetas;Oriximina;Brazil;TMTSenador Petronio Portella;Teresina;Brazil;THETefe;Tefe;Brazil;TFFTabatinga;Tabatinga;Brazil;TBTTucurui;Tucurui;Brazil;TURPaulo Afonso;Paulo Alfonso;Brazil;PAVRubem Berta;Uruguaiana;Brazil;URGTen Cel Av Cesar Bombonato;Uberlandia;Brazil;UDIUberaba;Uberaba;Brazil;UBAMajor Brigadeiro Trompowsky;Varginha;Brazil;VAGVilhena;Vilhena;Brazil;BVHGoiabeiras;Vitoria;Brazil;VIXCampo Fontenelle;Piracununga;Brazil;QPSMadeira;Funchal;Portugal;FNCSantarem;Santarem;Brazil;STMAeroporto de Porto Seguro;Porto Seguro;Brazil;BPSPalmas;Palmas;Brazil;PMWCaldas Novas;Caldas Novas;Brazil;CLVJi-ParanÃ¡ Airport;Ji-ParanÃ¡;Brazil;JPRMucuri Airport;Mucuri;Brazil;MVSToledo Airport;Toledo;Brazil;TOWSanta Maria Airport;Santa Maria;Brazil;RIAChapada Diamantina Airport;LenÃ§Ã_is;Brazil;LECOrlando Bezerra de Menezes Airport;Juazeiro Do Norte;Brazil;JDOCorvo Airport;Corvo;Portugal;CVULa MÃ´le Airport;La MÃ´le;France;LTTEuroAirport;Mulhouse;France;EAPAngers-Loire Airport;Angers/MarcÃ©;France;ANEÃ_le d'Yeu Airport;Ã_le d'Yeu;France;IDYCroisette Heliport;Cannes;France;JCAFort Frances Municipal Airport;Fort Frances;Canada;YAGSanta Rosa Airport;Santa Rosa;Brazil;SRASorocaba Airport;Sorocaba;Brazil;SODVitÃ_ria da Conquista Airport;VitÃ_ria Da Conquista;Brazil;VDCMarÃ_lia Airport;MarÃ_lia;Brazil;MIIMacaÃ© Airport;MacaÃ©;Brazil;MEASaint Barthelemy;Gustavia;France;SBHErechim Airport;Erechim;Brazil;ERMCourchevel Airport;Courcheval;France;CVFLa Defense Heliport;Paris;France;JPULa Rochelle-Ile de Re;La Rochelle;France;LRHAeroporto Prefeito Octavio de Almeida Neves;Sao Joao del Rei;Brazil;JDRGovernador Valadares Airport;Governador Valadares;Brazil;GVRAmarais Airport;Campinas;Brazil;CPQCabo Frio International Airport;Cabo Frio;Brazil;CFBSinop Airport;Sinop;Brazil;OPSGurupi Airport;Gurupi;Brazil;GRPCampo Alegre Airport;Santana do Araguaia;Brazil;CMPBreves Airport;Breves;Brazil;BVSSoure Airport;Soure;Brazil;SFKJulio Belem Airport;Parintins;Brazil;PINBarreiras Airport;Barreiras;Brazil;BRAConfresa Airport;Santa Terezinha;Brazil;STZMinacu Airport;Minacu;Brazil;MQHAraguaina Airport;Araguaina;Brazil;AUXNovo Aripuana Airport;Novo Aripuana;Brazil;NVPBom Futuro Airport;Lucas do Rio Verde;Brazil;LVRFranca Airport;Franca;Brazil;FRCDourados Airport;Dourados;Brazil;DOULabrea Airport;Labrea;Brazil;LBRRondonopolis Airport;Rondonopolis;Brazil;ROOTancredo Thomaz de Faria Airport;Guarapuava;Brazil;GPBJoacaba Airport;Joacaba;Brazil;JCBGeneral leite de Castro Airport;Rio Verde;Brazil;RVDAraxa Airport;Araxa;Brazil;AAXMaues Airport;Maues;Brazil;MBZBorba Airport;Borba;Brazil;RBBCoari Airport;Coari;Brazil;CIZBarcelos Airport;Barcelos;Brazil;BAZDiamantino Airport;Diamantino;Brazil;DMTGuanambi Airport;Guanambi;Brazil;GNMLille;Lille;France;XDBPonta Pelada Airport;Manaus;Brazil;PLLSao Gabriel da Cachoeira Airport;Sao Gabriel da Cachoeira;Brazil;SJLCarajas Airport;Parauapebas;Brazil;CKSCachimbo;Itaituba;Brazil;ITBValenca Airport;Valenca;Brazil;VALDix Sept Rosado Airport;Mossoro;Brazil;MVFCaruaru Airport;Caruaru;Brazil;CAUAeroclube de Nova Iguacu;Nova Iguacu;Brazil;QNVGare du Nord;Paris;France;XPGGare Montparnasse;Paris;France;XGBSaint-Pierre-des-Corps;Tours;France;XSHFrejus Saint Raphael;Frejus;France;FRJMegeve Airport;Verdun;France;MVVMeribel Airport;Ajaccio;France;MFXAeroporto Blumenau;BLUMENAU;Brazil;BNUZona da Mata Regional Airport;Juiz de Fora;Brazil;IZAAngers St Laud;Angers;France;QXGPatos de Minas Airport;Patos de Minas;Brazil;POJBauru-Arealva;Bauru;Brazil;JTCOurilandia do Norte Airport;Ourilandia do Norte;Brazil;OIARedencao Airport;Redencao;Brazil;RDCSao Felix do Xingu Airport;Sao Felix do Xingu;Brazil;SXXBonito Airport;Bointo;Brazil;BYOSao Felix do Araguaia Airport;Sao Felix do Araguaia;Brazil;SXOCarlos Alberto da Costa Neves Airport;Cacador;Brazil;CFCCarauari Airport;Carauari;Brazil;CAFAmaury Feitosa Tomaz Airport;Eirunepe;Brazil;ERNConcordia Airport;Concordia;Brazil;CCIPaulo Abdala Airport;Francisco Beltrao;Brazil;FBEConfresa Airport;Confresa;Brazil;CFOOrlando de Carvalho Airport;Umuarama;Brazil;UMUDiamantina Airport;Diamantina;Brazil;DTIFonte Boa Airport;Fonte Boa;Brazil;FBASenadora Eunice Micheles Airport;Sao Paulo de Olivenca;Brazil;OLCHumaita Airport;Humaita;Brazil;HUWTapuruquara Airport;Santa Isabel do Rio Negro;Brazil;IRZOriximina Airport;Oriximina;Brazil;ORXUna-Comandatuba Airport;Una;Brazil;UNAGare de Strasbourg;Strasbourg;France;XWGGare de Lyon;Paris;France;PLYGare de LEst;Paris;France;XHPAll Airports;Paris;France;PARBotucatu;Botucatu;Brazil;QCJSao Carlos TAM;Sao Carlos;Brazil;QSCAeroporto Estadual Arthur Siqueira;Braganca Paulista;Brazil;BJPFontaine Airport;Belfort;France;BORPampulha;Belo Horizonte;Brazil;BHZ

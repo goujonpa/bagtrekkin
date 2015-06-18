@@ -6,6 +6,7 @@ from django.db import IntegrityError, models
 from django.http import HttpResponseBadRequest
 from django.utils import timezone
 
+from tastypie.exceptions import BadRequest
 from tastypie.models import create_api_key
 
 
@@ -23,6 +24,16 @@ STATUS_CHOICES = (
     ('active', 'Active'),
     ('blocked', 'Blocked'),
 )
+
+
+class Airport(models.Model):
+    name = models.CharField(max_length=63)
+    city = models.CharField(max_length=63)
+    country = models.CharField(max_length=63)
+    code = models.CharField(max_length=3, unique=True)
+
+    def __unicode__(self):
+        return unicode('%s (%s) - %s' % (self.name, self.code, self.country))
 
 
 class Company(models.Model):
@@ -105,9 +116,10 @@ class Flight(models.Model):
 
 class Employee(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
-    district = models.CharField(max_length=64, blank=True, null=True)
-    status = models.CharField(max_length=32, choices=STATUS_CHOICES, blank=True, null=True)
-    function = models.CharField(max_length=32, choices=FUNCTION_CHOICES, blank=True, null=True)
+    district = models.CharField(max_length=63, blank=True, null=True)
+    status = models.CharField(max_length=31, choices=STATUS_CHOICES, blank=True, null=True)
+    function = models.CharField(max_length=31, choices=FUNCTION_CHOICES, blank=True, null=True)
+    airport = models.ForeignKey(Airport, blank=True, null=True)
     company = models.ForeignKey(Company, blank=True, null=True)
     current_flight = models.ForeignKey(Flight, blank=True, null=True, on_delete=models.SET_NULL)
     user = models.OneToOneField(User)
@@ -145,25 +157,60 @@ class Luggage(models.Model):
 
 class Log(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    localisation = models.CharField(max_length=254)
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
 
     def __unicode__(self):
-        return unicode('%s - %s - %s' % (
-            self.localisation, self.luggage, self.datetime.strftime('%d, %b %Y @ %H:%m')
+        return unicode('%s (%s) - %s - %s' % (
+            self.airport, self.stage, self.luggage, self.datetime.strftime('%d, %b %Y @ %H:%m')
         ))
 
-    def save(self, *args, **kwargs):
-        '''Add datetime, localisation and flights defaults'''
-        if not self.datetime:
-            self.datetime = timezone.now()
-        if not self.localisation:
-            self.localisation = self.employee.district
-        if not self.flight:
-            self.flight = self.employee.current_flight
-        super(Log, self).save(*args, **kwargs)
+    @property
+    def airport(self):
+        self.employee.airport
+
+    @property
+    def district(self):
+        self.employee.district
+
+    @property
+    def stage(self):
+        self.employee.function
+
+    @property
+    def passenger(self):
+        self.luggage.passenger
+
+    @property
+    def pnr(self):
+        self.luggae.passenger.pnr
+
+    @staticmethod
+    def create(user, luggage, flight=None):
+        '''Create a new Log based on user, using luggage and flight if any'''
+        if not luggage.pk:
+            raise BadRequest('Luggage can\'t be saved... Please try again.')
+        try:
+            employee = user.employee
+        except Employee.DoesNotExist:
+            raise BadRequest(
+                'Missing Employee Object for current User. '
+                'Please create your profile on web the application.'
+            )
+        if not flight:
+            if employee.current_flight:
+                flight = employee.current_flight
+            else:
+                raise BadRequest(
+                    'Missing current_flight for current Employee. '
+                    'Please set your current_flight first.'
+                )
+        datetime = timezone.now()
+        Log(
+            datetime=datetime, localisation=localisation,
+            employee=employee, luggage=luggage, flight=flight
+        ).save()
 
 
 def create_employee(sender, instance, created, **kwargs):
