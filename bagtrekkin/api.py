@@ -157,25 +157,30 @@ class LuggageResource(ModelResource):
                                         format=request.META.get('CONTENT_TYPE', 'application/json'))
         deserialized = self.alter_deserialized_detail_data(request, deserialized)
         data = dict_strip_unicode_keys(deserialized)
-        keys = ['tp_objects', 'fn_objects']
-        if not any([x in data for x in keys]):
-            raise BadRequest('Missing at least one of good_objects or bad_objects list.')
+        if not 'objects' in data:
+            raise BadRequest('Missing objects list.')
         base_bundle = self.build_bundle(request=request)
         supposed_objects = self.obj_get_list(bundle=base_bundle, **self.remove_api_resource_names(kwargs))
-        for key in keys:
-            numbers = [obj['material_number'] for obj in data.get(key)]
-            if numbers:
-                filters = {'material_number__in': numbers}
-                objects = self.get_object_list(request).filter(**filters)
-                status = key.split('_')[0]
-                for obj in objects:
-                    Log.create(
-                        user=request.user,
-                        luggage=obj,
-                        status=status
-                    )
-        import ipdb
-        ipdb.set_trace()
+        received_numbers = [obj['material_number'] for obj in data.get('objects')]
+        if not received_numbers:
+            raise BadRequest('Empty objects list.')
+        received_filters = {'material_number__in': received_numbers}
+        received_objects = self.get_object_list(request).filter(**received_filters)
+        tp_objects = [obj for obj in received_objects if obj in supposed_objects]
+        fn_objects = [obj for obj in received_objects if obj not in supposed_objects]
+        fp_objects = [obj for obj in supposed_objects if obj not in received_objects]
+        all_objects = {
+            'tp': tp_objects,
+            'fn': fn_objects,
+            'fp': fp_objects
+        }
+        for status, objects in all_objects.iteritems():
+            for obj in objects:
+                Log.create(
+                    user=request.user,
+                    luggage=obj,
+                    status=status
+                )
         return http.HttpCreated()
 
 
