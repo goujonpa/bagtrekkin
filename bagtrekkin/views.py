@@ -7,6 +7,7 @@ from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 
 from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm
 
@@ -40,13 +41,19 @@ def search(request):
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
-            passenger, luggages, logs = search_form.search()
-            context = {
-                'search_form': search_form,
-                'passenger': passenger,
-                'luggages': luggages,
-                'logs': logs
-            }
+            try:
+                passenger, luggages, logs = search_form.search()
+                context = {
+                    'search_form': search_form,
+                    'passenger': passenger,
+                    'luggages': luggages,
+                    'logs': logs
+                }
+            except ObjectDoesNotExist as e:
+                context = {
+                    'search_form': search_form,
+                    'error_message': 'Object not found'
+                }
             return render(request, 'search.jade', context)
     else:
         context = {
