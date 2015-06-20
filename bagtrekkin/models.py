@@ -3,9 +3,11 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError, models
+from django.db.models.signals import post_save
 from django.http import HttpResponseBadRequest
 from django.utils import timezone
 
+from tastypie.models import create_api_key
 
 EMPLOYEE_GENDERS = (
     ('f', 'F'),
@@ -273,3 +275,14 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
     )
     luggage.save()
     return passenger, etickets, luggage
+
+
+def create_employee(sender, instance, created, **kwargs):
+    '''Signal to create an employee for every user creation'''
+    if created:
+        employee, _ = Employee.objects.get_or_create(user=instance)
+        employee.save()
+
+
+post_save.connect(create_employee, sender=User)
+post_save.connect(create_api_key, sender=User)
