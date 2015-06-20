@@ -5,3 +5,4 @@ ipdb==0.8
 ipython==3.1.0
 mock==1.0.1
 sqlparse==0.1.15
+coverage==3.7.1

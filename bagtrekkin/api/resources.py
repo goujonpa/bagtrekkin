@@ -8,7 +8,7 @@ from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils import dict_strip_unicode_keys
 
-from api.authorization import EmployeeObjectsOnlyAuthorization
+from bagtrekkin.api.authorization import EmployeeObjectsOnlyAuthorization
 from bagtrekkin.models import Company, Passenger, Flight, Employee, Eticket, Luggage, Log
 from bagtrekkin.models import build_from_pnr_lastname_material_number
 
