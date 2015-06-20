@@ -1,1 +1,1 @@
-from bagtrekkin import signals
+from bagtrekkin.signals import *

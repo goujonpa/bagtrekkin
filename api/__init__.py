@@ -1,1 +1,1 @@
-from api import signals
+from api.signals import *
