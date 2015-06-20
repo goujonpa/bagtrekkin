@@ -49,11 +49,11 @@ def search(request):
                     'luggages': luggages,
                     'logs': logs
                 }
-            except Luggage.DoesNotExist as e:
+            except Luggage.DoesNotExist:
                 error_message = 'Luggage not found'
-            except Log.DoesNotExist as e:
+            except Log.DoesNotExist:
                 error_message = 'Logs not found'
-            except Passenger.DoesNotExist as e:
+            except Passenger.DoesNotExist:
                 error_message = 'Passenger not found'
             context = {
                 'search_form': search_form,
