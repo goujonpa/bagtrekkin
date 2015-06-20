@@ -50,7 +50,7 @@ def search(request):
                     'logs': logs
                 }
             except Luggage.DoesNotExist as e:
-                error_message = 'Luggages not found'
+                error_message = 'Luggage not found'
             except Log.DoesNotExist as e:
                 error_message = 'Logs not found'
             except Passenger.DoesNotExist as e:
