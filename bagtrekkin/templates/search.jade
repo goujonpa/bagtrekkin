@@ -84,6 +84,13 @@ block content
                           th {{ log.horodator }}
                           th {{ log.employee }}
                         {% endfor %}
+                  if error_message
+                    table.uk-table
+                      caption Raised Error
+                      thead
+                        tr
+                          th Search error:
+                          th {{error_message}}
             li
               div.uk-block.uk-block-muted
                 div.uk-container

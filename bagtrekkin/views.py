@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm
+from bagtrekkin.models import Luggage, Passenger, Log
 
 
 def index(request):
@@ -40,12 +41,23 @@ def search(request):
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
         if search_form.is_valid():
-            passenger, luggages, logs = search_form.search()
+            try:
+                passenger, luggages, logs = search_form.search()
+                context = {
+                    'search_form': search_form,
+                    'passenger': passenger,
+                    'luggages': luggages,
+                    'logs': logs
+                }
+            except Luggage.DoesNotExist:
+                error_message = 'Luggage not found'
+            except Log.DoesNotExist:
+                error_message = 'Logs not found'
+            except Passenger.DoesNotExist:
+                error_message = 'Passenger not found'
             context = {
                 'search_form': search_form,
-                'passenger': passenger,
-                'luggages': luggages,
-                'logs': logs
+                'error_message': error_message
             }
             return render(request, 'search.jade', context)
     else:
