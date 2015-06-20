@@ -8,7 +8,7 @@ from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils import dict_strip_unicode_keys
 
-from bagtrekkin.authorization import EmployeeObjectsOnlyAuthorization
+from api.authorization import EmployeeObjectsOnlyAuthorization
 from bagtrekkin.models import Company, Passenger, Flight, Employee, Eticket, Luggage, Log
 from bagtrekkin.models import build_from_pnr_lastname_material_number
 
@@ -157,7 +157,7 @@ class LuggageResource(ModelResource):
                                         format=request.META.get('CONTENT_TYPE', 'application/json'))
         deserialized = self.alter_deserialized_detail_data(request, deserialized)
         data = dict_strip_unicode_keys(deserialized)
-        if not 'objects' in data:
+        if 'objects' not in data:
             raise BadRequest('Missing objects list.')
         base_bundle = self.build_bundle(request=request)
         supposed_objects = self.obj_get_list(bundle=base_bundle, **self.remove_api_resource_names(kwargs))

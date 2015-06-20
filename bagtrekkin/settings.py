@@ -58,6 +58,7 @@ INSTALLED_APPS = (
     'tastypie',
     'pyjade',
     'widget_tweaks',
+    'api',
     'bagtrekkin',
 ) + DEV_INSTALLED_APPS
 

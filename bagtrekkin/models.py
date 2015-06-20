@@ -6,9 +6,6 @@ from django.db import IntegrityError, models
 from django.http import HttpResponseBadRequest
 from django.utils import timezone
 
-from tastypie.exceptions import BadRequest
-from tastypie.models import create_api_key
-
 
 EMPLOYEE_GENDERS = (
     ('f', 'F'),
@@ -199,11 +196,11 @@ class Log(models.Model):
     def create(user, luggage, flight=None, status=LOG_STATUS[2][0]):
         '''Create a new Log based on user, using luggage and flight if any'''
         if not luggage.pk:
-            raise BadRequest('Luggage can\'t be saved... Please try again.')
+            raise HttpResponseBadRequest('Luggage can\'t be saved... Please try again.')
         try:
             employee = user.employee
         except Employee.DoesNotExist:
-            raise BadRequest(
+            raise HttpResponseBadRequest(
                 'Missing Employee Object for current User. '
                 'Please create your profile on web the application.'
             )
@@ -211,7 +208,7 @@ class Log(models.Model):
             if employee.current_flight:
                 flight = employee.current_flight
             else:
-                raise BadRequest(
+                raise HttpResponseBadRequest(
                     'Missing current_flight for current Employee. '
                     'Please set your current_flight first.'
                 )
@@ -220,13 +217,6 @@ class Log(models.Model):
             datetime=datetime, employee=employee,
             luggage=luggage, flight=flight, status=status
         ).save()
-
-
-def create_employee(sender, instance, created, **kwargs):
-    '''Signal to create an employee for every user creation'''
-    if created:
-        employee, _ = Employee.objects.get_or_create(user=instance)
-        employee.save()
 
 
 def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
@@ -283,7 +273,3 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
     )
     luggage.save()
     return passenger, etickets, luggage
-
-
-models.signals.post_save.connect(create_api_key, sender=User)
-models.signals.post_save.connect(create_employee, sender=User)
