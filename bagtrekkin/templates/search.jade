@@ -60,12 +60,10 @@ block content
                       thead
                         tr
                           th RFID
-                          th Saving date
                       tbody
                         {% for luggage in luggages %}
                         tr
                           th {{ luggage.material_number }}
-                          th {{ luggage.datetime }}
                         {% endfor %}
                   if logs
                     table.uk-table
@@ -73,16 +71,24 @@ block content
                       thead
                         tr
                           th RFID
-                          th Localisation
                           th Date
+                          th Status
                           th Employee
+                          th Flight
                       tbody
                         {% for log in logs %}
                         tr
                           th {{ log.luggage.material_number }}
                           th {{ log.datetime }}
-                          th {{ log.horodator }}
+                          {% if log.status == 'fp' %}
+                          th.uk-text-danger Absent
+                          {% elif log.status == 'fn' %}
+                          th.uk-text-warning Present at the wrong place
+                          {% elif log.status == 'tp' %}
+                          th.uk-text-success OK
+                          {% endif %}
                           th {{ log.employee }}
+                          th {{ log.flight }}
                         {% endfor %}
                   if error_message
                     table.uk-table

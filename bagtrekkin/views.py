@@ -50,15 +50,20 @@ def search(request):
                     'logs': logs
                 }
             except Luggage.DoesNotExist:
-                error_message = 'Luggage not found'
+                context = {
+                    'search_form': search_form,
+                    'error_message': 'Luggage not found'
+                }
             except Log.DoesNotExist:
-                error_message = 'Logs not found'
+                context = {
+                    'search_form': search_form,
+                    'error_message': 'Logs not found'
+                }
             except Passenger.DoesNotExist:
-                error_message = 'Passenger not found'
-            context = {
-                'search_form': search_form,
-                'error_message': error_message
-            }
+                context = {
+                    'search_form': search_form,
+                    'error_message': 'Passenger not found'
+                }
             return render(request, 'search.jade', context)
     else:
         context = {

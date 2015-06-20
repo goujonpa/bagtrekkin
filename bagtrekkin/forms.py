@@ -56,7 +56,7 @@ class SearchForm(forms.Form):
             luggage = Luggage.objects.get(material_number=material_number)
             passenger = luggage.passenger
         luggages = Luggage.objects.filter(passenger=passenger)
-        logs = Log.objects.filter(luggage__passenger=passenger)
+        logs = Log.objects.filter(luggage__passenger=passenger).order_by('-datetime')
         return (passenger, luggages, logs)
 
 
