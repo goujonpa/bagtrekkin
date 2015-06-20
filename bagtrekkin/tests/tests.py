@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.test import Client
+
 from bagtrekkin.models import Airport, Company, Passenger, Flight, Employee, Eticket, Luggage, Log
 
 
