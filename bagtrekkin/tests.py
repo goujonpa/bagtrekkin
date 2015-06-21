@@ -44,7 +44,7 @@ class FlightTestCase(TestCase):
 
 
 class EmployeeTestCase(TestCase):
-    fixtures = ['airports', 'companies', 'users', 'passengers']
+    fixtures = ['airports', 'companies', 'users', 'employees']
 
     def test_employee_unicode(self):
         """Employee should be printed as expected"""

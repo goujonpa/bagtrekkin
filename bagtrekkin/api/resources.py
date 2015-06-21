@@ -9,7 +9,10 @@ from tastypie.resources import ModelResource, Resource
 from tastypie.utils import dict_strip_unicode_keys
 
 from bagtrekkin.api.authorization import EmployeeObjectsOnlyAuthorization
-from bagtrekkin.models import Company, Passenger, Flight, Employee, Eticket, Luggage, Log
+from bagtrekkin.models import (
+    Airport, Company, Passenger,
+    Flight, Employee, Eticket, Luggage, Log
+)
 from bagtrekkin.models import build_from_pnr_lastname_material_number
 
 
@@ -21,6 +24,15 @@ class UserResource(ModelResource):
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
         authorization = Authorization()
         fields = ['id', 'username', 'first_name', 'last_name', 'email']
+
+
+class AirportResource(ModelResource):
+
+    class Meta:
+        queryset = Airport.objects.all()
+        allowed_methods = ['get']
+        authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
+        authorization = Authorization()
 
 
 class CompanyResource(ModelResource):
@@ -43,7 +55,7 @@ class PassengerResource(ModelResource):
 
 class FlightResource(ModelResource):
     company = fields.ForeignKey(CompanyResource, 'company', full=True)
-    etickets = fields.ManyToManyField('bagtrekkin.api.EticketResource', 'eticket_set')
+    etickets = fields.ManyToManyField('bagtrekkin.api.resources.EticketResource', 'eticket_set')
 
     class Meta:
         queryset = Flight.objects.all()

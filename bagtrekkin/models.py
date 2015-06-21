@@ -18,12 +18,12 @@ EMPLOYEE_FUNCTIONS = (
     ('ramp', 'Ramp'),
     ('lostfounds', 'Lost and Founds'),
 )
-EMPLOYEE_STATUS = (
+EMPLOYEE_STATUSES = (
     ('pending', 'Pending'),
     ('active', 'Active'),
     ('blocked', 'Blocked'),
 )
-LOG_STATUS = (
+LOG_STATUSES = (
     # Should be there, but not in reality
     ('fp', 'False Positive'),
     # Should not be there, but is in reality
@@ -124,7 +124,7 @@ class Flight(models.Model):
 class Employee(models.Model):
     gender = models.CharField(max_length=1, choices=EMPLOYEE_GENDERS, blank=True, null=True)
     district = models.CharField(max_length=63, blank=True, null=True)
-    status = models.CharField(max_length=31, choices=EMPLOYEE_STATUS, blank=True, null=True)
+    status = models.CharField(max_length=31, choices=EMPLOYEE_STATUSES, blank=True, null=True)
     function = models.CharField(max_length=31, choices=EMPLOYEE_FUNCTIONS, blank=True, null=True)
     airport = models.ForeignKey(Airport, blank=True, null=True)
     company = models.ForeignKey(Company, blank=True, null=True)
@@ -167,7 +167,7 @@ class Log(models.Model):
     employee = models.ForeignKey(Employee)
     luggage = models.ForeignKey(Luggage)
     flight = models.ForeignKey(Flight)
-    status = models.CharField(max_length=31, choices=LOG_STATUS)
+    status = models.CharField(max_length=31, choices=LOG_STATUSES)
 
     def __unicode__(self):
         return unicode('%s (%s) - %s - %s' % (
@@ -195,7 +195,7 @@ class Log(models.Model):
         self.luggae.passenger.pnr
 
     @staticmethod
-    def create(user, luggage, flight=None, status=LOG_STATUS[2][0]):
+    def create(user, luggage, flight=None, status=LOG_STATUSES[2][0]):
         '''Create a new Log based on user, using luggage and flight if any'''
         if not luggage.pk:
             raise HttpResponseBadRequest('Luggage can\'t be saved... Please try again.')
@@ -279,7 +279,7 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
 
 def create_employee(sender, instance, created, **kwargs):
     '''Signal to create an employee for every user creation'''
-    if created:
+    if created and not kwargs.get('raw', False):
         employee, _ = Employee.objects.get_or_create(user=instance)
         employee.save()
 
