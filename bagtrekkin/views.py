@@ -40,31 +40,24 @@ def signup(request):
 def search(request):
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
-        if search_form.is_valid():
-            try:
+        context = {
+            'search_form': search_form
+        }
+        try:
+            if search_form.is_valid():
                 passenger, luggages, logs = search_form.search()
-                context = {
-                    'search_form': search_form,
+                context.update({
                     'passenger': passenger,
                     'luggages': luggages,
                     'logs': logs
-                }
-            except Luggage.DoesNotExist:
-                context = {
-                    'search_form': search_form,
-                    'error_message': 'Luggage not found'
-                }
-            except Log.DoesNotExist:
-                context = {
-                    'search_form': search_form,
-                    'error_message': 'Logs not found'
-                }
-            except Passenger.DoesNotExist:
-                context = {
-                    'search_form': search_form,
-                    'error_message': 'Passenger not found'
-                }
-            return render(request, 'search.jade', context)
+                    })
+        except Luggage.DoesNotExist:
+            context.update({'error_message': 'Luggage not found'})
+        except Log.DoesNotExist:
+            context.update({'error_message': 'Logs not found'})
+        except Passenger.DoesNotExist:
+            context.update({'error_message': 'Passenger not found'})
+        return render(request, 'search.jade', context)
     else:
         context = {
             'search_form': SearchForm(),
