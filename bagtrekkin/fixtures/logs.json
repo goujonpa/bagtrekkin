@@ -4,7 +4,7 @@
 		"pk": 1,
 		"fields": {
 			"datetime": "2015-06-15T18:48:12.080Z",
-			"employee_id": 2,
+			"employee_id": 1,
 			"luggage_id": 1,
 			"flight_id": 1,
 			"status": "tp"
@@ -15,7 +15,7 @@
 		"pk": 1,
 		"fields": {
 			"datetime": "2015-06-15T18:58:23.000Z",
-			"employee_id": 2,
+			"employee_id": 1,
 			"luggage_id": 2,
 			"flight_id": 1,
 			"status": "fp"
