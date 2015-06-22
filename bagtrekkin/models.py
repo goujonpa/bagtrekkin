@@ -2,9 +2,9 @@ import requests
 from datetime import datetime
 
 from django.contrib.auth.models import User
-from django.db import IntegrityError, models
+from django.core.exceptions import ValidationError, FieldError
+from django.db import IntegrityError, InternalError, models
 from django.db.models.signals import post_save
-from django.http import HttpResponseBadRequest
 from django.utils import timezone
 
 from tastypie.models import create_api_key
@@ -198,11 +198,11 @@ class Log(models.Model):
     def create(user, luggage, flight=None, status=LOG_STATUSES[2][0]):
         '''Create a new Log based on user, using luggage and flight if any'''
         if not luggage.pk:
-            raise HttpResponseBadRequest('Luggage can\'t be saved... Please try again.')
+            raise InternalError('Luggage can\'t be saved... Please try again.')
         try:
             employee = user.employee
         except Employee.DoesNotExist:
-            raise HttpResponseBadRequest(
+            raise Employee.DoesNotExist(
                 'Missing Employee Object for current User. '
                 'Please create your profile on web the application.'
             )
@@ -210,7 +210,7 @@ class Log(models.Model):
             if employee.current_flight:
                 flight = employee.current_flight
             else:
-                raise HttpResponseBadRequest(
+                raise FieldError(
                     'Missing current_flight for current Employee. '
                     'Please set your current_flight first.'
                 )
@@ -266,14 +266,17 @@ def build_from_pnr_lastname_material_number(pnr, last_name, material_number):
                     for json_flight in result['flights'][number]:
                         eticket.flights.add(Flight.get_from_json(json_flight))
             else:
-                raise HttpResponseBadRequest(result)
+                raise ValidationError(result)
         else:
             response.raise_for_status()
     luggage = Luggage(
         material_number=material_number,
         passenger=passenger
     )
-    luggage.save()
+    try:
+        luggage.save()
+    except IntegrityError:
+        raise IntegrityError('Luggage already exists in database.')
     return passenger, etickets, luggage
 
 

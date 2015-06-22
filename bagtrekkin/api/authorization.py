@@ -1,5 +1,4 @@
 from tastypie.authorization import Authorization
-from tastypie.exceptions import Unauthorized
 
 
 class EmployeeObjectsOnlyAuthorization(Authorization):
@@ -8,14 +7,9 @@ class EmployeeObjectsOnlyAuthorization(Authorization):
         return object_list.filter(user=bundle.request.user)
 
     def read_detail(self, object_list, bundle):
+        if bundle.request.path == '/api/v1/employee/schema/':
+            return True
         # Is the requested object owned by the user?
-        return bundle.obj.user == bundle.request.user
-
-    def create_list(self, object_list, bundle):
-        # Assuming they're auto-assigned to ``user``.
-        return object_list
-
-    def create_detail(self, object_list, bundle):
         return bundle.obj.user == bundle.request.user
 
     def update_list(self, object_list, bundle):
@@ -30,13 +24,3 @@ class EmployeeObjectsOnlyAuthorization(Authorization):
 
     def update_detail(self, object_list, bundle):
         return bundle.obj.user == bundle.request.user
-
-    def delete_list(self, object_list, bundle):
-        # Sorry user, no deletes for you!
-        raise Unauthorized("Sorry, no deletes.")
-
-    def delete_detail(self, object_list, bundle):
-        # Sorry user, no deletes for you!
-        raise Unauthorized("Sorry, no deletes.")
-
-
