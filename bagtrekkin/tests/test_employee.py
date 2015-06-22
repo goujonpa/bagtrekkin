@@ -5,7 +5,7 @@ from bagtrekkin.models import Employee
 
 
 class EmployeeTestCase(TestCase):
-    fixtures = ['airports', 'companies', 'users', 'passengers']
+    fixtures = ['airports', 'companies', 'users', 'employees', 'passengers']
 
     def test_employee_unicode(self):
         """Employee should be printed as expected"""
