@@ -79,16 +79,16 @@ class SearchFormTestCase(TestCase):
 
     def test_search_bad_pnr(self):
         """Search from pnr not in db should raise an error"""
-        response = self.client.post(reverse('bt_search'), {'pnr': 'caca'})
-        form = response.context['search_form']
+        form = SearchForm({'pnr': 'caca'})
         self.assertTrue(isinstance(form, SearchForm))
+        self.assertTrue(form.is_valid())
         with self.assertRaises(Passenger.DoesNotExist):
             form.search()
 
     def test_search_bad_rfid(self):
         """Search from rfid not in db should raise an error"""
-        response = self.client.post(reverse('bt_search'), {'material_number': 'boudin'})
-        form = response.context['search_form']
+        form = SearchForm({'material_number': 'boudin'})
         self.assertTrue(isinstance(form, SearchForm))
+        self.assertTrue(form.is_valid())
         with self.assertRaises(Luggage.DoesNotExist):
             form.search()
