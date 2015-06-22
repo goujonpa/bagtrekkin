@@ -18,42 +18,41 @@ class SearchFormTestCase(TestCase):
         self.client = Client()
         self.client.login(username='capflam', password='123')
 
-    def test_init_no_data(self):
-        """Init should be successful without provided data"""
-        form = SearchForm()
+    def form_generation(self, pnr=None, material_number=None):
+        data = dict()
+        if pnr is not None:
+            data.update({'pnr': pnr})
+        if material_number is not None:
+            data.update({'material_number': material_number})
+        form = SearchForm(data)
         self.assertTrue(isinstance(form, SearchForm))
+        if (pnr and material_number) or (not pnr and not material_number):
+            self.assertFalse(form.is_valid())
+        else:
+            self.assertTrue(form.is_valid())
+        return form
+
+    def test_init_no_data(self):
+        """Init should be successful and not valid without provided data"""
+        form = self.form_generation()
 
     def test_init_pnr_data(self):
-        """Init should be successful with pnr provided data"""
-        form = SearchForm({'pnr': 'YSVI82'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertTrue(form.is_valid())
+        """Init should be successful and valid with pnr provided data"""
+        form = self.form_generation(pnr='YSVI82')
         self.assertEqual(form.cleaned_data['pnr'], 'YSVI82')
 
     def test_init_rfid_data(self):
-        """Init should be successful with rfid provided data"""
-        form = SearchForm({'material_number': 'FFFFFFFF'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertTrue(form.is_valid())
+        """Init should be successful and valid with rfid provided data"""
+        form = self.form_generation(material_number='FFFFFFFF')
         self.assertEqual(form.cleaned_data['material_number'], 'FFFFFFFF')
 
-    def test_init_no_data_not_valid(self):
-        """Form with no data provided shouldn't be valid"""
-        form = SearchForm()
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertFalse(form.is_valid())
-
     def test_init_two_data_not_valid(self):
-        """Form with pnr AND material_number shouldn't be valid"""
-        form = SearchForm({'pnr': 'YSVI82', 'material_number': 'FFFFFFFF'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertFalse(form.is_valid())
+        """Form with pnr AND material_number shouldn't be valid (but init successful)"""
+        form = self.form_generation(pnr='YSVI82', material_number='FFFFFFFF')
 
     def test_search_good_pnr(self):
         """Found objects should correspond to what we searched"""
-        form = SearchForm({'pnr': 'ABC123'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertTrue(form.is_valid())
+        form = self.form_generation(pnr='ABC123')
         passenger, luggages, logs = form.search()
         returned_luggages = [l.pk for l in luggages]
         desired_luggages = [l.pk for l in self._luggages]
@@ -65,9 +64,7 @@ class SearchFormTestCase(TestCase):
 
     def test_search_good_rfid(self):
         """Found objects should correspond to what we searched"""
-        form = SearchForm({'material_number': 'E200 3411 B802 0115 1612 6723'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertTrue(form.is_valid())
+        form = self.form_generation(material_number='E200 3411 B802 0115 1612 6723')
         passenger, luggages, logs = form.search()
         returned_luggages = [l.pk for l in luggages]
         desired_luggages = [l.pk for l in self._luggages]
@@ -79,16 +76,12 @@ class SearchFormTestCase(TestCase):
 
     def test_search_bad_pnr(self):
         """Search from pnr not in db should raise an error"""
-        form = SearchForm({'pnr': 'caca'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertTrue(form.is_valid())
+        form = self.form_generation(pnr='caca')
         with self.assertRaises(Passenger.DoesNotExist):
             form.search()
 
     def test_search_bad_rfid(self):
         """Search from rfid not in db should raise an error"""
-        form = SearchForm({'material_number': 'boudin'})
-        self.assertTrue(isinstance(form, SearchForm))
-        self.assertTrue(form.is_valid())
+        form = self.form_generation(material_number='boudin')
         with self.assertRaises(Luggage.DoesNotExist):
             form.search()
