@@ -29,6 +29,8 @@ block content
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-2
                         div.uk-panel
+                          div.uk-form-row.uk-form-danger
+                            {{ search_form.non_field_errors|safe }}
                           div.uk-form-row
                             {{ search_form.pnr.errors|safe }}
                             {% render_field search_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=search_form.pnr.label %}

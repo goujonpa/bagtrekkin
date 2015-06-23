@@ -44,7 +44,9 @@ class SearchForm(forms.Form):
         material_number = cleaned_data.get('material_number')
 
         if not (pnr or material_number):
-            raise forms.ValidationError("Please fill at least one field")
+            raise forms.ValidationError("Please fill one field")
+        if pnr and material_number:
+            raise forms.ValidationError("Please only fill one field")
         return cleaned_data
 
     def search(self):

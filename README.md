@@ -1,4 +1,4 @@
-# Bagtrekkin [![Build Status](https://travis-ci.org/goujonpa/bagtrekkin.svg?branch=master)](https://travis-ci.org/goujonpa/bagtrekkin)
+# Bagtrekkin [![Build Status](https://travis-ci.org/goujonpa/bagtrekkin.svg?branch=master)](https://travis-ci.org/goujonpa/bagtrekkin) [![Coverage Status](https://coveralls.io/repos/goujonpa/bagtrekkin/badge.svg)](https://coveralls.io/r/goujonpa/bagtrekkin)
 
 Bagtrekkin is a full-stack application involving both hardware and software.
 
