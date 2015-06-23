@@ -44,13 +44,11 @@ class AuthResourceTestCase(ResourceTestCase):
     def get_list_unauthorized(self):
         response = self.api_client.get(self.endpoint, format='json')
         self.assertHttpUnauthorized(response)
-        self.assertValidJSONResponse(response)
         data = self.deserialize(response)
         return response, data
 
     def get_list_authorized(self, auth):
         response = self.api_client.get(self.endpoint, format='json', authentication=auth)
-        self.assertHttpOK(response)
         self.assertValidJSONResponse(response)
         data = self.deserialize(response)
         self.assertKeys(data, ['meta', 'objects'])
