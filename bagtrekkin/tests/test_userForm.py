@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.test import Client
+from django.contrib.auth.models import User
 
 from bagtrekkin.forms import FormSignup
+from bagtrekkin.models import Employee
 
 
 class FormSignupTestCase(TestCase):
@@ -18,7 +20,7 @@ class FormSignupTestCase(TestCase):
             'last_name': 'leouf',
             'email': 'totolebg@email.com'
         }
-        self.form = FormSignup(data)
+        self.form = FormSignup(self.data)
 
     def test_fields_required(self):
         """Every field should be required"""
@@ -28,3 +30,12 @@ class FormSignupTestCase(TestCase):
         self.assertTrue(self.form.fields['first_name'].required)
         self.assertTrue(self.form.fields['last_name'].required)
         self.assertTrue(self.form.fields['email'].required)
+
+    def test_employee_is_created(self):
+        """Saving a form creates user AND employee LINKED to user"""
+        if self.form.is_valid():
+            self.form.save()
+        user = User.objects.get(username='totodu33')
+        self.assertTrue((user is not None))
+        employee = Employee.objects.get(user=user)
+        self.assertTrue((employee is not None))
