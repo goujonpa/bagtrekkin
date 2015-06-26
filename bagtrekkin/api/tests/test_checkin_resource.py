@@ -115,10 +115,10 @@ class CheckinResourceTestCase(AuthResourceTestCase):
     }
 
     def assert_before_api_call(self):
-        self.assertEqual(Passenger.objects.count(), 1)
+        self.assertEqual(Passenger.objects.count(), 2)
         self.assertEqual(Eticket.objects.count(), 1)
         self.assertEqual(Flight.objects.count(), 2)
-        self.assertEqual(Luggage.objects.count(), 2)
+        self.assertEqual(Luggage.objects.count(), 3)
         self.assertEqual(Log.objects.count(), 2)
 
     def test_post_unauthorized(self):
@@ -148,15 +148,18 @@ class CheckinResourceTestCase(AuthResourceTestCase):
         auth = self.get_basic_auth()
         response = self.api_client.post(self.endpoint, format='json', data=post_data, authentication=auth)
         self.assertHttpCreated(response)
-        self.assertEqual(Passenger.objects.count(), 2)
+        self.assertEqual(Passenger.objects.count(), 3)
         self.assertEqual(Eticket.objects.count(), 3)
         self.assertEqual(Flight.objects.count(), 7)
-        self.assertEqual(Luggage.objects.count(), 3)
+        self.assertEqual(Luggage.objects.count(), 4)
         self.assertEqual(Log.objects.count(), 3)
         log = Log.objects.last()
         self.assertIsInstance(log.employee, Employee)
+        self.assertEqual(log.employee, self.user.employee)
         self.assertIsInstance(log.luggage, Luggage)
+        self.assertEqual(log.luggage, Luggage.objects.get(material_number='E487 3267 3298 4283 3291 8923'))
         self.assertIsInstance(log.flight, Flight)
+        self.assertEqual(log.flight, Flight.objects.get(airline='TP433'))
 
     @patch('requests.get')
     def test_post_authorized_existing_pnr(self, mock_request):
@@ -171,15 +174,18 @@ class CheckinResourceTestCase(AuthResourceTestCase):
         response = self.api_client.post(self.endpoint, format='json', data=post_data, authentication=auth)
         self.assertHttpCreated(response)
         self.assertFalse(mock_request.called)
-        self.assertEqual(Passenger.objects.count(), 1)
+        self.assertEqual(Passenger.objects.count(), 2)
         self.assertEqual(Eticket.objects.count(), 1)
         self.assertEqual(Flight.objects.count(), 2)
-        self.assertEqual(Luggage.objects.count(), 3)
+        self.assertEqual(Luggage.objects.count(), 4)
         self.assertEqual(Log.objects.count(), 3)
         log = Log.objects.last()
         self.assertIsInstance(log.employee, Employee)
+        self.assertEqual(log.employee, self.user.employee)
         self.assertIsInstance(log.luggage, Luggage)
+        self.assertEqual(log.luggage, Luggage.objects.get(material_number='E487 3267 3298 4283 6782 9314'))
         self.assertIsInstance(log.flight, Flight)
+        self.assertEqual(log.flight, Flight.objects.get(airline='AR123'))
 
     def test_post_authorized_luggage_already_exists(self):
         '''Should return an error luggage already exists'''
