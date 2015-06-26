@@ -141,6 +141,7 @@ class FormSignup(UserCreationForm):
         super(FormSignup, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+        self.fields['email'].required = True
 
     class Meta:
         model = User
