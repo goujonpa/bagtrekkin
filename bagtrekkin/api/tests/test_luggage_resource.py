@@ -1,4 +1,7 @@
+from django.core.management import call_command
+
 from bagtrekkin.api.tests.auth_resource_test_case import AuthResourceTestCase
+from bagtrekkin.models import Employee, Flight
 
 
 class LuggageResourceTestCase(AuthResourceTestCase):
@@ -38,6 +41,18 @@ class LuggageResourceTestCase(AuthResourceTestCase):
             'Missing current_flight for current Employee. '
             'Please set your current_flight first.'
         )
+
+    def test_get_list_basic_auth_with_current_flight(self):
+        '''Should return objects list based on ApiKey Authentication with Employee's current_flight'''
+        call_command('loaddata', 'flights')
+        employee = Employee.objects.first()
+        employee.current_flight = Flight.objects.get(airline='AR123')
+        employee.save()
+        auth = self.get_basic_auth()
+        response = self.api_client.get(self.endpoint, format='json', authentication=auth)
+        self.assertValidJSONResponse(response)
+        data = self.deserialize(response)
+        self.assertKeys(data, ['meta', 'objects'])
 
     def test_get_schema_authorized(self):
         '''Should return appropriate schema based on Resource'''

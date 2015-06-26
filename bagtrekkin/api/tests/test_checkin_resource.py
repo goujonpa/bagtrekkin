@@ -155,8 +155,11 @@ class CheckinResourceTestCase(AuthResourceTestCase):
         self.assertEqual(Log.objects.count(), 3)
         log = Log.objects.last()
         self.assertIsInstance(log.employee, Employee)
+        self.assertEqual(log.employee, self.user.employee)
         self.assertIsInstance(log.luggage, Luggage)
+        self.assertEqual(log.luggage, Luggage.objects.get(material_number='E487 3267 3298 4283 3291 8923'))
         self.assertIsInstance(log.flight, Flight)
+        self.assertEqual(log.flight, Flight.objects.get(airline='TP433'))
 
     @patch('requests.get')
     def test_post_authorized_existing_pnr(self, mock_request):
@@ -178,8 +181,11 @@ class CheckinResourceTestCase(AuthResourceTestCase):
         self.assertEqual(Log.objects.count(), 3)
         log = Log.objects.last()
         self.assertIsInstance(log.employee, Employee)
+        self.assertEqual(log.employee, self.user.employee)
         self.assertIsInstance(log.luggage, Luggage)
+        self.assertEqual(log.luggage, Luggage.objects.get(material_number='E487 3267 3298 4283 6782 9314'))
         self.assertIsInstance(log.flight, Flight)
+        self.assertEqual(log.flight, Flight.objects.get(airline='AR123'))
 
     def test_post_authorized_luggage_already_exists(self):
         '''Should return an error luggage already exists'''
