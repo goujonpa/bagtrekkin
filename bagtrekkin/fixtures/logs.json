@@ -12,7 +12,7 @@
 	},
 	{
 		"model": "bagtrekkin.log",
-		"pk": 1,
+		"pk": 2,
 		"fields": {
 			"datetime": "2015-06-15T18:58:23.000Z",
 			"employee_id": 1,

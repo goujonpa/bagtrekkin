@@ -1,7 +1,5 @@
 from django.test import TestCase
 from django.test import Client
-from django.core.urlresolvers import reverse
-from django.test.utils import setup_test_environment
 
 from bagtrekkin.forms import SearchForm
 from bagtrekkin.models import Passenger, Luggage, Log
@@ -14,7 +12,7 @@ class SearchFormTestCase(TestCase):
         super(SearchFormTestCase, self).setUp()
         self._passenger = Passenger.objects.get(pk=1)
         self._luggages = Luggage.objects.filter(passenger=self._passenger)
-        self._logs = Log.objects.filter(luggage__passenger=self._passenger)
+        self._logs = Log.objects.filter(luggage__passenger=self._passenger).order_by('-datetime')
         self.client = Client()
         self.client.login(username='capflam', password='123')
 
