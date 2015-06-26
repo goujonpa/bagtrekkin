@@ -22,3 +22,11 @@ class CompanyResourceTestCase(AuthResourceTestCase):
     def test_get_schema_authorized(self):
         '''Should return appropriate schema based on Resource'''
         response, data = self.get_schema_authorized()
+
+    def test_get_detail_basic_auth(self):
+        '''Should return object details based on Basic Authentication'''
+        response, data = self.get_detail_basic_auth()
+
+    def test_get_detail_apikey_auth(self):
+        '''Should return object details based on ApiKey Authentication'''
+        response, data = self.get_detail_apikey_auth()
