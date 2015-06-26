@@ -129,7 +129,7 @@ class LuggageResource(ModelResource):
 
     class Meta:
         queryset = Luggage.objects.all()
-        allowed_methods = ['get', 'post', 'patch', 'put', 'delete']
+        allowed_methods = ['get', 'post']
         authentication = MultiAuthentication(BasicAuthentication(), ApiKeyAuthentication())
         authorization = Authorization()
         filtering = {

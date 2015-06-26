@@ -70,6 +70,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'bagtrekkin.middlewares.ViewExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'bagtrekkin.urls'

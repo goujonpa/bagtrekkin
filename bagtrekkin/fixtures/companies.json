@@ -118,5 +118,21 @@
 			"name": "Azul",
 			"code": "AZU"
 		}
+	},
+	{
+		"model": "bagtrekkin.company",
+		"pk": 16,
+		"fields": {
+			"name": "Tam Linhas Aereas",
+			"code": "TAM"
+		}
+	},
+	{
+		"model": "bagtrekkin.company",
+		"pk": 17,
+		"fields": {
+			"name": "British Airways",
+			"code": "BAW"
+		}
 	}
 ]
