@@ -39,3 +39,10 @@ class FormSignupTestCase(TestCase):
         self.assertTrue((user is not None))
         employee = Employee.objects.get(user=user)
         self.assertTrue((employee is not None))
+
+    def test_username_already_exists_exception(self):
+        """An already existing username raises a validationerror"""
+        if self.form.is_valid():
+            self.form.save()
+        form2 = FormSignup(self.data)
+        self.assertFalse(form2.is_valid())
