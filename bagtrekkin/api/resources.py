@@ -171,11 +171,11 @@ class LuggageResource(ModelResource):
         data = dict_strip_unicode_keys(deserialized)
         if 'objects' not in data:
             raise BadRequest('Missing objects list.')
+        if not data.get('objects'):
+            raise BadRequest('Empty objects list.')
         base_bundle = self.build_bundle(request=request)
         supposed_objects = self.obj_get_list(bundle=base_bundle, **self.remove_api_resource_names(kwargs))
         received_numbers = [obj['material_number'] for obj in data.get('objects')]
-        if not received_numbers:
-            raise BadRequest('Empty objects list.')
         received_filters = {'material_number__in': received_numbers}
         received_objects = self.get_object_list(request).filter(**received_filters)
         tp_objects = [obj for obj in received_objects if obj in supposed_objects]
