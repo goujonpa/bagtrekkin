@@ -68,3 +68,21 @@ class AuthResourceTestCase(ResourceTestCase):
         '''Call get_list_authorized with ApiKey Authentication'''
         auth = self.get_apikey_auth()
         return self.get_list_authorized(auth)
+
+    def get_detail_authorized(self, auth):
+        '''Code factorization to test authenticated resource access'''
+        response = self.api_client.get('%s1/' % self.endpoint, format='json', authentication=auth)
+        self.assertValidJSONResponse(response)
+        data = self.deserialize(response)
+        self.assertKeys(data, self.fields)
+        return response, data
+
+    def get_detail_basic_auth(self):
+        '''Call with get_detail_authorized with Basic Authentication'''
+        auth = self.get_basic_auth()
+        return self.get_detail_authorized(auth)
+
+    def get_detail_apikey_auth(self):
+        '''Call get_detail_authorized with ApiKey Authentication'''
+        auth = self.get_apikey_auth()
+        return self.get_detail_authorized(auth)
