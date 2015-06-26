@@ -14,5 +14,13 @@
 			"material_number": "E200 6296 9619 0229 0370 EC2B",
 			"passenger_id": 1
 		}
+	},
+	{
+		"model": "bagtrekkin.luggage",
+		"pk": 3,
+		"fields": {
+			"material_number": "E983 0000 1111 2222 3333 4444",
+			"passenger_id": 2
+		}
 	}
 ]

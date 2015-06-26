@@ -10,5 +10,17 @@
 			"pnr": "ABC123",
 			"tel": "0123456789"
 		}
+	},
+	{
+		"model": "bagtrekkin.passenger",
+		"pk": 2,
+		"fields": {
+			"email": "test2@mail.com",
+			"first_name": "Claude",
+			"last_name": "Dupont",
+			"gender": "m",
+			"pnr": "798HJK",
+			"tel": "0987654321"
+		}
 	}
 ]

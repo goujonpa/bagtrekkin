@@ -176,23 +176,23 @@ class Log(models.Model):
 
     @property
     def airport(self):
-        self.employee.airport
+        return self.employee.airport
 
     @property
     def district(self):
-        self.employee.district
+        return self.employee.district
 
     @property
     def stage(self):
-        self.employee.function
+        return self.employee.function
 
     @property
     def passenger(self):
-        self.luggage.passenger
+        return self.luggage.passenger
 
     @property
     def pnr(self):
-        self.luggae.passenger.pnr
+        return self.luggae.passenger.pnr
 
     @staticmethod
     def create(user, luggage, flight=None, status=LOG_STATUSES[2][0]):
