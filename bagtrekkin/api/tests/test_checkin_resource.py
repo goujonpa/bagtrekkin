@@ -153,7 +153,7 @@ class CheckinResourceTestCase(AuthResourceTestCase):
         post_data = {
             'pnr': 'ABC123',
             'last_name': 'Smith',
-            'material_number': 'E487 3267 3298 4283 3291 8923'
+            'material_number': 'E487 3267 3298 4283 6782 9314'
         }
         self.assertEqual(Passenger.objects.count(), 1)
         self.assertEqual(Eticket.objects.count(), 1)
