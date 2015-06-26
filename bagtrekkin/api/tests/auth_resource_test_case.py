@@ -19,12 +19,15 @@ class AuthResourceTestCase(ResourceTestCase):
         self.endpoint = '/api/%s/%s/' % (self.version, self.resource)
 
     def get_basic_auth(self):
+        '''Returns Bacic Authentication'''
         return self.create_basic(self.username, self.password)
 
     def get_apikey_auth(self):
+        '''Returns ApiKey Authentication'''
         return self.create_apikey(self.username, self.apikey)
 
     def get_schema_authorized(self, additional=[]):
+        '''Code factorization to test resource schema'''
         auth = self.get_apikey_auth()
         response = self.api_client.get('%sschema/' % self.endpoint, format='json', authentication=auth)
         self.assertHttpOK(response)
@@ -42,12 +45,14 @@ class AuthResourceTestCase(ResourceTestCase):
         return response, data
 
     def get_list_unauthorized(self):
+        '''Code Factorization to test unauthenticated resource access'''
         response = self.api_client.get(self.endpoint, format='json')
         self.assertHttpUnauthorized(response)
         data = self.deserialize(response)
         return response, data
 
     def get_list_authorized(self, auth):
+        '''Code factorization to test authenticated resource access'''
         response = self.api_client.get(self.endpoint, format='json', authentication=auth)
         self.assertValidJSONResponse(response)
         data = self.deserialize(response)
@@ -55,9 +60,11 @@ class AuthResourceTestCase(ResourceTestCase):
         return response, data
 
     def get_list_basic_auth(self):
+        '''Call with get_list_authorized with Basic Authentication'''
         auth = self.get_basic_auth()
         return self.get_list_authorized(auth)
 
     def get_list_apikey_auth(self):
+        '''Call get_list_authorized with ApiKey Authentication'''
         auth = self.get_apikey_auth()
         return self.get_list_authorized(auth)

@@ -10,9 +10,11 @@ class LuggageResourceTestCase(AuthResourceTestCase):
     allowed_list_http_methods = ['get', 'post']
 
     def test_get_list_unauthorized(self):
+        '''Should return unauthorized response'''
         self.get_list_unauthorized()
 
     def test_get_list_basic_auth_without_current_flight(self):
+        '''Should return objects list based on Basic Authentication without Employee's current_flight'''
         auth = self.get_basic_auth()
         response = self.api_client.get(self.endpoint, format='json', authentication=auth)
         self.assertHttpBadRequest(response)
@@ -25,6 +27,7 @@ class LuggageResourceTestCase(AuthResourceTestCase):
         )
 
     def test_get_list_apikey_auth_without_current_flight(self):
+        '''Should return objects list based on ApiKey Authentication without Employee's current_flight'''
         auth = self.get_apikey_auth()
         response = self.api_client.get(self.endpoint, format='json', authentication=auth)
         self.assertHttpBadRequest(response)
@@ -37,4 +40,5 @@ class LuggageResourceTestCase(AuthResourceTestCase):
         )
 
     def test_get_schema_authorized(self):
+        '''Should return appropriate schema based on Resource'''
         response, data = self.get_schema_authorized(['filtering'])

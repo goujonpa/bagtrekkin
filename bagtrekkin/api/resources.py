@@ -220,7 +220,7 @@ class CheckinResource(Resource):
         deserialized = self.deserialize(request, request.body,
                                         format=request.META.get('CONTENT_TYPE', 'application/json'))
         deserialized = self.alter_deserialized_detail_data(request, deserialized)
-        if all(k in deserialized for k in ['pnr', 'last_name', 'material_number']):
+        if all([k in deserialized for k in ['pnr', 'last_name', 'material_number']]):
             passenger, etickets, luggage = build_from_pnr_lastname_material_number(
                 deserialized['pnr'],
                 deserialized['last_name'],
@@ -235,13 +235,13 @@ class CheckinResource(Resource):
                     for flight in e.flights.order_by('flight_date', 'departure_time')
                 ][0]
             except IndexError:
-                return http.HttpApplicationError(
+                raise IndexError(
                     'Application didn\'t find any flight for etickets.'
                 )
             Log.create(user=request.user, luggage=luggage, flight=flight)
             return http.HttpCreated()
         else:
-            return http.HttpApplicationError(
+            raise ValueError(
                 'Missing pnr and/or last_name and/or material_number.'
             )
 
