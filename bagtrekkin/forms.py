@@ -4,7 +4,7 @@ from django import forms
 from django.forms.utils import ErrorList
 
 from bagtrekkin.models import EMPLOYEE_GENDERS, EMPLOYEE_FUNCTIONS
-from bagtrekkin.models import Employee, Company, Passenger, Luggage, Log
+from bagtrekkin.models import Airport, Employee, Company, Passenger, Luggage, Log
 
 
 class UkErrorList(ErrorList):
@@ -68,8 +68,8 @@ class EmployeeForm(UserChangeForm):
 
     gender = forms.ChoiceField(choices=EMPLOYEE_GENDERS, required=True)
     function = forms.ChoiceField(choices=EMPLOYEE_FUNCTIONS, required=True)
-    district = forms.CharField(max_length=64, required=True)
-    company = forms.ModelChoiceField(queryset=Company.objects.all(), empty_label="(Choose a Company)")
+    airport = forms.ModelChoiceField(queryset=Company.objects.all(), empty_label="(Choose a Company)")
+    company = forms.ModelChoiceField(queryset=Airport.objects.all(), empty_label="(Choose an Airport)")
     old_password = forms.CharField(label="Old password", widget=forms.PasswordInput)
     new_password1 = forms.CharField(label="New password", widget=forms.PasswordInput)
     new_password2 = forms.CharField(label="New password confirmation", widget=forms.PasswordInput)
@@ -85,7 +85,7 @@ class EmployeeForm(UserChangeForm):
         try:
             self.fields['gender'].initial = self.instance.employee.gender
             self.fields['function'].initial = self.instance.employee.function
-            self.fields['district'].initial = self.instance.employee.district
+            self.fields['airport'].initial = self.instance.employee.airport
             self.fields['company'].initial = self.instance.employee.company
         except Employee.DoesNotExist:
             pass
@@ -126,7 +126,7 @@ class EmployeeForm(UserChangeForm):
             self.instance.save()
             self.instance.employee.gender = self.cleaned_data['gender']
             self.instance.employee.function = self.cleaned_data['function']
-            self.instance.employee.district = self.cleaned_data['district']
+            self.instance.employee.airport = self.cleaned_data['airport']
             self.instance.employee.company = self.cleaned_data['company']
             self.instance.employee.save()
         return self.instance

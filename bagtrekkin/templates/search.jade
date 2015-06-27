@@ -8,8 +8,7 @@ block vars
 
 block navbar-center
   div.uk-navbar-content.uk-navbar-center
-      {{ request.user.get_full_name }} - {{ request.user.employee.district }}
-
+      {{ request.user.get_full_name }} - {{ request.user.employee.airport }}
 block content
   div.uk-container.uk-container-center
     div.uk-grid(data-uk-grid-margin)
