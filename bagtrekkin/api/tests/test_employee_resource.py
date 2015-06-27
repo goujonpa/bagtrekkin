@@ -6,7 +6,7 @@ class EmployeeResourceTestCase(AuthResourceTestCase):
     resource = 'employee'
     fixtures = ['users', 'employees', 'airports', 'companies', 'flights']
     fields = [
-        'current_flight', 'district', 'function',
+        'airport', 'company', 'current_flight', 'function',
         'gender', 'id', 'resource_uri', 'status', 'user',
     ]
     allowed_detail_http_methods = ['get', 'post']
@@ -70,4 +70,4 @@ class EmployeeResourceTestCase(AuthResourceTestCase):
         self.assertHttpBadRequest(response)
         data = self.deserialize(response)
         self.assertIn('error', data)
-        self.assertEqual(data['error'],'Only update on current_flight allowed.')
+        self.assertEqual(data['error'], 'Only update on current_flight allowed.')
