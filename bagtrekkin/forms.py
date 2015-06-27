@@ -82,6 +82,8 @@ class EmployeeForm(UserChangeForm):
         self.fields['old_password'].required = False
         self.fields['new_password1'].required = False
         self.fields['new_password2'].required = False
+        if not isinstance(self.instance, User):
+            raise AttributeError('No User instance provided to the employee form')
         try:
             self.fields['gender'].initial = self.instance.employee.gender
             self.fields['function'].initial = self.instance.employee.function
