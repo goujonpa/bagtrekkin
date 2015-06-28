@@ -11,6 +11,7 @@ install:
 before_script:
 - psql -c 'create database travis_ci_test;' -U postgres
 - python manage.py migrate
+- python manage.py collectstatic --noinput
 script:
 - coverage run --source=bagtrekkin manage.py test
 - coverage report -m
