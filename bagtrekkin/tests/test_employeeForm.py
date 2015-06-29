@@ -49,3 +49,10 @@ class EmployeeFormTestCase(TestCase):
             employee_form = EmployeeForm()
         with self.assertRaises(AttributeError):
             employee_form = EmployeeForm(self.employee_data)
+
+    def test_invalid_if_bad_password(self):
+        """Shouldn't be valid if password change AND invalid old_password"""
+        self.employee_data.update({'old_password': 'trucmuche'})
+        user = User.objects.first()
+        employee_form = EmployeeForm(self.employee_data, instance=user)
+        self.assertFalse(employee_form.is_valid())
