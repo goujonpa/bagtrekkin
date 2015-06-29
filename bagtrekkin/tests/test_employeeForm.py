@@ -63,3 +63,10 @@ class EmployeeFormTestCase(TestCase):
         user = User.objects.first()
         employee_form = EmployeeForm(self.employee_data, instance=user)
         self.assertFalse(employee_form.is_valid())
+
+    def test_invalid_if_false_airport(self):
+        self.employee_data.update({'airport': '1000'})
+        user = User.objects.first()
+        employee_form = EmployeeForm(self.employee_data, instance=user)
+        self.assertFalse(employee_form.is_valid())
+
