@@ -5,10 +5,10 @@
 		"fields": {
 			"status": "active",
 			"function": "checkin",
-            "airport_id": 1,
+			"airport_id": 1,
 			"gender": "m",
 			"company_id": 1,
-            "user_id": 1,
+			"user_id": 1,
 			"current_flight": null
 		}
 	}
