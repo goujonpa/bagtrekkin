@@ -2,8 +2,9 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 
-from bagtrekkin.forms import FormSignup, EmployeeForm
+from bagtrekkin.forms import SignupForm, EmployeeForm
 from bagtrekkin.models import Employee, Company, Airport
+from bagtrekkin.models import EMPLOYEE_GENDERS, EMPLOYEE_FUNCTIONS
 
 
 class EmployeeFormTestCase(TestCase):
@@ -11,45 +12,40 @@ class EmployeeFormTestCase(TestCase):
 
     def setUp(self):
         super(EmployeeFormTestCase, self).setUp()
-        self.client = Client()
-        company = Company.objects.get(pk=1)
-        airport = Airport.objects.get(pk=1)
-        self.user_data = {
-            'username': 'totodu33',
-            'password1': 'tonton',
-            'password2': 'tonton',
-            'first_name': 'toto',
-            'last_name': 'leouf',
-            'email': 'totolebg@email.com'
-        }
         self.employee_data = {
+            'username': 'capflam',
+            'first_name': 'Capitain',
+            'last_name': 'Flamme',
             'gender': 'f',
-            'function': 'checkin',
-            'airport': airport,
-            'company': company,
-            'old_password': 'tonton',
-            'new_password1': 'tonton2',
-            'new_password2': 'tonton2'
+            'function': 'ramp',
+            'airport': '2',
+            'company': '2',
+            'old_password': '123',
+            'new_password1': 'soleil',
+            'new_password2': 'soleil'
         }
+        self.client.login(username='capflam', password='123')
 
     def test_basic_post(self):
         """Basic save should work"""
-        user_form = FormSignup(self.user_data)
-        if user_form.is_valid():
-            user = user_form.save()
-        employee_form = EmployeeForm(self.employee_data, user)
+        user = User.objects.first()
+        employee_form = EmployeeForm(self.employee_data, instance=user)
         if employee_form.is_valid():
-            print('valid !!')
             employee_form.save()
-        user = User.objects.get(pk=2)
+        else:
+            print(employee_form.errors)
         employee = Employee.objects.get(user=user)
-        self.assertEqual(user.username, 'totodu33')
-        self.assertEqual(employee.district, 'oklm')
+        self.assertIsInstance(employee, Employee)
+        self.assertEqual(user.username, 'capflam')
+        self.assertTrue(user.check_password('soleil'))
+        self.assertEqual(employee.airport.code, 'CQF')
+        self.assertEqual(employee.company.code, 'RBU')
+        self.assertEqual(employee.gender, 'f')
+        self.assertEqual(employee.function, 'ramp')
 
     def test_init_without_instance_parameter(self):
-        """Not giving an instance should raise error"""
-        #with self.assertRaises(AttributeError):
-            #employee_form = EmployeeForm()
-        #with self.assertRaises(AttributeError):
-            #employee_form = EmployeeForm(self.employee_data)
-        pass
+        """Not passing an instance should raise an error"""
+        with self.assertRaises(AttributeError):
+            employee_form = EmployeeForm()
+        with self.assertRaises(AttributeError):
+            employee_form = EmployeeForm(self.employee_data)

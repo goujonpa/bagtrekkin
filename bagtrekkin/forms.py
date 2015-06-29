@@ -74,6 +74,11 @@ class EmployeeForm(UserChangeForm):
     new_password1 = forms.CharField(label="New password", widget=forms.PasswordInput)
     new_password2 = forms.CharField(label="New password confirmation", widget=forms.PasswordInput)
 
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email',)
+        excludes = ('password', )
+
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
         super(EmployeeForm, self).__init__(*args, **kwargs)
@@ -82,7 +87,7 @@ class EmployeeForm(UserChangeForm):
         self.fields['old_password'].required = False
         self.fields['new_password1'].required = False
         self.fields['new_password2'].required = False
-        if not isinstance(self.instance, User):
+        if kwargs.get('instance') is None:
             raise AttributeError('No User instance provided to the employee form')
         try:
             self.fields['gender'].initial = self.instance.employee.gender
@@ -91,11 +96,6 @@ class EmployeeForm(UserChangeForm):
             self.fields['company'].initial = self.instance.employee.company
         except Employee.DoesNotExist:
             pass
-
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email',)
-        excludes = ('password', )
 
     def clean_password(self):
         pass

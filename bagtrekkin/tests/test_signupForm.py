@@ -2,25 +2,25 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 
-from bagtrekkin.forms import FormSignup
+from bagtrekkin.forms import SignupForm
 from bagtrekkin.models import Employee
 
 
-class FormSignupTestCase(TestCase):
+class SignupFormTestCase(TestCase):
     fixtures = ['airports', 'companies', 'passengers', 'flights', 'users', 'employees', 'luggages', 'logs']
 
     def setUp(self):
-        super(FormSignupTestCase, self).setUp()
+        super(SignupFormTestCase, self).setUp()
         self.client = Client()
         self.data = {
             'username': 'totodu33',
             'password1': 'tonton',
             'password2': 'tonton',
             'first_name': 'toto',
-            'last_name': 'leouf',
+            'last_name': 'lebogoss',
             'email': 'totolebg@email.com'
         }
-        self.form = FormSignup(self.data)
+        self.form = SignupForm(self.data)
 
     def test_fields_required(self):
         """Every field should be required"""
@@ -36,13 +36,19 @@ class FormSignupTestCase(TestCase):
         if self.form.is_valid():
             self.form.save()
         user = User.objects.get(username='totodu33')
-        self.assertTrue((user is not None))
+        self.assertIsInstance(user, User)
+        self.assertEqual(user.username, 'totodu33')
+        self.assertTrue(user.check_password, 'tonton')
+        self.assertEqual(user.first_name, 'toto')
+        self.assertEqual(user.last_name, 'lebogoss')
+        self.assertEqual(user.email, 'totolebg@email.com')
+        self.assertFalse(user.is_staff)
         employee = Employee.objects.get(user=user)
-        self.assertTrue((employee is not None))
+        self.assertIsInstance(employee, Employee)
 
     def test_username_already_exists_exception(self):
         """An already existing username raises a validationerror"""
         if self.form.is_valid():
             self.form.save()
-        form2 = FormSignup(self.data)
+        form2 = SignupForm(self.data)
         self.assertFalse(form2.is_valid())
