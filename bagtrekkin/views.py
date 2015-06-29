@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from bagtrekkin.forms import FormSignup, EmployeeForm, SearchForm
+from bagtrekkin.forms import SignupForm, EmployeeForm, SearchForm
 from bagtrekkin.models import Luggage, Passenger, Log
 
 
@@ -18,7 +18,7 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = FormSignup(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
             user = authenticate(username=form.cleaned_data['username'],
@@ -30,7 +30,7 @@ def signup(request):
             context.update(csrf(request))
             return render(request, 'signup.jade', context)
     else:
-        form = FormSignup()
+        form = SignupForm()
         context = {'form': form}
         context.update(csrf(request))
         return render(request, 'signup.jade', context)

@@ -4,7 +4,7 @@ from django.test import TestCase
 from bagtrekkin.forms import SearchForm
 from bagtrekkin.models import Passenger, Luggage, Log
 
-class searchViewTestCase(TestCase):
+class SearchViewTestCase(TestCase):
     fixtures = ['airports', 'companies', 'passengers', 'etickets', 'flights', 'employees', 'users', 'luggages', 'logs']
 
     def test_search_redirects(self):
