@@ -123,7 +123,6 @@ class Flight(models.Model):
 
 class Employee(models.Model):
     gender = models.CharField(max_length=1, choices=EMPLOYEE_GENDERS, blank=True, null=True)
-    district = models.CharField(max_length=63, blank=True, null=True)
     status = models.CharField(max_length=31, choices=EMPLOYEE_STATUSES, blank=True, null=True)
     function = models.CharField(max_length=31, choices=EMPLOYEE_FUNCTIONS, blank=True, null=True)
     airport = models.ForeignKey(Airport, blank=True, null=True)
@@ -179,8 +178,8 @@ class Log(models.Model):
         return self.employee.airport
 
     @property
-    def district(self):
-        return self.employee.district
+    def airport(self):
+        return self.employee.airport
 
     @property
     def stage(self):

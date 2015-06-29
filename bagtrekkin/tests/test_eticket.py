@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.test import Client
 
 from bagtrekkin.models import Eticket
 

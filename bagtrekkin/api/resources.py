@@ -70,6 +70,8 @@ class FlightResource(ModelResource):
 class EmployeeResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user', unique=True, readonly=True, full=True)
     current_flight = fields.ForeignKey(FlightResource, 'current_flight', blank=True, null=True, full=True)
+    airport = fields.ForeignKey(AirportResource, 'airport', blank=True, null=True, full=True)
+    company = fields.ForeignKey(CompanyResource, 'company', blank=True, null=True, full=True)
 
     class Meta:
         queryset = Employee.objects.all()
