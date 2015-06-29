@@ -56,3 +56,10 @@ class EmployeeFormTestCase(TestCase):
         user = User.objects.first()
         employee_form = EmployeeForm(self.employee_data, instance=user)
         self.assertFalse(employee_form.is_valid())
+
+    def test_invalid_if_diff_new_pwd(self):
+        """Shouldn't be valid if new passwords are differents"""
+        self.employee_data.update({'new_password1': 'trucmuche'})
+        user = User.objects.first()
+        employee_form = EmployeeForm(self.employee_data, instance=user)
+        self.assertFalse(employee_form.is_valid())
