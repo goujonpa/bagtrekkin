@@ -70,3 +70,8 @@ class EmployeeFormTestCase(TestCase):
         employee_form = EmployeeForm(self.employee_data, instance=user)
         self.assertFalse(employee_form.is_valid())
 
+    def test_invalid_if_false_company(self):
+        self.employee_data.update({'company': '1000'})
+        user = User.objects.first()
+        employee_form = EmployeeForm(self.employee_data, instance=user)
+        self.assertFalse(employee_form.is_valid())
