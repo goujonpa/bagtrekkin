@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -38,9 +39,13 @@ def signup(request):
 
 @login_required
 def search(request):
+    problematic_luggages = Log.objects.exclude(status='tp').order_by('-datetime')
+    context = {'pbl': problematic_luggages}
+    if not problematic_luggages:
+        context.update({'error_pbl': 'No problematic luggage'})
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
-        context = {'search_form': search_form}
+        context.update({'search_form': search_form})
         try:
             if search_form.is_valid():
                 passenger, luggages, logs = search_form.search()
@@ -61,9 +66,7 @@ def search(request):
         context.update(csrf(request))
         return render(request, 'search.jade', context)
     else:
-        context = {
-            'search_form': SearchForm(),
-        }
+        context.update({'search_form': SearchForm()})
         context.update(csrf(request))
         return render(request, 'search.jade', context)
 
