@@ -62,7 +62,7 @@ class SearchForm(forms.Form):
         return (passenger, luggages, logs)
 
 
-class EmployeeForm(UserChangeForm):
+class ProfileForm(UserChangeForm):
     error_css_class = 'uk-form-danger'
     required_css_class = 'required'
 
@@ -81,7 +81,7 @@ class EmployeeForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
-        super(EmployeeForm, self).__init__(*args, **kwargs)
+        super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True

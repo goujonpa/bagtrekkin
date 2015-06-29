@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -9,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from bagtrekkin.forms import SignupForm, EmployeeForm, SearchForm
+from bagtrekkin.forms import SignupForm, ProfileForm, SearchForm
 from bagtrekkin.models import Luggage, Passenger, Log
 
 
@@ -74,7 +73,7 @@ def search(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = EmployeeForm(request.POST, instance=request.user)
+        form = ProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('bt_search'))
@@ -83,7 +82,7 @@ def profile(request):
             context.update(csrf(request))
             return render(request, 'profile.jade', context)
     else:
-        form = EmployeeForm(instance=request.user)
+        form = ProfileForm(instance=request.user)
         context = {'form': form}
         context.update(csrf(request))
         return render(request, 'profile.jade', context)
