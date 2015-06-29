@@ -77,6 +77,7 @@ class EmployeeForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
         super(EmployeeForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
         self.fields['old_password'].required = False

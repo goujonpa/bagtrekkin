@@ -1,4 +1,7 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
+
+from bagtrekkin.models import Employee
 
 
 class SignupViewTestCase(TestCase):
@@ -20,5 +23,17 @@ class SignupViewTestCase(TestCase):
             self.assertFormError(response, 'form', 'password2', 'This field is required.')
 
     def test_signup_post_successful(self):
-        with self.assertTemplateUsed('signup.jade'):
-            response = self.client.post('/signup.html', {})
+        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(Employee.objects.count(), 0)
+        response = self.client.post('/signup.html', {
+            'username': 'jeanvaljean',
+            'first_name': 'Jean',
+            'last_name': 'Valjean',
+            'email': 'jeanvaljean@space.com',
+            'password1': '123',
+            'password2': '123'
+        })
+        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(Employee.objects.count(), 1)
+        self.assertRedirects(response, 'http://testserver/search.html')
+        self.assertIn('_auth_user_id', self.client.session)
