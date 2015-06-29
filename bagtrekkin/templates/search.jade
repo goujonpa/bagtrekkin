@@ -102,4 +102,35 @@ block content
               div.uk-block.uk-block-muted
                 div.uk-container
                   h3 Lost and Founds
-                  p Luggage list
+                  if pbl
+                    table.uk-table
+                      caption Problematic Luggages
+                      thead
+                        tr
+                          th RFID
+                          th Date
+                          th Status
+                          th Employee
+                          th Flight
+                      tbody
+                        {% for log in pbl %}
+                        tr
+                          th {{ log.luggage.material_number }}
+                          th {{ log.datetime }}
+                          {% if log.status == 'fp' %}
+                          th.uk-text-danger Absent
+                          {% elif log.status == 'fn' %}
+                          th.uk-text-warning Present at the wrong place
+                          {% elif log.status == 'tp' %}
+                          th.uk-text-success OK
+                          {% endif %}
+                          th {{ log.employee }}
+                          th {{ log.flight }}
+                        {% endfor %}
+                  if error_pbl
+                    table.uk-table
+                      caption Everything OK
+                      thead
+                        tr
+                          th Good job:
+                          th {{error_pbl}}

@@ -4,6 +4,7 @@ from django.test import TestCase
 from bagtrekkin.forms import SearchForm
 from bagtrekkin.models import Passenger, Luggage, Log
 
+
 class SearchViewTestCase(TestCase):
     fixtures = ['airports', 'companies', 'passengers', 'etickets', 'flights', 'employees', 'users', 'luggages', 'logs']
 
