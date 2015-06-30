@@ -24,8 +24,6 @@ class Log(models.Model):
     def airport(self):
         return self.employee.airport
 
-        return self.employee.airport
-
     @property
     def stage(self):
         return self.employee.function
@@ -36,30 +34,22 @@ class Log(models.Model):
 
     @property
     def pnr(self):
-        return self.luggae.passenger.pnr
+        return self.luggage.passenger.pnr
 
     @staticmethod
     def create(user, luggage, flight=None, status=LOG_STATUSES[2][0]):
         '''Create a new Log based on user, using luggage and flight if any'''
         if not luggage.pk:
             raise InternalError('Luggage can\'t be saved... Please try again.')
-        try:
-            employee = user.employee
-        except Employee.DoesNotExist:
-            raise Employee.DoesNotExist(
-                'Missing Employee Object for current User. '
-                'Please create your profile on web the application.'
-            )
         if not flight:
-            if employee.current_flight:
-                flight = employee.current_flight
-            else:
+            if not user.employee.current_flight:
                 raise FieldError(
                     'Missing current_flight for current Employee. '
                     'Please set your current_flight first.'
                 )
+            flight = user.employee.current_flight
         datetime = timezone.now()
         Log(
-            datetime=datetime, employee=employee,
+            datetime=datetime, employee=user.employee,
             luggage=luggage, flight=flight, status=status
         ).save()
