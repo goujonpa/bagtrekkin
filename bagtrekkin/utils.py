@@ -1,13 +1,11 @@
 import requests
 
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
 from bagtrekkin.models.constants import GENDERS
 from bagtrekkin.models.eticket import Eticket
 from bagtrekkin.models.flight import Flight
-from bagtrekkin.models.log import Log
 from bagtrekkin.models.luggage import Luggage
 from bagtrekkin.models.passenger import Passenger
 

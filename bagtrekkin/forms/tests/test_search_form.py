@@ -32,7 +32,7 @@ class SearchFormTestCase(TestCase):
 
     def test_init_no_data(self):
         '''Init should be successful and not valid without provided data'''
-        form = self.form_generation()
+        self.form_generation()
 
     def test_init_pnr_data(self):
         '''Init should be successful and valid with pnr provided data'''
@@ -46,7 +46,7 @@ class SearchFormTestCase(TestCase):
 
     def test_init_two_data_not_valid(self):
         '''Form with pnr AND material_number shouldn't be valid (but init successful)'''
-        form = self.form_generation(pnr='YSVI82', material_number='FFFFFFFF')
+        self.form_generation(pnr='YSVI82', material_number='FFFFFFFF')
 
     def test_search_good_pnr(self):
         '''Found objects should correspond to what we searched'''

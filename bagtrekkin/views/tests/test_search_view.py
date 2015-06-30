@@ -1,7 +1,6 @@
-from mock import patch, MagicMock
+from mock import patch
 from django.test import TestCase
 
-from bagtrekkin.forms.search_form import SearchForm
 from bagtrekkin.models.log import Log
 from bagtrekkin.models.luggage import Luggage
 from bagtrekkin.models.passenger import Passenger

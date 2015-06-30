@@ -1,6 +1,5 @@
 from tastypie import fields
 from tastypie.authentication import MultiAuthentication, ApiKeyAuthentication, BasicAuthentication
-from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 
 from bagtrekkin.models.eticket import Eticket

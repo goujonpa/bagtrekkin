@@ -1,7 +1,6 @@
 from django import forms
 
 from bagtrekkin.forms.uk_error_list import UkErrorList
-from bagtrekkin.models.constants import GENDERS, EMPLOYEE_FUNCTIONS
 from bagtrekkin.models.log import Log
 from bagtrekkin.models.luggage import Luggage
 from bagtrekkin.models.passenger import Passenger

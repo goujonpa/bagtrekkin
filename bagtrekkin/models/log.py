@@ -1,5 +1,5 @@
 from django.core.exceptions import FieldError
-from django.db import models
+from django.db import models, InternalError
 from django.utils import timezone
 
 from bagtrekkin.models.constants import LOG_STATUSES
@@ -24,8 +24,6 @@ class Log(models.Model):
     def airport(self):
         return self.employee.airport
 
-    @property
-    def airport(self):
         return self.employee.airport
 
     @property

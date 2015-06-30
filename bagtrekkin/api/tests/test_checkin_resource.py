@@ -8,6 +8,7 @@ from bagtrekkin.models.log import Log
 from bagtrekkin.models.luggage import Luggage
 from bagtrekkin.models.passenger import Passenger
 
+
 class CheckinResourceTestCase(AuthResourceTestCase):
     version = 'v1'
     resource = 'checkin'

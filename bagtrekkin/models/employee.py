@@ -7,6 +7,7 @@ from bagtrekkin.models.flight import Flight
 
 from bagtrekkin.models.constants import GENDERS, EMPLOYEE_FUNCTIONS, EMPLOYEE_STATUSES
 
+
 class Employee(models.Model):
     gender = models.CharField(max_length=1, choices=GENDERS, blank=True, null=True)
     status = models.CharField(max_length=31, choices=EMPLOYEE_STATUSES, blank=True, null=True)
