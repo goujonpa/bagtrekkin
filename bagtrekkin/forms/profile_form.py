@@ -7,7 +7,6 @@ from bagtrekkin.forms.uk_error_list import UkErrorList
 from bagtrekkin.models.constants import GENDERS, EMPLOYEE_FUNCTIONS
 from bagtrekkin.models.airport import Airport
 from bagtrekkin.models.company import Company
-from bagtrekkin.models.employee import Employee
 
 
 class ProfileForm(UserChangeForm):
@@ -30,21 +29,18 @@ class ProfileForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         kwargs.update({'error_class': UkErrorList})
         super(ProfileForm, self).__init__(*args, **kwargs)
+        if kwargs.get('instance') is None:
+            raise AttributeError('No User instance provided to the employee form')
         self.fields['email'].required = True
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
         self.fields['old_password'].required = False
         self.fields['new_password1'].required = False
         self.fields['new_password2'].required = False
-        if kwargs.get('instance') is None:
-            raise AttributeError('No User instance provided to the employee form')
-        try:
-            self.fields['gender'].initial = self.instance.employee.gender
-            self.fields['function'].initial = self.instance.employee.function
-            self.fields['airport'].initial = self.instance.employee.airport
-            self.fields['company'].initial = self.instance.employee.company
-        except Employee.DoesNotExist:
-            pass
+        self.fields['gender'].initial = self.instance.employee.gender
+        self.fields['function'].initial = self.instance.employee.function
+        self.fields['airport'].initial = self.instance.employee.airport
+        self.fields['company'].initial = self.instance.employee.company
 
     def clean_password(self):
         pass

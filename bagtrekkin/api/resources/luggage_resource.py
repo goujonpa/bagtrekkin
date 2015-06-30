@@ -8,7 +8,6 @@ from tastypie.utils import dict_strip_unicode_keys
 
 from bagtrekkin.models.log import Log
 from bagtrekkin.models.luggage import Luggage
-from bagtrekkin.models.employee import Employee
 
 from bagtrekkin.api.resources.passenger_resource import PassengerResource
 
@@ -25,32 +24,18 @@ class LuggageResource(ModelResource):
             'passenger': ALL
         }
 
-    def obj_create(self, bundle, **kwargs):
-        bundle = super(LuggageResource, self).obj_create(bundle, **kwargs)
-        Log.create(
-            user=bundle.request.user,
-            luggage=bundle.obj,
-        )
-        return bundle
-
     def apply_filters(self, request, applicable_filters):
-        try:
-            if request.user.employee.current_flight:
-                filters = Luggage.filters_from_flight(
-                    request.user.employee.current_flight
-                )
-                return super(LuggageResource, self).apply_filters(
-                    request, applicable_filters
-                ).filter(**filters)
-            else:
-                raise BadRequest(
-                    'Missing current_flight for current Employee. '
-                    'Please set your current_flight first.'
-                )
-        except Employee.DoesNotExist:
+        if request.user.employee.current_flight:
+            filters = Luggage.filters_from_flight(
+                request.user.employee.current_flight
+            )
+            return super(LuggageResource, self).apply_filters(
+                request, applicable_filters
+            ).filter(**filters)
+        else:
             raise BadRequest(
-                'Missing Employee Object for current User. '
-                'Please create your profile on web the application.'
+                'Missing current_flight for current Employee. '
+                'Please set your current_flight first.'
             )
 
     def post_list(self, request, **kwargs):
