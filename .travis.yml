@@ -16,7 +16,7 @@ script:
 - coverage run --source=bagtrekkin manage.py test
 - flake8 bagtrekkin
 after_script:
-- coverage report -m
+- coverage report -m --omit=bagtrekkin/wsgi.py
 - coveralls --verbose
 notifications:
   slack:

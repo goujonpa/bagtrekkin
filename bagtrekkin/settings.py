@@ -22,9 +22,9 @@ LOGIN_REDIRECT_URL = "bt_search"
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 ADMINS = (
-    ('rmf4', 'rmf4@cin.ufpe.br'),
     ('hr2', 'hr2@cin.ufpe.br'),
     ('pjmg', 'pjmg@cin.ufpe.br'),
+    ('rmf4', 'rmf4@cin.ufpe.br'),
 )
 
 MANAGERS = ADMINS
@@ -39,13 +39,6 @@ SECRET_KEY = env('SECRET_KEY', '')
 DEBUG = env('DEBUG', False)
 TASTYPIE_FULL_DEBUG = DEBUG
 
-if DEBUG:
-    DEV_INSTALLED_APPS = (
-        'debug_toolbar',
-    )
-else:
-    DEV_INSTALLED_APPS = ()
-
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -59,7 +52,8 @@ INSTALLED_APPS = (
     'pyjade',
     'widget_tweaks',
     'bagtrekkin',
-) + DEV_INSTALLED_APPS
+    'debug_toolbar',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
