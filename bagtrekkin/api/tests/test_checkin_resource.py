@@ -1,8 +1,12 @@
 from mock import patch, MagicMock
 
 from bagtrekkin.api.tests.auth_resource_test_case import AuthResourceTestCase
-from bagtrekkin.models import Employee, Passenger, Luggage, Flight, Eticket, Log
-
+from bagtrekkin.models.employee import Employee
+from bagtrekkin.models.eticket import Eticket
+from bagtrekkin.models.flight import Flight
+from bagtrekkin.models.log import Log
+from bagtrekkin.models.luggage import Luggage
+from bagtrekkin.models.passenger import Passenger
 
 class CheckinResourceTestCase(AuthResourceTestCase):
     version = 'v1'
@@ -215,7 +219,7 @@ class CheckinResourceTestCase(AuthResourceTestCase):
         self.assertIn('error', data)
         self.assertEqual(data['error'], 'Missing pnr and/or last_name and/or material_number.')
 
-    @patch('bagtrekkin.api.resources.build_from_pnr_lastname_material_number')
+    @patch('bagtrekkin.api.resources.checkin_resource.build_from_pnr_lastname_material_number')
     def test_post_authorized_flight_doesnt_exist(self, mock_build):
         '''Should return an error application didn't find any flight'''
         post_data = {

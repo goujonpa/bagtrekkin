@@ -1,7 +1,10 @@
 from django.core.management import call_command
 
 from bagtrekkin.api.tests.auth_resource_test_case import AuthResourceTestCase
-from bagtrekkin.models import Employee, Flight, Log, Luggage
+from bagtrekkin.models.employee import Employee
+from bagtrekkin.models.flight import Flight
+from bagtrekkin.models.log import Log
+from bagtrekkin.models.luggage import Luggage
 
 
 class LuggageResourceTestCase(AuthResourceTestCase):

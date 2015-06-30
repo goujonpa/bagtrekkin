@@ -3,19 +3,28 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from tastypie.admin import ApiKeyInline
 
-from bagtrekkin.models import Airport, Company, Employee, Passenger, Eticket, Luggage, Log, Flight
+from bagtrekkin.models.airport import Airport
+from bagtrekkin.models.company import Company
+from bagtrekkin.models.employee import Employee
+from bagtrekkin.models.eticket import Eticket
+from bagtrekkin.models.flight import Flight
+from bagtrekkin.models.log import Log
+from bagtrekkin.models.luggage import Luggage
+from bagtrekkin.models.passenger import Passenger
 
 
-# Define an inline admin descriptor for Employee model
-# which acts a bit like a singleton
 class EmployeeInline(admin.StackedInline):
+    '''
+    Define an inline admin descriptor for Employeemodel
+    which acts a bit like a singleton
+    '''
     model = Employee
     can_delete = False
     verbose_name_plural = 'employees'
 
 
-# Define a new User admin
 class UserAdmin(UserAdmin):
+    '''Define a new User admin with Employee and ApiKey attachhed'''
     inlines = (EmployeeInline, ApiKeyInline)
 
 
