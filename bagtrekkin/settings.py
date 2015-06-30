@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'pyjade',
     'widget_tweaks',
     'bagtrekkin',
-    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
