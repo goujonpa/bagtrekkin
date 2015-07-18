@@ -2350,7 +2350,7 @@ nav#subnav {
 /** center content **/
 .container.vAlignCenter {
 	display:table;
-	height:100%;
+	height:10%;
 	width:100%;
 }
 .vAlignCenter .row {
