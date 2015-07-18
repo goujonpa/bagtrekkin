@@ -31,7 +31,7 @@
  * 1. Remove default focus style
  */
 .uk-nav-autocomplete > li.uk-active > a {
-  background: #00a8e6;
+  background: #00acae;
   color: #ffffff;
   /* 1 */
   outline: none;

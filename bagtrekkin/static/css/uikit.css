@@ -1380,7 +1380,7 @@ iframe {
  * Primary
  */
 .uk-block-primary {
-  background: #00a8e6;
+  background: #00acae;
 }
 /*
  * Secondary
@@ -1670,7 +1670,7 @@ ul.uk-nav-sub {
 }
 /* Active */
 .uk-nav-side > li.uk-active > a {
-  background: #00a8e6;
+  background: #00acae;
   color: #ffffff;
 }
 /*
@@ -1709,7 +1709,7 @@ ul.uk-nav-sub {
  */
 .uk-nav-dropdown > li > a:hover,
 .uk-nav-dropdown > li > a:focus {
-  background: #00a8e6;
+  background: #00acae;
   color: #ffffff;
   /* 2 */
   outline: none;
@@ -1750,7 +1750,7 @@ ul.uk-nav-sub {
  */
 .uk-nav-navbar > li > a:hover,
 .uk-nav-navbar > li > a:focus {
-  background: #00a8e6;
+  background: #00acae;
   color: #ffffff;
   /* 2 */
   outline: none;
@@ -2138,7 +2138,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
  * `li` needed for higher specificity to override hover
  */
 .uk-subnav-pill > .uk-active > * {
-  background: #00a8e6;
+  background: #00acae;
   color: #ffffff;
 }
 /* Disabled state
@@ -2278,7 +2278,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
  * Active
  */
 .uk-pagination > .uk-active > span {
-  background: #00a8e6;
+  background: #00acae;
   color: #ffffff;
 }
 /*
@@ -3382,7 +3382,7 @@ select.uk-form-width-mini {
  * Modifier: `uk-button-primary`
  */
 .uk-button-primary {
-  background-color: #00a8e6;
+  background-color: #00acae;
   color: #ffffff;
 }
 /* Hover */
@@ -5362,7 +5362,7 @@ select.uk-form-width-mini {
 .uk-badge {
   display: inline-block;
   padding: 0 5px;
-  background: #00a8e6;
+  background: #00acae;
   font-size: 10px;
   font-weight: bold;
   line-height: 14px;
@@ -7963,7 +7963,7 @@ a.uk-thumbnail:focus {
   color: #444444;
 }
 .uk-contrast .uk-button-primary {
-  background-color: #00a8e6;
+  background-color: #00acae;
   color: #ffffff;
 }
 .uk-contrast .uk-button-primary:hover,
