@@ -16,7 +16,10 @@ def search(request):
         context.update({'error_pbl': 'No problematic luggage'})
     if request.method == 'POST':
         search_form = SearchForm(request.POST)
-        context.update({'search_form': search_form})
+        context.update({
+            'search_form': search_form,
+            'active': 'search'
+        })
         try:
             if search_form.is_valid():
                 passenger, luggages, logs = search_form.search()
@@ -36,7 +39,19 @@ def search(request):
             context.update({'error_message': 'Passenger not found'})
         context.update(csrf(request))
         return render(request, 'search.jade', context)
-    else:
-        context.update({'search_form': SearchForm()})
-        context.update(csrf(request))
-        return render(request, 'search.jade', context)
+    if request.method == 'GET' and 'rfid' in request.GET:
+        try:
+            luggage = Luggage.objects.get(material_number=request.GET['rfid'])
+            logs = Log.objects.filter(luggage=luggage).order_by('-datetime')
+            context.update({
+                'history_luggage': luggage,
+                'history_logs': logs,
+                'active': 'history'
+            })
+        except Luggage.DoesNotExist:
+            context.update({'error_message': 'Luggage not found'})
+        except Log.DoesNotExist:
+            context.update({'error_message': 'Logs not found'})
+    context.update({'search_form': SearchForm()})
+    context.update(csrf(request))
+    return render(request, 'search.jade', context)

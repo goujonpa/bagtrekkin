@@ -14,10 +14,52 @@ block content
     div.uk-grid(data-uk-grid-margin)
       div.uk-width-medium-1-5
         ul.uk-nav.uk-nav-side(data-uk-switcher="{connect:'#tab-1', animation: 'slide-vertical'}")
-          li.uk-active: a(href="#") Search
-          li: a(href="#") Lost and Founds
+          li(class="{% if not active %}uk-active{% endif %}")
+            a(href="#") Lost and Founds
+          li(class="{% if active == 'search' %}uk-active{% endif %}")
+            a(href="#") Search
+          li(class="{% if active == 'history' %}uk-active{% endif %}")
+            a(href="#") History
       div.uk-width-medium-4-5
         ul#tab-1.uk-switcher
+            li
+              div.uk-block.uk-block-muted
+                div.uk-container
+                  h3 Lost and Founds
+                  if pbl
+                    table.uk-table
+                      caption PROBLEMATIC LUGGAGES
+                      thead
+                        tr
+                          th Status
+                          th RFID
+                          th Date
+                          th Stage
+                          th Airport
+                          th Flight
+                      tbody
+                        {% for log in pbl %}
+                        tr
+                          {% if log.status == 'fp' %}
+                          th.uk-text-danger Absent
+                          {% elif log.status == 'fn' %}
+                          th.uk-text-warning Present at the wrong place
+                          {% elif log.status == 'tp' %}
+                          th.uk-text-success OK
+                          {% endif %}
+                          th: a(href="{% url 'bt_search' %}?rfid={{ log.luggage.material_number }}") {{ log.luggage.material_number }}
+                          th {{ log.datetime }}
+                          th {{ log.stage }}
+                          th {{ log.airport }}
+                          th {{ log.flight }}
+                        {% endfor %}
+                  if error_pbl
+                    table.uk-table
+                      caption Everything OK
+                      thead
+                        tr
+                          th Good job:
+                          th {{error_pbl}}
             li
               div.uk-block.uk-block-muted
                 div.uk-container
@@ -26,16 +68,18 @@ block content
                     {% csrf_token %}
                     {% with WIDGET_ERROR_CLASS='uk-form-danger' WIDGET_REQUIRED_CLASS='required' %}
                     div.uk-grid(data-uk-grid-margin)
-                      div.uk-width-medium-1-2
-                        div.uk-panel
-                          div.uk-form-row.uk-form-danger
+                      if search_form.non_field_errors
+                        div.uk-width-medium-1-1
+                          div.uk-form-row
                             {{ search_form.non_field_errors|safe }}
-                          div.uk-form-row
-                            {{ search_form.pnr.errors|safe }}
-                            {% render_field search_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=search_form.pnr.label %}
-                          div.uk-form-row
-                            {{ search_form.material_number.errors|safe }}
-                            {% render_field search_form.material_number class="uk-width-1-1 uk-form-medium" placeholder=search_form.material_number.label %}
+                      div.uk-width-medium-5-10
+                        div.uk-form-row
+                          {{ search_form.pnr.errors|safe }}
+                          {% render_field search_form.pnr class="uk-width-1-1 uk-form-medium" placeholder=search_form.pnr.label %}
+                      div.uk-width-medium-5-10
+                        div.uk-form-row
+                          {{ search_form.material_number.errors|safe }}
+                          {% render_field search_form.material_number class="uk-width-1-1 uk-form-medium" placeholder=search_form.material_number.label %}
                     div.uk-grid(data-uk-grid-margin)
                       div.uk-width-medium-1-4.uk-container-center
                         div.uk-form-row
@@ -44,7 +88,7 @@ block content
                     {% endwith %}
                   if passenger
                     table.uk-table
-                      caption PASSENGER INFORMATIONS
+                      caption PASSENGER INFORMATION
                       thead
                         tr
                           th First name
@@ -57,30 +101,29 @@ block content
                           th {{ passenger.email }}
                   if luggages
                     table.uk-table
-                      caption LUGGAGES INFORMATIONS
+                      caption LUGGAGES INFORMATION
                       thead
                         tr
                           th RFID
                       tbody
                         {% for luggage in luggages %}
                         tr
-                          th {{ luggage.material_number }}
+                          th: a(href="{% url 'bt_search' %}?rfid={{ luggage.material_number }}") {{ luggage.material_number }}
                         {% endfor %}
                   if logs
                     table.uk-table
-                      caption LOGS INFORMATIONS
+                      caption LOGS INFORMATION
                       thead
                         tr
+                          th Status
                           th RFID
                           th Date
-                          th Status
-                          th Employee
+                          th Stage
+                          th Airport
                           th Flight
                       tbody
                         {% for log in logs %}
                         tr
-                          th {{ log.luggage.material_number }}
-                          th {{ log.datetime }}
                           {% if log.status == 'fp' %}
                           th.uk-text-danger Absent
                           {% elif log.status == 'fn' %}
@@ -88,12 +131,15 @@ block content
                           {% elif log.status == 'tp' %}
                           th.uk-text-success OK
                           {% endif %}
-                          th {{ log.employee }}
+                          th {{ log.luggage.material_number }}
+                          th {{ log.datetime }}
+                          th {{ log.stage }}
+                          th {{ log.airport }}
                           th {{ log.flight }}
                         {% endfor %}
                   if error_message
                     table.uk-table
-                      caption Raised Error
+                      caption RAISED ERROR
                       thead
                         tr
                           th Search error:
@@ -101,22 +147,37 @@ block content
             li
               div.uk-block.uk-block-muted
                 div.uk-container
-                  h3 Lost and Founds
-                  if pbl
+                  h3 History
+                    div.uk-grid(data-uk-grid-margin)
+                  if history_luggage
                     table.uk-table
-                      caption Problematic Luggages
+                      caption LUGGAGE INFORMATION
                       thead
                         tr
+                          th Material Number
+                          th First Name
+                          th Last Name
+                          th Email
+                      tbody
+                        tr
+                          th {{ history_luggage.material_number }}
+                          th {{ history_luggage.passenger.first_name }}
+                          th {{ history_luggage.passenger.last_name }}
+                          th {{ history_luggage.passenger.email }}
+                  if history_logs
+                    table.uk-table
+                      caption LOGS INFORMATION
+                      thead
+                        tr
+                          th Status
                           th RFID
                           th Date
-                          th Status
-                          th Employee
+                          th Stage
+                          th Airport
                           th Flight
                       tbody
-                        {% for log in pbl %}
+                        {% for log in history_logs %}
                         tr
-                          th {{ log.luggage.material_number }}
-                          th {{ log.datetime }}
                           {% if log.status == 'fp' %}
                           th.uk-text-danger Absent
                           {% elif log.status == 'fn' %}
@@ -124,13 +185,9 @@ block content
                           {% elif log.status == 'tp' %}
                           th.uk-text-success OK
                           {% endif %}
-                          th {{ log.employee }}
+                          th {{ log.luggage.material_number }}
+                          th {{ log.datetime }}
+                          th {{ log.stage }}
+                          th {{ log.airport }}
                           th {{ log.flight }}
                         {% endfor %}
-                  if error_pbl
-                    table.uk-table
-                      caption Everything OK
-                      thead
-                        tr
-                          th Good job:
-                          th {{error_pbl}}
