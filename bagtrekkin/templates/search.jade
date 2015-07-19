@@ -32,26 +32,32 @@ block content
                       thead
                         tr
                           th Status
-                          th RFID
-                          th Date
                           th Stage
                           th Airport
                           th Flight
+                          th Date
+                          th RFID
                       tbody
                         {% for log in pbl %}
                         tr
                           {% if log.status == 'fp' %}
                           th.uk-text-danger Absent
                           {% elif log.status == 'fn' %}
-                          th.uk-text-warning Present at the wrong place
+                          th.uk-text-warning Wrong location
                           {% elif log.status == 'tp' %}
                           th.uk-text-success OK
                           {% endif %}
-                          th: a(href="{% url 'bt_search' %}?rfid={{ log.luggage.material_number }}") {{ log.luggage.material_number }}
-                          th {{ log.datetime }}
                           th {{ log.stage }}
                           th {{ log.airport }}
+                          {% if log.status == 'fp' %}
+                          th.uk-text-danger {{ log.flight }}
+                          {% elif log.status == 'fn' %}
+                          th.uk-text-warning {{ log.flight }}
+                          {% elif log.status == 'tp' %}
                           th {{ log.flight }}
+                          {% endif %}
+                          th {{ log.datetime }}
+                          th: a(href="{% url 'bt_search' %}?rfid={{ log.luggage.material_number }}") {{ log.luggage.material_number }}
                         {% endfor %}
                   if error_pbl
                     table.uk-table
@@ -116,26 +122,32 @@ block content
                       thead
                         tr
                           th Status
-                          th RFID
-                          th Date
                           th Stage
                           th Airport
                           th Flight
+                          th Date
+                          th RFID
                       tbody
                         {% for log in logs %}
                         tr
                           {% if log.status == 'fp' %}
                           th.uk-text-danger Absent
                           {% elif log.status == 'fn' %}
-                          th.uk-text-warning Present at the wrong place
+                          th.uk-text-warning Wrong location
                           {% elif log.status == 'tp' %}
                           th.uk-text-success OK
                           {% endif %}
-                          th {{ log.luggage.material_number }}
-                          th {{ log.datetime }}
                           th {{ log.stage }}
                           th {{ log.airport }}
+                          {% if log.status == 'fp' %}
+                          th.uk-text-danger {{ log.flight }}
+                          {% elif log.status == 'fn' %}
+                          th.uk-text-warning {{ log.flight }}
+                          {% elif log.status == 'tp' %}
                           th {{ log.flight }}
+                          {% endif %}
+                          th {{ log.datetime }}
+                          th: a(href="{% url 'bt_search' %}?rfid={{ log.luggage.material_number }}") {{ log.luggage.material_number }}
                         {% endfor %}
                   if error_message
                     table.uk-table
@@ -170,24 +182,30 @@ block content
                       thead
                         tr
                           th Status
-                          th RFID
-                          th Date
                           th Stage
                           th Airport
                           th Flight
+                          th Date
+                          th RFID
                       tbody
                         {% for log in history_logs %}
                         tr
                           {% if log.status == 'fp' %}
                           th.uk-text-danger Absent
                           {% elif log.status == 'fn' %}
-                          th.uk-text-warning Present at the wrong place
+                          th.uk-text-warning Wrong location
                           {% elif log.status == 'tp' %}
                           th.uk-text-success OK
                           {% endif %}
-                          th {{ log.luggage.material_number }}
-                          th {{ log.datetime }}
                           th {{ log.stage }}
                           th {{ log.airport }}
+                          {% if log.status == 'fp' %}
+                          th.uk-text-danger {{ log.flight }}
+                          {% elif log.status == 'fn' %}
+                          th.uk-text-warning {{ log.flight }}
+                          {% elif log.status == 'tp' %}
                           th {{ log.flight }}
+                          {% endif %}
+                          th {{ log.datetime }}
+                          th: a(href="{% url 'bt_search' %}?rfid={{ log.luggage.material_number }}") {{ log.luggage.material_number }}
                         {% endfor %}
