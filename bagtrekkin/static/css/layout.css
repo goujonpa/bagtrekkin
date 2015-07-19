@@ -663,7 +663,7 @@ hr.lineSmall {
 		padding-bottom:1.5em;
 	}
 	.pb30 {
-		padding-bottom:3em;
+		padding-bottom:0.1em;
 	}
 	.pb40 {
 		padding-bottom:4em;
@@ -672,7 +672,7 @@ hr.lineSmall {
 		padding-top:1.5em;
 	}
 	.pt30 {
-		padding-top:3em;
+		padding-top:8em;
 	}
 	.pt40 {
 		padding-top:4em;
@@ -2350,7 +2350,7 @@ nav#subnav {
 /** center content **/
 .container.vAlignCenter {
 	display:table;
-	height:10%;
+	height:100%;
 	width:100%;
 }
 .vAlignCenter .row {
