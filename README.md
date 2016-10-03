@@ -2,6 +2,7 @@
 
 Bagtrekkin is a full-stack application involving both hardware and software.
 
+
 This project takes place in a Lean Startup course at the University Federal of Pernambuco.
 
 ## Install Bagtrekkin Django Application
