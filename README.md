@@ -63,10 +63,12 @@ By following those steps, you'll install the application development environment
   Launch postgresql:
   ```bash
   $ pg_ctl -D /usr/local/var/postgres start
+  or
+  $ sudo pg_ctlcluster 9.4 main start
   ```
-
+  
   Create a new user named bagtrekkin with a password prompted:
-  ```bash
+  ```
   $ createuser -W bagtrekkin
   ```
 
